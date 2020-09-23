@@ -82,10 +82,7 @@ int rasdel(int a, int numeral1_size, int numeral2_size, char* numeral1, char* nu
             pop=1;
         }
     }
-    if(pop==1)
-    {
-        return 0;
-    }
+    return 0;
 }
 
 void perevod(int a, int b, int numeral2_size, int part1, int part2)
