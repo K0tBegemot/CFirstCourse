@@ -74,6 +74,9 @@ int rasdel(int a, int numeral1_size, int numeral2_size, char* numeral1, char* nu
             }
         }
         *part2 = count;
+    }else
+    {
+        \\costyl№million
     }
     return 0;
 }
