@@ -150,14 +150,14 @@ void perevod(int a, int b, int numeral2_size, int part1, int part2)
 int main()
 {
     int a, b;
-    scanf("%d", &a);
-    scanf("%d", &b);
+    int qwer=scanf("%d", &a);
+    int qwer=scanf("%d", &b);
     char numeral1[12], numeral2[12];
     int numeral1_size = 0, numeral2_size = 0;
     {
         int ii = 0, counter = 0;
         char firststream[14];
-        int qwer=scanf("%s", firststream);
+        qwer=scanf("%s", firststream);
         for (int i = 0; i < 13; i++)
         {
             if (firststream[i] == '.')
