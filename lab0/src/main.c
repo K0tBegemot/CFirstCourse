@@ -157,7 +157,8 @@ int main()
     {
         int ii = 0, counter = 0;
         char firststream[14];
-        qwer=scanf("%s", firststream);
+        int qwer=scanf("%s", firststream);
+        qwer+=1;
         for (int i = 0; i < 13; i++)
         {
             if (firststream[i] == '.')
