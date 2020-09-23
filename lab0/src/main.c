@@ -8,8 +8,11 @@ int poww(int a, int b)
         {
             return a * poww(a, b - 1);
         }
+        else
+        {
+            return 1;
+        }
     }
-    return 1;
 }
 
 int deci(int a, int num)
@@ -74,16 +77,16 @@ int rasdel(int a, int numeral1_size, int numeral2_size, char* numeral1, char* nu
             }
         }
         *part2 = count;
-    }else
-    {
-        \\costyl№million
+        if (tryy == 0)
+        {
+            return 1;
+        }
     }
-    return 0;
 }
 
 void perevod(int a, int b, int numeral2_size, int part1, int part2)
 {
-    int size_part1=0;
+    int size_part1;
     for (int i = 0; i < 1000000; i++)
     {
         if (part1 < poww(b, i))
@@ -147,17 +150,14 @@ void perevod(int a, int b, int numeral2_size, int part1, int part2)
 int main()
 {
     int a, b;
-    int u=scanf("%d", &a);
-    u+=1;
-    int uu=scanf("%d", &b);
-    uu+=1;
+    scanf("%d", &a);
+    scanf("%d", &b);
     char numeral1[12], numeral2[12];
     int numeral1_size = 0, numeral2_size = 0;
     {
         int ii = 0, counter = 0;
         char firststream[14];
-        int qwer=scanf("%s", firststream);
-        qwer+=1;
+        scanf("%s", firststream);
         for (int i = 0; i < 13; i++)
         {
             if (firststream[i] == '.')
