@@ -148,8 +148,9 @@ void perevod(int a, int b, int numeral2_size, int part1, int part2)
 int main()
 {
     int a, b;
-    scanf("%d", &a);
-    scanf("%d", &b);
+    u=0;
+    int u=scanf("%d", &a);
+    int u=scanf("%d", &b);
     char numeral1[12], numeral2[12];
     int numeral1_size = 0, numeral2_size = 0;
     {
