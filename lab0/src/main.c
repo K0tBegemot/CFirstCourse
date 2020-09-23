@@ -40,7 +40,7 @@ int deci(int a, int num)
 
 int rasdel(int a, int numeral1_size, int numeral2_size, char* numeral1, char* numeral2, int* part1, int* part2)
 {
-    int n_deci, count = 0, tryy = 0,pop=0;
+    int n_deci, count = 0, tryy = 0;
     for (int i = 0; i < numeral1_size; i++)
     {
         n_deci = deci(a, numeral1[numeral1_size - i - 1]);
@@ -74,10 +74,6 @@ int rasdel(int a, int numeral1_size, int numeral2_size, char* numeral1, char* nu
             }
         }
         *part2 = count;
-        if (tryy == 0)
-        {
-            pop=1;
-        }
     }
     return 0;
 }
