@@ -149,7 +149,9 @@ int main()
 {
     int a, b;
     int u=scanf("%d", &a);
+    u+=1;
     int uu=scanf("%d", &b);
+    uu+=1;
     char numeral1[12], numeral2[12];
     int numeral1_size = 0, numeral2_size = 0;
     {
