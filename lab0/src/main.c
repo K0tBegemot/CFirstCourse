@@ -8,11 +8,8 @@ int poww(int a, int b)
         {
             return a * poww(a, b - 1);
         }
-        else
-        {
-            return 1;
-        }
     }
+    return 1;
 }
 
 int deci(int a, int num)
