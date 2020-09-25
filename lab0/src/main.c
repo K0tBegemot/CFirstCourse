@@ -160,16 +160,19 @@ int main()
         
     }
         char numeral1[12], numeral2[12];
-        long int numeral1_size = 0, numeral2_size = 0;
+        long int numeral1_size = -1, numeral2_size = -1;
         {
             long int ii = 0, counter = 0;
             for (int i = 0; i < 13; i++)
             {
                 if (firststream[i] == '.')
                 {
-                    numeral1_size = i;
-                    ii += 1;
-                    continue;
+                    if(numeral1_size!=-1)
+                    {
+                        numeral1_size = i;
+                        ii += 1;
+                        continue;
+                    }
                 }
                 else
                 {
@@ -179,7 +182,9 @@ int main()
                     }
                     else
                     {
-                        if (firststream[i] == 0)
+                        if(ii==1)
+                        {
+                            if (firststream[i] == 0)
                         {
                             break;
                         }
@@ -188,13 +193,14 @@ int main()
                             numeral2[i - numeral1_size - 1] = firststream[i];
                             counter = i - numeral1_size - 1;
                         }
+                        }
                     }
                 }
             }
             numeral2_size = counter + 1;
         }
         long int part1, part2;
-        if (a > 1 && a < 17 && b>1 && b < 17)
+        if (a > 1 && a < 17 && b>1 && b < 17&&numeral1_size!=-1&&numeral2_size!=-1)
         {
             long int tochka = rasdel(a, numeral1_size, numeral2_size, numeral1, numeral2, &part1, &part2);
             if (tochka == -1)
