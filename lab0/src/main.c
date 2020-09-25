@@ -149,7 +149,7 @@ int main()
     long int a, b;
     char firststream[14];
     long int sc1,sc2;
-    sc1=scanf("%d%d", &a, &b);
+    sc1=scanf("%ld%ld", &a, &b);
     sc2=scanf("%13s", firststream);
     if(sc1==0)
     {
