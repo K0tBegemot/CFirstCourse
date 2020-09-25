@@ -2,54 +2,50 @@
 
 int poww(int a, int b)
 {
-    if (b >= 0)
-    {
         if (b > 0)
         {
             return a * poww(a, b - 1);
         }
-        else
-        {
-            return 1;
-        }
-    }
+        return 1;
 }
 
 int deci(int a, int num)
 {
+    int q;
     if (((num - 48) < a) && (num < 58) && (num - 48 > -1))
     {
-        return num - 48;
+        q=num - 48;
     }
     else
     {
         if ((num - 55 < a) && (num < 71) && (num - 55 > -1))
         {
-            return num - 55;
+            q=num - 55;
         }
         else
         {
             if ((num - 87 < a) && (num < 103) && (num - 87 > -1))
             {
-                return num - 87;
+                q=num - 87;
             }
             else
             {
-                return -1;
+                q=-1;
             }
         }
     }
+    return q;
 }
 
 int rasdel(int a, int numeral1_size, int numeral2_size, char* numeral1, char* numeral2, int* part1, int* part2)
 {
-    int n_deci, count = 0, tryy = 0;
+    int n_deci, count = 0, tryy = 0,hlop;
     for (int i = 0; i < numeral1_size; i++)
     {
         n_deci = deci(a, numeral1[numeral1_size - i - 1]);
         if (n_deci == -1)
         {
-            return -1;
+            hlop=-1;
             tryy += 1;
             break;
         }
@@ -67,7 +63,7 @@ int rasdel(int a, int numeral1_size, int numeral2_size, char* numeral1, char* nu
             n_deci = deci(a, numeral2[numeral2_size - 1 - i]);
             if (n_deci == -1)
             {
-                return -1;
+                hlop=-1;
                 tryy += 1;
                 break;
             }
@@ -79,9 +75,10 @@ int rasdel(int a, int numeral1_size, int numeral2_size, char* numeral1, char* nu
         *part2 = count;
         if (tryy == 0)
         {
-            return 1;
+            hlop=1;
         }
     }
+    return hlop;
 }
 
 void perevod(int a, int b, int numeral2_size, int part1, int part2)
@@ -150,60 +147,64 @@ void perevod(int a, int b, int numeral2_size, int part1, int part2)
 int main()
 {
     int a, b;
-    scanf("%d", &a);
-    scanf("%d", &b);
-    char numeral1[12], numeral2[12];
-    int numeral1_size = 0, numeral2_size = 0;
+    char firststream[14];
+    int scanf1,scanf2;
+    scanf1=scanf("%d%d", &a, &b);
+    scanf2=scanf("%s", firststream);
+    if(scanf==0&&scanf==0)
     {
-        int ii = 0, counter = 0;
-        char firststream[14];
-        scanf("%s", firststream);
-        for (int i = 0; i < 13; i++)
+        
+    }
+        char numeral1[12], numeral2[12];
+        int numeral1_size = 0, numeral2_size = 0;
         {
-            if (firststream[i] == '.')
+            int ii = 0, counter = 0;
+            for (int i = 0; i < 13; i++)
             {
-                numeral1_size = i;
-                ii += 1;
-                continue;
-            }
-            else
-            {
-                if (ii == 00)
+                if (firststream[i] == '.')
                 {
-                    numeral1[i] = firststream[i];
+                    numeral1_size = i;
+                    ii += 1;
+                    continue;
                 }
                 else
                 {
-                    if (firststream[i] == 0)
+                    if (ii == 00)
                     {
-                        break;
+                        numeral1[i] = firststream[i];
                     }
                     else
                     {
-                        numeral2[i - numeral1_size - 1] = firststream[i];
-                        counter = i - numeral1_size - 1;
+                        if (firststream[i] == 0)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            numeral2[i - numeral1_size - 1] = firststream[i];
+                            counter = i - numeral1_size - 1;
+                        }
                     }
                 }
             }
+            numeral2_size = counter + 1;
         }
-        numeral2_size = counter + 1;
-    }
-    int part1, part2;
-    if (a > 1 && a < 17 && b>1 && b < 17)
-    {
-        int tochka = rasdel(a, numeral1_size, numeral2_size, numeral1, numeral2, &part1, &part2);
-        if (tochka == -1)
+        int part1, part2;
+        if (a > 1 && a < 17 && b>1 && b < 17)
         {
-            printf("%s", "bad input");
+            int tochka = rasdel(a, numeral1_size, numeral2_size, numeral1, numeral2, &part1, &part2);
+            if (tochka == -1)
+            {
+                printf("%s", "bad input");
+            }
+            else
+            {
+                perevod(a, b, numeral2_size, part1, part2);
+            }
         }
         else
         {
-            perevod(a, b, numeral2_size, part1, part2);
+            printf("%s", "bad input");
         }
-    }
-    else
-    {
-        printf("%s", "bad input");
-    }
     return 0;
 }
