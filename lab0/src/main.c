@@ -149,13 +149,13 @@ int main()
     int a, b;
     char firststream[14];
     int scanf1,scanf2;
-    scanf1=scanf("%d%d", &a, &b);
-    scanf2=scanf("%s", firststream);
-    if(scanf1==0)
+    sc1=scanf("%d%d", &a, &b);
+    sc2=scanf("%s", firststream);
+    if(sc1==0)
     {
         
     }
-    if(scanf2==0)
+    if(sc==0)
     {
         
     }
