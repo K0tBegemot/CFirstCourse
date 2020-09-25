@@ -150,7 +150,7 @@ int main()
     char firststream[14];
     int sc1,sc2;
     sc1=scanf("%d%d", &a, &b);
-    sc2=scanf("%s", firststream);
+    sc2=scanf("%14s", firststream);
     if(sc1==0)
     {
         
