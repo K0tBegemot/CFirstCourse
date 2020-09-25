@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int poww(int a, int b)
+int poww(long int a, long int b)
 {
         if (b > 0)
         {
@@ -9,7 +9,7 @@ int poww(int a, int b)
         return 1;
 }
 
-int deci(int a, int num)
+int deci(long int a, long int num)
 {
     long int q;
     if (((num - 48) < a) && (num < 58) && (num - 48 > -1))
@@ -37,7 +37,7 @@ int deci(int a, int num)
     return q;
 }
 
-int rasdel(int a, int numeral1_size, int numeral2_size, char* numeral1, char* numeral2, int* part1, int* part2)
+int rasdel(long int a,long int numeral1_size,long int numeral2_size, char* numeral1, char* numeral2,long int* part1,long int* part2)
 {
     long int n_deci, count = 0, tryy = 0,hlop;
     for (int i = 0; i < numeral1_size; i++)
@@ -81,7 +81,7 @@ int rasdel(int a, int numeral1_size, int numeral2_size, char* numeral1, char* nu
     return hlop;
 }
 
-void perevod(int a, int b, int numeral2_size, int part1, int part2)
+void perevod(long int a,long int b,long int numeral2_size,long int part1,long int part2)
 {
     long int size_part1=0;
     for (int i = 0; i < 1000000; i++)
