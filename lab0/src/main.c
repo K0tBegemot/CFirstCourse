@@ -11,7 +11,7 @@ int poww(int a, int b)
 
 int deci(int a, int num)
 {
-    int q;
+    long int q;
     if (((num - 48) < a) && (num < 58) && (num - 48 > -1))
     {
         q=num - 48;
@@ -39,7 +39,7 @@ int deci(int a, int num)
 
 int rasdel(int a, int numeral1_size, int numeral2_size, char* numeral1, char* numeral2, int* part1, int* part2)
 {
-    int n_deci, count = 0, tryy = 0,hlop;
+    long int n_deci, count = 0, tryy = 0,hlop;
     for (int i = 0; i < numeral1_size; i++)
     {
         n_deci = deci(a, numeral1[numeral1_size - i - 1]);
@@ -83,7 +83,7 @@ int rasdel(int a, int numeral1_size, int numeral2_size, char* numeral1, char* nu
 
 void perevod(int a, int b, int numeral2_size, int part1, int part2)
 {
-    int size_part1=0;
+    long int size_part1=0;
     for (int i = 0; i < 1000000; i++)
     {
         if (part1 < poww(b, i))
@@ -125,7 +125,7 @@ void perevod(int a, int b, int numeral2_size, int part1, int part2)
         printf("%c", mas_part1[i]);
     }
     printf("%c", '.');
-    int size_part2=0;
+    long int size_part2=0;
     for (int i = 12; i > -1; i--)
     {
         if (mas_part2[i] != '0')
@@ -146,11 +146,11 @@ void perevod(int a, int b, int numeral2_size, int part1, int part2)
 
 int main()
 {
-    int a, b;
+    long int a, b;
     char firststream[14];
-    int sc1,sc2;
+    long int sc1,sc2;
     sc1=scanf("%d%d", &a, &b);
-    sc2=scanf("%14s", firststream);
+    sc2=scanf("%13s", firststream);
     if(sc1==0)
     {
         
@@ -160,9 +160,9 @@ int main()
         
     }
         char numeral1[12], numeral2[12];
-        int numeral1_size = 0, numeral2_size = 0;
+        long int numeral1_size = 0, numeral2_size = 0;
         {
-            int ii = 0, counter = 0;
+            long int ii = 0, counter = 0;
             for (int i = 0; i < 13; i++)
             {
                 if (firststream[i] == '.')
@@ -193,10 +193,10 @@ int main()
             }
             numeral2_size = counter + 1;
         }
-        int part1, part2;
+        long int part1, part2;
         if (a > 1 && a < 17 && b>1 && b < 17)
         {
-            int tochka = rasdel(a, numeral1_size, numeral2_size, numeral1, numeral2, &part1, &part2);
+            long int tochka = rasdel(a, numeral1_size, numeral2_size, numeral1, numeral2, &part1, &part2);
             if (tochka == -1)
             {
                 printf("%s", "bad input");
