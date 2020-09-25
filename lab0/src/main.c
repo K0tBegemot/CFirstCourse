@@ -83,7 +83,7 @@ int rasdel(int a, int numeral1_size, int numeral2_size, char* numeral1, char* nu
 
 void perevod(int a, int b, int numeral2_size, int part1, int part2)
 {
-    int size_part1;
+    int size_part1=0;
     for (int i = 0; i < 1000000; i++)
     {
         if (part1 < poww(b, i))
