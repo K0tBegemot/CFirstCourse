@@ -151,7 +151,7 @@ int main()
     int scanf1,scanf2;
     scanf1=scanf("%d%d", &a, &b);
     scanf2=scanf("%s", firststream);
-    if(scanf==0&&scanf==0)
+    if(scanf1==0&&scanf2==0)
     {
         
     }
