@@ -148,7 +148,7 @@ int main()
 {
     int a, b;
     char firststream[14];
-    int scanf1,scanf2;
+    int sc1,sc2;
     sc1=scanf("%d%d", &a, &b);
     sc2=scanf("%s", firststream);
     if(sc1==0)
