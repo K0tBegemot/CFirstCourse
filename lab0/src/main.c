@@ -3,7 +3,7 @@
 
 int main()
 {
-	long long int a, b,indx=0,tochka=0,numeral,part1=0,part2=0,step=1,part1_size=0,p1=0;
+	long long int a, b,indx=0,tochka=0,treq=0,numeral,part1=0,part2=0,step=1,part1_size=0,p1=0;
 	char X[13];
 	if (scanf("%lld", &a) != 1) 
 	{
@@ -59,6 +59,7 @@ int main()
 		        {
 		            if(tochka==2)
 		            {
+		                treq=1;
 		               part2 = part2 * a + numeral;
 				       step *= a; 
 		            }
@@ -88,16 +89,16 @@ int main()
 	    part1_size=1;
 	}
 	long long int symbol, symb;
-	char part1_end[part1_size], part2_end[30];
-	for(long int i=0;i<part1_size;i++)
+	char part1_end[part1_size], part2_end[15];
+	for(long long int i=0;i<part1_size;i++)
 	{
 	    part1_end[i]=0;
 	}
-	for(long int i=0;i<30;i++)
+	for(long long int i=0;i<12;i++)
 	{
 	    part2_end[i]=0;
 	}
-	for (long int i=0; i<part1_size; (part1/=b),i++)
+	for (long long int i=0; i<part1_size; (part1/=b),i++)
 	{
 		symbol = part1 % b;
 		if (symbol <= 9)
@@ -110,8 +111,7 @@ int main()
 		}
 		part1_end[i] = symb;
 	}
-	long long int y=0;
-	for(long int i=0;i<30;i++)
+	for(long long int i=0;i<15;i++)
 	{
 	    symbol =(part2*b)/step;
 	    if (symbol <= 9)
@@ -124,17 +124,9 @@ int main()
 		}
 		part2_end[i] = symb;
 		part2=part2*b-symbol*step;
-		if(part2==0)
-		{
-		    y=i+1;
-		    break;
-		}else
-		{
-		    y=i+1;
-		}
 	}
 	long long int r=0;
-	for(long int i=part1_size-1;i>-1;i--)
+	for(long long int i=part1_size-1;i>-1;i--)
 	{
 	    if(part1_end[i]!=0)
 	    {
@@ -145,21 +137,22 @@ int main()
 	        printf("%c",part1_end[i]);
 	    }
 	}
-	if(copy_part2>0&&tochka==2)
+	long long int y=0;
+	for(long long int i=15;i>-1;i--)
+	{
+	    if(part2_end[i]!='0')
+	    {
+	        y=i+1;
+	        break;
+	    }
+	}
+	if(treq>0&&copy_part2>0&&tochka==2)
 	{
 	    printf("%s",".");
-	}
-	if(y>12)
-	{
-	    y=12;
-	}
-	if(copy_part2==0)
-	{
-	    y=0;
-	}
-	for(long int i=0;i<y;i++)
+	    for(long long int i=0;i<y;i++)
 	{
 	    printf("%c",part2_end[i]);
+	}
 	}
 	return 0;
 }
