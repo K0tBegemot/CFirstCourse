@@ -3,7 +3,7 @@
 
 int main()
 {
-	long int a, b,indx=0,tochka=0,numeral,part1=0,part2=0,step=1,part1_size=0,part2_size=0,p1;
+	long int a, b,indx=0,tochka=0,numeral,part1=0,part2=0,step=1,part1_size=0;
 	char X[13];
 	if (scanf("%ld", &a) != 1) 
 	{
