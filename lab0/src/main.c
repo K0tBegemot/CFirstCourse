@@ -5,11 +5,11 @@ int main()
 {
 	long long int a, b,indx=0,tochka=0,numeral,part1=0,part2=0,step=1,part1_size=0,p1=0;
 	char X[13];
-	if (scanf("%ld", &a) != 1) 
+	if (scanf("%lld", &a) != 1) 
 	{
 	    exit(0);
 	}
-	if (scanf("%ld", &b) != 1)
+	if (scanf("%lld", &b) != 1)
 	{
 		exit(0);
 	}
