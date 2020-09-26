@@ -3,7 +3,7 @@
 
 int main()
 {
-	long long int a, b,indx=0,tochka=0,numeral,part1=0,part2=0,step=1,part1_size=0,p1=0;
+	long long int a, b,indx=0,tochka=0,tochka1=0,numeral,part1=0,part2=0,step=1,part1_size=0,p1=0;
 	char X[13];
 	if (scanf("%lld", &a) != 1) 
 	{
@@ -59,6 +59,7 @@ int main()
 		        {
 		            if(tochka==2)
 		            {
+		               tochka1+=1;
 		               part2 = part2 * a + numeral;
 				       step *= a; 
 		            }
@@ -88,7 +89,7 @@ int main()
 	    part1_size=1;
 	}
 	long long int symbol, symb;
-	char part1_end[part1_size], part2_end[12];
+	char part1_end[part1_size], part2_end[30];
 	for(long long int i=0;i<part1_size;i++)
 	{
 	    part1_end[i]=0;
@@ -137,7 +138,7 @@ int main()
 	    }
 	}
 	long long int y=0;
-	for(long long int i=11;i>-1;i--)
+	for(long long int i=29;i>-1;i--)
 	{
 	    if(part2_end[i]!='0')
 	    {
@@ -145,9 +146,13 @@ int main()
 	        break;
 	    }
 	}
-	if(y>0&&tochka==2)
+	if(tochka1!=0&&tochka==2)
 	{
 	    printf("%s",".");
+	}
+	if(y>12)
+	{
+	    y=12;
 	}
 	for(long long int i=0;i<y;i++)
 	{
