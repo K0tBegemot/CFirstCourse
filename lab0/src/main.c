@@ -23,6 +23,11 @@ int main()
 		(X[indx] - '.' == 0) ? (tochka = 1, numeral=0) : ((X[indx] - '0' >= 0 && X[indx] - '9' <= 0) ? numeral = X[indx] - '0' : ((X[indx] - 'A' >= 0 && X[indx] - 'F' <= 0) ? numeral = X[indx] - 'A' + 10 : ((X[indx] - 'a' >= 0 && X[indx] - 'f' <= 0) ? numeral = X[indx] - 'a' + 10 : (-1))));
 		if (numeral != -1)
 		{
+		    if(numeral<0||numeral>a-1)
+		    {
+		        printf("%s", "bad input");
+			    exit(0);
+		    }
 		    if(tochka==0)
 		    {
 		        part1 = numeral + part1 * a;
