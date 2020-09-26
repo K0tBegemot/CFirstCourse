@@ -3,7 +3,7 @@
 
 int main()
 {
-	long int a, b,indx=0,tochka=0,numeral,part1=0,part2=0,step=1,part1_size=0;
+	long int a, b,indx=0,tochka=0,numeral,part1=0,part2=0,step=1,part1_size=0,p1=0;
 	char X[13];
 	if (scanf("%ld", &a) != 1) 
 	{
@@ -40,6 +40,7 @@ int main()
 		    {
 		        if(tochka==1)
 		        {
+		            p1+=1;
 		            if(indx==0)
 		            {
 		                printf("%s", "bad input");
@@ -70,6 +71,11 @@ int main()
 			printf("%s", "bad input");
 			exit(0);
 		}
+	}
+	if(p1>1)
+	{
+	    printf("%s", "bad input");
+		exit(0);
 	}
 	long int copy_part1=part1;
 	while (copy_part1 != 0)
