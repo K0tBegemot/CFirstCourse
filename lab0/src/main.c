@@ -59,7 +59,7 @@ int main()
 		        {
 		            if(tochka==2)
 		            {
-		                treq=1;
+		                treq+=1;
 		               part2 = part2 * a + numeral;
 				       step *= a; 
 		            }
@@ -138,13 +138,23 @@ int main()
 	        break;
 	    }
 	}
-	if(treq>0&&copy_part2>0&&tochka==2)
+	if(treq>0&&tochka==2)
 	{
+	    if(copy_part2==0)
+	    {
+	        y=treq;
+	    }else
+	    {
+	        if(y==0)
+	        {
+	            y=12;
+	        }
+	    }
 	    printf("%s",".");
-	    for(long long int i=0;i<y;i++)
-	{
-	    printf("%c",part2_end[i]);
-	}
+	        for(long long int i=0;i<y;i++)
+	        {
+	            printf("%c",part2_end[i]);
+	        }
 	}
 	return 0;
 }
