@@ -7,7 +7,7 @@ int main()
 	char X[13];
 	if (scanf("%ld", &a) != 1) 
 	{
-	exit(0);
+	    exit(0);
 	}
 	if (scanf("%ld", &b) != 1)
 	{
@@ -15,6 +15,11 @@ int main()
 	}
 	if (scanf("%s", X) != 1)
 	{
+		exit(0);
+	}
+	if(a<2||a>16||b<2||b>16)
+	{
+	    printf("%s", "bad input");
 		exit(0);
 	}
 	for (; indx < 13 &&X[indx]!=0; indx++)
