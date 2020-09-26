@@ -78,7 +78,7 @@ int main()
 	    printf("%s", "bad input");
 		exit(0);
 	}
-	long int copy_part1=part1;
+	long int copy_part1=part1,copy_part2=part2;
 	while (copy_part1 != 0)
 	{
 		copy_part1 /= b;
@@ -146,11 +146,11 @@ int main()
 	        break;
 	    }
 	}
-	if(tochka1!=0&&tochka==2)
+	if(tochka1!=0&&tochka==2&&copy_part2!=0)
 	{
 	    printf("%s",".");
 	}
-	if(y>12||(y==0&&tochka1!=0))
+	if(y>12)
 	{
 	    y=12;
 	}
