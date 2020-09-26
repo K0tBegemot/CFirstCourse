@@ -78,7 +78,7 @@ int main()
 	    printf("%s", "bad input");
 		exit(0);
 	}
-	long int copy_part1=part1,copy_part2=part2;
+	long int copy_part1=part1;
 	while (copy_part1 != 0)
 	{
 		copy_part1 /= b;
