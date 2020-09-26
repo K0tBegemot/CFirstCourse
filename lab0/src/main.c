@@ -78,7 +78,7 @@ int main()
 	    printf("%s", "bad input");
 		exit(0);
 	}
-	long long int copy_part1=part1,copy_part2=part2;
+	long long int copy_part1=part1;
 	while (copy_part1 != 0)
 	{
 		copy_part1 /= b;
@@ -146,7 +146,7 @@ int main()
 	        break;
 	    }
 	}
-	if(tochka1!=0&&tochka==2&&copy_part2!=0)
+	if(tochka1!=0&&tochka==2)
 	{
 	    printf("%s",".");
 	}
@@ -154,9 +154,12 @@ int main()
 	{
 	    y=12;
 	}
-	for(long long int i=0;i<y;i++)
+	for(long long int i=0;i<12;i++)
 	{
-	    printf("%c",part2_end[i]);
+	    if(tochka==2)
+	    {
+	        printf("%c",part2_end[i]);
+	    }
 	}
 	return 0;
 }
