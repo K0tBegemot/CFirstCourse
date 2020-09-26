@@ -77,7 +77,7 @@ int main()
 	    printf("%s", "bad input");
 		exit(0);
 	}
-	long long int copy_part1=part1;
+	long long int copy_part1=part1,copy_part2=part2;
 	while (copy_part1 != 0)
 	{
 		copy_part1 /= b;
@@ -110,6 +110,7 @@ int main()
 		}
 		part1_end[i] = symb;
 	}
+	long long int y=0;
 	for(long int i=0;i<30;i++)
 	{
 	    symbol =(part2*b)/step;
@@ -123,6 +124,14 @@ int main()
 		}
 		part2_end[i] = symb;
 		part2=part2*b-symbol*step;
+		if(part2==0)
+		{
+		    y=i+1;
+		    break;
+		}else
+		{
+		    y=i+1;
+		}
 	}
 	long long int r=0;
 	for(long int i=part1_size-1;i>-1;i--)
@@ -136,22 +145,17 @@ int main()
 	        printf("%c",part1_end[i]);
 	    }
 	}
-	long long int y=0;
-	for(long int i=29;i>-1;i--)
-	{
-	    if(part2_end[i]!='0')
-	    {
-	        y=i+1;
-	        break;
-	    }
-	}
-	if(y>0&&tochka==2)
+	if(copy_part2>0&&tochka==2)
 	{
 	    printf("%s",".");
 	}
 	if(y>12)
 	{
 	    y=12;
+	}
+	if(copy_part2==0)
+	{
+	    y=0;
 	}
 	for(long int i=0;i<y;i++)
 	{
