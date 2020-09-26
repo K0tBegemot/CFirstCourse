@@ -3,7 +3,7 @@
 
 int main()
 {
-	long int a, b,indx=0,tochka=0,numeral,part1=0,part2=0,step=1,part1_size=0;
+	long int a, b,indx=0,tochka=0,numeral,part1=0,part2=0,step=1,part1_size=0,p1=0;
 	char X[13];
 	if (scanf("%ld", &a) != 1) 
 	{
@@ -17,7 +17,7 @@ int main()
 	{
 		exit(0);
 	}
-	for (indx; indx < 13 &&X[indx]!=0; indx++)
+	for (; indx < 13 &&X[indx]!=0; indx++)
 	{
 	    numeral=-1;
 		(X[indx] - '.' == 0) ? (tochka = 1, numeral=0) : ((X[indx] - '0' >= 0 && X[indx] - '9' <= 0) ? numeral = X[indx] - '0' : ((X[indx] - 'A' >= 0 && X[indx] - 'F' <= 0) ? numeral = X[indx] - 'A' + 10 : ((X[indx] - 'a' >= 0 && X[indx] - 'f' <= 0) ? numeral = X[indx] - 'a' + 10 : (-1))));
