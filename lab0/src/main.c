@@ -90,14 +90,6 @@ int main()
 	}
 	long long int symbol, symb;
 	char part1_end[part1_size], part2_end[15];
-	for(long long int i=0;i<part1_size;i++)
-	{
-	    part1_end[i]=0;
-	}
-	for(long long int i=0;i<12;i++)
-	{
-	    part2_end[i]=0;
-	}
 	for (long long int i=0; i<part1_size; (part1/=b),i++)
 	{
 		symbol = part1 % b;
@@ -138,7 +130,7 @@ int main()
 	    }
 	}
 	long long int y=0;
-	for(long long int i=15;i>-1;i--)
+	for(long long int i=14;i>-1;i--)
 	{
 	    if(part2_end[i]!='0')
 	    {
