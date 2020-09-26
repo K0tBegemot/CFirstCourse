@@ -3,7 +3,7 @@
 
 int main()
 {
-	long int a, b,indx=0,tochka=0,numeral,part1=0,part2=0,step=1,part1_size=0,p1=0;
+	long long int a, b,indx=0,tochka=0,numeral,part1=0,part2=0,step=1,part1_size=0,p1=0;
 	char X[13];
 	if (scanf("%ld", &a) != 1) 
 	{
@@ -77,7 +77,7 @@ int main()
 	    printf("%s", "bad input");
 		exit(0);
 	}
-	long int copy_part1=part1;
+	long long int copy_part1=part1;
 	while (copy_part1 != 0)
 	{
 		copy_part1 /= b;
@@ -87,17 +87,17 @@ int main()
 	{
 	    part1_size=1;
 	}
-	int symbol, symb;
+	long long int symbol, symb;
 	char part1_end[part1_size], part2_end[12];
-	for(int i=0;i<part1_size;i++)
+	for(long long int i=0;i<part1_size;i++)
 	{
 	    part1_end[i]=0;
 	}
-	for(int i=0;i<12;i++)
+	for(long long int i=0;i<12;i++)
 	{
 	    part2_end[i]=0;
 	}
-	for (int i=0; i<part1_size; (part1/=b),i++)
+	for (long long int i=0; i<part1_size; (part1/=b),i++)
 	{
 		symbol = part1 % b;
 		if (symbol <= 9)
@@ -110,7 +110,7 @@ int main()
 		}
 		part1_end[i] = symb;
 	}
-	for(int i=0;i<12;i++)
+	for(long long int i=0;i<12;i++)
 	{
 	    symbol =(part2*b)/step;
 	    if (symbol <= 9)
@@ -124,8 +124,8 @@ int main()
 		part2_end[i] = symb;
 		part2=part2*b-symbol*step;
 	}
-	long int r=0;
-	for(int i=part1_size-1;i>-1;i--)
+	long long int r=0;
+	for(long long int i=part1_size-1;i>-1;i--)
 	{
 	    if(part1_end[i]!=0)
 	    {
@@ -136,8 +136,8 @@ int main()
 	        printf("%c",part1_end[i]);
 	    }
 	}
-	long int y=0;
-	for(int i=11;i>-1;i--)
+	long long int y=0;
+	for(long long int i=11;i>-1;i--)
 	{
 	    if(part2_end[i]!='0')
 	    {
@@ -149,7 +149,7 @@ int main()
 	{
 	    printf("%s",".");
 	}
-	for(int i=0;i<y;i++)
+	for(long long int i=0;i<y;i++)
 	{
 	    printf("%c",part2_end[i]);
 	}
