@@ -1,220 +1,141 @@
 #include <stdio.h>
-
-int poww(long int a, long int b)
-{
-        if (b > 0)
-        {
-            return a * poww(a, b - 1);
-        }
-        return 1;
-}
-
-int deci(long int a, long int num)
-{
-    long int q;
-    if (((num - 48) < a) && (num < 58) && (num - 48 > -1))
-    {
-        q=num - 48;
-    }
-    else
-    {
-        if ((num - 55 < a) && (num < 71) && (num - 55 > -1))
-        {
-            q=num - 55;
-        }
-        else
-        {
-            if ((num - 87 < a) && (num < 103) && (num - 87 > -1))
-            {
-                q=num - 87;
-            }
-            else
-            {
-                q=-1;
-            }
-        }
-    }
-    return q;
-}
-
-int rasdel(long int a,long int numeral1_size,long int numeral2_size, char* numeral1, char* numeral2,long int* part1,long int* part2)
-{
-    long int n_deci, count = 0, tryy = 0,hlop;
-    for (int i = 0; i < numeral1_size; i++)
-    {
-        n_deci = deci(a, numeral1[numeral1_size - i - 1]);
-        if (n_deci == -1)
-        {
-            hlop=-1;
-            tryy += 1;
-            break;
-        }
-        else
-        {
-            count += n_deci * poww(a, i);
-        }
-    }
-    if (tryy == 0)
-    {
-        *part1 = count;
-        count = 0;// now count is counter for fractional numerator
-        for (int i = numeral2_size - 1; i > -1; i--)
-        {
-            n_deci = deci(a, numeral2[numeral2_size - 1 - i]);
-            if (n_deci == -1)
-            {
-                hlop=-1;
-                tryy += 1;
-                break;
-            }
-            else
-            {
-                count += n_deci * poww(a, i);
-            }
-        }
-        *part2 = count;
-        if (tryy == 0)
-        {
-            hlop=1;
-        }
-    }
-    return hlop;
-}
-
-void perevod(long int a,long int b,long int numeral2_size,long int part1,long int part2)
-{
-    long int size_part1=0;
-    for (int i = 0; i < 1000000; i++)
-    {
-        if (part1 < poww(b, i))
-        {
-            size_part1 = i;
-            break;
-        }
-    }
-    char mas_part1[size_part1];
-    for (int i = size_part1 - 1; i > -1; i--)
-    {
-        if (part1 % b < 10)
-        {
-            mas_part1[i] = (char)(part1 % b + 48);
-        }
-        else
-        {
-            mas_part1[i] = (char)(part1 % b + 55);
-        }
-        part1 = (part1 - part1 % b) / b;
-    }
-    char mas_part2[13];
-    for (int i = 0; i < 13; i++)
-    {
-        mas_part2[i] = 0;
-        part2 *= b;
-        if (part2 / poww(a, numeral2_size) < 10)
-        {
-            mas_part2[i] = (char)(part2 / poww(a, numeral2_size) + 48);
-        }
-        else
-        {
-            mas_part2[i] = (char)(part2 / poww(a, numeral2_size) + 55);
-        }
-        part2 = part2 - ((part2 / poww(a, numeral2_size)) * poww(a, numeral2_size));
-    }
-    for (int i = 0; i < size_part1; i++)
-    {
-        printf("%c", mas_part1[i]);
-    }
-    printf("%c", '.');
-    long int size_part2=0;
-    for (int i = 12; i > -1; i--)
-    {
-        if (mas_part2[i] != '0')
-        {
-            size_part2 = i + 1;
-            break;
-        }
-    }
-    if (size_part2 > 12)
-    {
-        size_part2 = 12;
-    }
-    for (int i = 0; i < size_part2; i++)
-    {
-        printf("%c", mas_part2[i]);
-    }
-}
+#include <stdlib.h>
 
 int main()
 {
-    long int a, b;
-    char firststream[14];
-    long int sc1,sc2;
-    sc1=scanf("%ld%ld", &a, &b);
-    sc2=scanf("%13s", firststream);
-    if(sc1==0)
-    {
-        
-    }
-    if(sc2==0)
-    {
-        
-    }
-        char numeral1[12], numeral2[12];
-        long int numeral1_size = -1, numeral2_size = -1;
-        {
-            long int ii = 0, counter = 0;
-            for (int i = 0; i < 13; i++)
-            {
-                if (firststream[i] == '.')
-                {
-                    if(numeral1_size!=-1)
-                    {
-                        numeral1_size = i;
-                        ii += 1;
-                        continue;
-                    }
-                }
-                else
-                {
-                    if (ii == 00)
-                    {
-                        numeral1[i] = firststream[i];
-                    }
-                    else
-                    {
-                        if(ii==1)
-                        {
-                            if (firststream[i] == 0)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            numeral2[i - numeral1_size - 1] = firststream[i];
-                            counter = i - numeral1_size - 1;
-                        }
-                        }
-                    }
-                }
-            }
-            numeral2_size = counter + 1;
-        }
-        long int part1, part2;
-        if (a > 1 && a < 17 && b>1 && b < 17&&numeral1_size!=-1&&numeral2_size!=-1)
-        {
-            long int tochka = rasdel(a, numeral1_size, numeral2_size, numeral1, numeral2, &part1, &part2);
-            if (tochka == -1)
-            {
-                printf("%s", "bad input");
-            }
-            else
-            {
-                perevod(a, b, numeral2_size, part1, part2);
-            }
-        }
-        else
-        {
-            printf("%s", "bad input");
-        }
-    return 0;
+	long int a, b,indx=0,tochka=0,numeral,part1=0,part2=0,step=1,part1_size=0,part2_size=0,p1;
+	char X[13];
+	if (scanf("%ld", &a) != 1) 
+	{
+	exit(0);
+	}
+	if (scanf("%ld", &b) != 1)
+	{
+		exit(0);
+	}
+	if (scanf("%s", X) != 1)
+	{
+		exit(0);
+	}
+	for (indx; indx < 13 &&X[indx]!=0; indx++)
+	{
+		(X[indx] - '.' == 0) ? (tochka = 1, numeral=0) : ((X[indx] - '0' >= 0 && X[indx] - '9' <= 0) ? numeral = X[indx] - '0' : ((X[indx] - 'A' >= 0 && X[indx] - 'F' <= 0) ? numeral = X[indx] - 'A' + 10 : ((X[indx] - 'a' >= 0 && X[indx] - 'f' <= 0) ? numeral = X[indx] - 'a' + 10 : (-1))));
+		if (numeral != -1)
+		{
+		    if(tochka==0)
+		    {
+		        part1 = numeral + part1 * a;
+		    }else
+		    {
+		        if(tochka==1)
+		        {
+		            p1=indx;
+		            if(indx==0)
+		            {
+		                printf("%s", "bad input");
+			            exit(0);
+		            }else
+		            {
+		                if(X[indx+1]==0)
+		                {
+		                    printf("%s", "bad input");
+			                exit(0);
+		                }
+		            }
+		            tochka = 2;
+				    continue;
+		        }else
+		        {
+		            if(tochka==2)
+		            {
+		               part2 = part2 * a + numeral;
+				       step *= a; 
+		            }
+		        }
+		    }
+			
+		}
+		else
+		{
+			printf("%s", "bad input");
+			exit(0);
+		}
+	}
+	long int copy_part1=part1;
+	while (copy_part1 != 0)
+	{
+		copy_part1 /= b;
+		part1_size += 1;
+	}
+	if(indx>0&&part1_size==0)
+	{
+	    part1_size=1;
+	}
+	int symbol, symb;
+	char part1_end[part1_size], part2_end[12];
+	for(int i=0;i<part1_size;i++)
+	{
+	    part1_end[i]=0;
+	}
+	for(int i=0;i<12;i++)
+	{
+	    part2_end[i]=0;
+	}
+	for (int i=0; i<part1_size; (part1/=b),i++)
+	{
+		symbol = part1 % b;
+		if (symbol <= 9)
+		{
+			symb = '0' + symbol;
+		}
+		else
+		{
+			symb = 'A' + symbol - 10;
+		}
+		part1_end[i] = symb;
+	}
+	for(int i=0;i<12;i++)
+	{
+	    symbol =(part2*b)/step;
+	    if (symbol <= 9)
+		{
+			symb = '0' + symbol;
+		}
+		else
+		{
+			symb = 'A' + symbol - 10;
+		}
+		part2_end[i] = symb;
+		part2=part2*b-symbol*step;
+	}
+	long int r=0;
+	for(int i=part1_size-1;i>-1;i--)
+	{
+	    if(part1_end[i]!=0)
+	    {
+	        r=1;
+	    }
+	    if(r==1)
+	    {
+	        printf("%c",part1_end[i]);
+	    }
+	}
+	long int y=0;
+	for(int i=11;i>-1;i--)
+	{
+	    if(part2_end[i]!='0')
+	    {
+	        y=i+1;
+	        break;
+	    }
+	}
+	if(y>0&&tochka==2)
+	{
+	    printf("%s",".");
+	}
+	for(int i=0;i<y;i++)
+	{
+	    printf("%c",part2_end[i]);
+	}
+	return 0;
 }
