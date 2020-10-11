@@ -256,34 +256,41 @@ int main()
         {
             int chislo_1 = pop(lol);
             int chislo_2 = pop(lol);
-            if (b[i] == '+')
+            if(chislo_1==-1||chislo_2==-1)
             {
-                push(lol, chislo_2 + chislo_1);
-            }
-            else
+                printf("%s","syntax error");
+                return 0;
+            }else
             {
-                if (b[i] == '-')
+                if (b[i] == '+')
                 {
-                    push(lol, chislo_2 - chislo_1);
+                    push(lol, chislo_2 + chislo_1);
                 }
                 else
                 {
-                    if (b[i] == '*')
+                    if (b[i] == '-')
                     {
-                        push(lol, chislo_2 * chislo_1);
+                    push(lol, chislo_2 - chislo_1);
                     }
                     else
                     {
-                        if (b[i] == '/')
+                        if (b[i] == '*')
                         {
-                            if (chislo_1 == 0)
+                            push(lol, chislo_2 * chislo_1);
+                        }
+                        else
+                        {
+                            if (b[i] == '/')
                             {
-                                printf("%s", "division by zero");
-                                return 0;
-                            }
-                            else
-                            {
-                                push(lol, chislo_2 / chislo_1);
+                                if (chislo_1 == 0)
+                                {
+                                    printf("%s", "division by zero");
+                                    return 0;
+                                }
+                                else
+                                {
+                                    push(lol, chislo_2 / chislo_1);
+                                }
                             }
                         }
                     }
