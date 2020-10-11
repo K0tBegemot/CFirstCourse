@@ -199,7 +199,7 @@ int main()
     }
     if (empty(aa) == 0)
     {
-        int q;
+        int q,priority1=0,priority2=0;
         while (empty(aa) == 0)
         {
             q = pop(aa);
@@ -207,6 +207,7 @@ int main()
             {
                 b[index_of_b] = '+';
                 index_of_b += 1;
+                priority1+=1;
             }
             else
             {
@@ -214,6 +215,7 @@ int main()
                 {
                     b[index_of_b] = '-';
                     index_of_b += 1;
+                    priority1+=1;
                 }
                 else
                 {
@@ -221,6 +223,7 @@ int main()
                     {
                         b[index_of_b] = '/';
                         index_of_b += 1;
+                        priority2+=1;
                     }
                     else
                     {
@@ -228,6 +231,7 @@ int main()
                         {
                             b[index_of_b] = '*';
                             index_of_b += 1;
+                            priority2+=1;
                         }
                         else
                         {
@@ -237,6 +241,11 @@ int main()
                     }
                 }
             }
+        }
+        if(priority1>1||priority2>1)
+        {
+            printf("%s","syntax error");
+            return 0;
         }
     }
     tos *lol = create();
