@@ -106,13 +106,15 @@ int main()
                 if (a[i] == ')')
                 {
                     int opr=pop(aa);
+                    int cy=0;
                     while (opr != ((int)('('))&&(opr!=-1))
                     {
                         b[index_of_b] = ((char)opr);
                         index_of_b += 1;
                         opr = pop(aa);
+                        cy+=1;
                     }
-                    if (opr == -1)
+                    if (opr == -1||cy==0)
                     {
                         printf("%s", "syntax error");
                         return 0;
