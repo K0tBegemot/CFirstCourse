@@ -85,7 +85,7 @@ int empty(tos* a)
 int main()
 {
     char* a =(char*)malloc(1000);
-    gets_s(a,999);
+    scanf("%s",a);
     int size_a = strlen(a);
     char* b = (char*)malloc(size_a);
     int index_of_b = 0;
