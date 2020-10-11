@@ -85,10 +85,11 @@ int empty(tos* a)
 int main()
 {
     char* a =(char*)malloc(1000);
-    int scan=scanf("%s",a);
-    if(scan)
+    char *n=gets_s(a,999);
+    if(*n==NULL)
     {
-        
+        printf("%s","syntax error");
+        return 0;
     }
     int size_a = strlen(a);
     char* b = (char*)malloc(size_a);
