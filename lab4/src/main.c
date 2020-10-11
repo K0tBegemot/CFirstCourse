@@ -85,8 +85,8 @@ int empty(tos* a)
 int main()
 {
     char* a =(char*)malloc(1000);
-    char *n=gets(a);
-    if(*n==NULL)
+    char *n= gets(a);
+    if((int)(*n)==NULL)
     {
         printf("%s","syntax error");
         return 0;
