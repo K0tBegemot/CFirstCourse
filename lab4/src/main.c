@@ -94,6 +94,17 @@ int main()
     char* b = (char*)malloc(size_a);
     int index_of_b = 0;
     tos* aa = create();
+    for(int i=0;i<size_a-1;i++)
+    {
+        if(a[i]=='+'||a[i]=='-'||a[i]=='*'||a[i]=='/')
+        {
+            if(a[i+1]=='+'||a[i+1]=='-'||a[i+1]=='*'||a[i+1]=='/')
+            {
+                printf("%s","syntax error");
+                return 0;
+            }
+        }
+    }
     for (int i = 0; i < size_a; i++)
     {
         if ((((int)a[i]) - '0')>= 0 && (((int)a[i]) - '0') <= 9)
@@ -207,11 +218,6 @@ int main()
             {
                 b[index_of_b] = '+';
                 index_of_b += 1;
-                if(((char)top(aa))=='+'||((char)top(aa))=='-')
-                {
-                    printf("syntax error");
-                    return 0;
-                }
             }
             else
             {
@@ -219,11 +225,6 @@ int main()
                 {
                     b[index_of_b] = '-';
                     index_of_b += 1;
-                    if(((char)top(aa))=='+'||((char)top(aa))=='-')
-                    {
-                        printf("syntax error");
-                        return 0;
-                    }
                 }
                 else
                 {
@@ -231,11 +232,6 @@ int main()
                     {
                         b[index_of_b] = '/';
                         index_of_b += 1;
-                        if(((char)top(aa))=='/'||((char)top(aa))=='*')
-                        {
-                            printf("syntax error");
-                            return 0;
-                        }
                     }
                     else
                     {
@@ -243,11 +239,6 @@ int main()
                         {
                             b[index_of_b] = '*';
                             index_of_b += 1;
-                            if(((char)top(aa))=='/'||((char)top(aa))=='*')
-                            {
-                                printf("syntax error");
-                                return 0;
-                            }
                         }
                         else
                         {
