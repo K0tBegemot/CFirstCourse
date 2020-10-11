@@ -105,12 +105,14 @@ int main()
             }
         }
     }
+    int wera=0;
     for (int i = 0; i < size_a; i++)
     {
         if ((((int)a[i]) - '0')>= 0 && (((int)a[i]) - '0') <= 9)
         {
             b[index_of_b] =a[i];
             index_of_b += 1;
+            wera=1;
         }
         else
         {
@@ -130,6 +132,7 @@ int main()
                         printf("%s", "syntax error");
                         return 0;
                     }
+                    wera=1;
                 }
                 else
                 {
@@ -145,6 +148,7 @@ int main()
                         {
                             push(aa, (int)a[i]);
                         }
+                        wera=0;
                     }
                     else
                     {
@@ -160,6 +164,7 @@ int main()
                             {
                                 push(aa, (int)a[i]);
                             }
+                            wera=0;
                         }
                         else
                         {
@@ -175,6 +180,7 @@ int main()
                                 {
                                     push(aa, (int)a[i]);
                                 }
+                                wera=0;
                             }
                             else
                             {
@@ -190,6 +196,7 @@ int main()
                                     {
                                         push(aa, (int)a[i]);
                                     }
+                                    wera=0;
                                 }
                                 else
                                 {
@@ -201,6 +208,7 @@ int main()
                                     {
                                         printf("%s", "syntax error");
                                     }
+                                    wera=0;
                                 }
                             }
                         }
@@ -214,28 +222,28 @@ int main()
         while (empty(aa) == 0)
         {
             q = pop(aa);
-            if (((char)q) == '+')
+            if (((char)q) == '+'&&wera==1)
             {
                 b[index_of_b] = '+';
                 index_of_b += 1;
             }
             else
             {
-                if (((char)q) == '-')
+                if (((char)q) == '-'&&wera==1)
                 {
                     b[index_of_b] = '-';
                     index_of_b += 1;
                 }
                 else
                 {
-                    if (((char)q) == '/')
+                    if (((char)q) == '/'&&wera==1)
                     {
                         b[index_of_b] = '/';
                         index_of_b += 1;
                     }
                     else
                     {
-                        if (((char)q) == '*')
+                        if (((char)q) == '*'&&wera==1)
                         {
                             b[index_of_b] = '*';
                             index_of_b += 1;
