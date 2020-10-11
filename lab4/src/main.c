@@ -85,7 +85,7 @@ int empty(tos* a)
 int main()
 {
     char* a =(char*)malloc(1000);
-    gets_s(a);
+    gets_s(a,sizeof(a));
     if(*a==NULL)
     {
         printf("%s","syntax error");
