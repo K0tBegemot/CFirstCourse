@@ -258,6 +258,7 @@ int main()
             }
         }
     }
+    makenull(aa);
     tos *lol = create();
     /*
     for (int i = 0; i < index_of_b; i++)
@@ -318,6 +319,7 @@ int main()
         }
     }
     printf("%d", pop(lol));
+    makenull(lol);
     return 0;
 }
 
