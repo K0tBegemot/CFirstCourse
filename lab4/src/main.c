@@ -124,7 +124,7 @@ int main()
                 {
                     if (a[i] == '+' )
                     {
-                        if (empty(aa) == 0 && ((char)top(aa) == '+' || (char)top(aa) == '*' || (char)top(aa) == '/'))
+                        if (empty(aa) == 0 && ((char)top(aa) == '+' || (char)top(aa) == '*' || (char)top(aa) == '/'||(char)top(aa)=='-'))
                         {
                             b[index_of_b] = (char)pop(aa);
                             index_of_b += 1;
@@ -139,7 +139,7 @@ int main()
                     {
                         if (a[i] == '-' )
                         {
-                            if (empty(aa) == 0 && ((char)top(aa) == '+' || (char)top(aa) == '*' || (char)top(aa) == '/'))
+                            if (empty(aa) == 0 && ((char)top(aa) == '+' || (char)top(aa) == '*' || (char)top(aa) == '/'||(char)top(aa)=='-'))
                             {
                                 b[index_of_b] = (char)pop(aa);
                                 index_of_b += 1;
