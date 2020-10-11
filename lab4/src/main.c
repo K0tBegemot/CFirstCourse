@@ -88,7 +88,7 @@ int main()
     gets_s(a,999);
     int size_a = strlen(a);
     char* b = (char*)malloc(size_a);
-    char index_of_b = 0;
+    int index_of_b = 0;
     tos* aa = create();
     for (int i = 0; i < size_a; i++)
     {
