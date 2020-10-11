@@ -85,7 +85,11 @@ int empty(tos* a)
 int main()
 {
     char* a =(char*)malloc(1000);
-    scanf("%s",a);
+    int scan=scanf("%s",a);
+    if(scan)
+    {
+        
+    }
     int size_a = strlen(a);
     char* b = (char*)malloc(size_a);
     int index_of_b = 0;
