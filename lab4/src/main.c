@@ -111,8 +111,7 @@ int empty(tos* a)
 int main()
 {
     char* a = (char*)malloc(1000);
-    FILE* ptrfile;
-    fopen_s(&ptrfile,"input.txt", "r");
+    FILE* ptrfile=fopen("input.txt", "r");
     if(fgets(a, 1000,ptrfile)==0)
     {
         printf("%s", "syntax error");
