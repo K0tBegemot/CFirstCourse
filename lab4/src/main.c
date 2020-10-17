@@ -15,10 +15,7 @@ typedef struct Top_of_stack
 
 void errorfunc()
 {
-    FILE* ptr=fopen("output.txt","w");
-    char mas[]="syntax error";
-    fwrite(mas,sizeof(char),12,ptr);
-    fclose(ptr);
+    printf("syntax error");
 }
 
 int retindex(char symbol)
@@ -365,10 +362,7 @@ int main()
                             {
                                 if (chislo_1 == 0)
                                 {
-                                    FILE* ptr=fopen("output.txt","w");
-                                    char mas[]="division by zero";
-                                    int i=fwrite(mas,sizeof(char),16,ptr);
-                                    fclose(ptr);
+                                    printf("%s","division by zero");
                                     return 0;
                                 }
                                 else
@@ -382,10 +376,6 @@ int main()
             }
         }
     }
-    FILE* ptr=fopen("output.txt","w");
-    int plop=pop(lol);
-    fwrite(plop,sizeof(int),1,ptr);
-    fclose(ptr);
-    makenull(lol);
+    printf("%d",pop(lol));
     return 0;
 }
