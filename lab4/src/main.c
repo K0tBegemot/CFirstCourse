@@ -18,6 +18,10 @@ void errorfunc()
     FILE* ptr=fopen("output.txt","w");
     char mas[]="syntax error";
     int i=fwrite(mas,sizeof(char),12,ptr);
+    if(i)
+    {
+        
+    }
     fclose(ptr);
 }
 
