@@ -370,7 +370,6 @@ int main()
             }
         }
     }
-    printf("%s", "dg");
     printf("%d", pop(lol));
     makenull(lol);
     return 0;
