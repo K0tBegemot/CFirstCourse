@@ -13,6 +13,14 @@ typedef struct Top_of_stack
     st* top;
 } tos;
 
+void errorfunc()
+{
+    FILE* ptr=fopen("output.txt","w");
+    char mas[]="syntax error";
+    int i=fwrite(mas,sizeof(char),12,ptr);
+    fclose(ptr);
+}
+
 int retindex(char symbol)
 {
     int k = 0;
@@ -114,13 +122,14 @@ int main()
     FILE* ptrfile=fopen("input.txt", "r");
     if(fgets(a, 1000,ptrfile)==0)
     {
-        printf("%s", "syntax error");
+        errorfunc();
         return 0;
     }
+    fclose(ptrfile);
     int size_a = strlen(a);
     if (size_a == 1)
     {
-        printf("%s", "syntax error");
+        errorfunc();
         return 0;
     }
     //printf("%d%c", size_a, '\n');
@@ -134,7 +143,7 @@ int main()
         {
             if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/')
             {
-                printf("%s", "syntax error");
+                errorfunc();
                 return 0;
             }
         }
@@ -184,7 +193,7 @@ int main()
                 }
                 if (opr == -10 || cy == 0)
                 {
-                    printf("%s", "syntax error");
+                    errorfunc();
                     return 0;
                 }
                 wera = 1;
@@ -271,7 +280,7 @@ int main()
                                 }
                                 else
                                 {
-                                    printf("%s", "syntax error");
+                                    errorfunc();
                                     return 0;
                                 }
                                 wera = 0;
@@ -300,7 +309,7 @@ int main()
             }
             else
             {
-                printf("%s", "syntax error");
+                errorfunc();
                 return 0;
             }
         }
@@ -317,7 +326,7 @@ int main()
     //printf("%s", "dg");
     for (int i = 0; i < index_of_b; i++)
     {
-        view(lol);
+        //view(lol);
         printf("%c", '\n');
         if (b[i]>=0)
         {
@@ -329,7 +338,7 @@ int main()
             int chislo_2 = pop(lol);
             if (chislo_1 == -10 || chislo_2 == -10)
             {
-                printf("%s", "syntax error");
+                errorfunc();
                 return 0;
             }
             else
@@ -356,7 +365,10 @@ int main()
                             {
                                 if (chislo_1 == 0)
                                 {
-                                    printf("%s", "division by zero");
+                                    FILE* ptr=fopen("output.txt","w");
+                                    char mas[]="division by zero";
+                                    int i=fwrite(mas,sizeof(char),16,ptr);
+                                    fclose(ptr);
                                     return 0;
                                 }
                                 else
@@ -370,7 +382,9 @@ int main()
             }
         }
     }
-    printf("%d", pop(lol));
+    FILE* ptr=fopen("output.txt","w");
+    int i=fwrite(pop(lol),sizeof(int),0,ptr);
+    fclose(ptr);
     makenull(lol);
     return 0;
 }
