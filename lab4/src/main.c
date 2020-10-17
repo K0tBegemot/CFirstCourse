@@ -57,7 +57,8 @@ void makenull(tos* a)
 
 void view(tos* a)
 {
-    st* b = a->top;
+    st* b; 
+	b=a->top;
     while (b != NULL)
     {
         printf("%d%s", (b->data), " ");
@@ -86,14 +87,15 @@ int top(tos* a)
 
 int pop(tos* a)
 {
-    st* b = a->top;
+    st* b;
+	b=a->top;
     if (b == NULL)
     {
         return -10;
     }
     int c = b->data;
     a->top = b->next;
-    //free(b);
+    free(b);
     return c;
 }
 
@@ -115,7 +117,7 @@ int empty(tos* a)
 
 int main()
 {
-    char* a = (char*)malloc(1000);
+    char* a = (char*)malloc(1000*sizeof(int));
     FILE* ptrfile=fopen("input.txt", "r");
     if(fgets(a, 1000,ptrfile)==0)
     {
@@ -130,7 +132,7 @@ int main()
         return 0;
     }
     //printf("%d%c", size_a, '\n');
-    int* b = (int*)malloc(size_a);
+    int* b = (int*)malloc(size_a*sizeof(int));
     int index_of_b = 0;
     tos* aa = create();
     for (int i = 0; i < size_a; i++)
@@ -149,14 +151,16 @@ int main()
     int i=0;
     while(i<size_a-1)
     {
+    	//printf("%c",'\n');
+    	//printf("%d%s%c%s",i," ",a[i]," ");
         //printf("%c%s%d%c", a[i], " ", i, '\n');
         if ((a[i] - '0' >= 0) && (a[i] - '0' <= 9))
         {
             int l = i;
             int r = 1;
-            int* vrmass = (int*)malloc(50);
+            int* vrmass = (int*)malloc(50*sizeof(int));
             int vrmass_size = 0;
-            while ((a[l] - '0' >= 0) && (a[l] - '0' <= 9))
+            while ((a[l] - '0' >= 0) && (a[l] - '0' <= 9)&&(l<size_a-1))
             {
                 //printf("%d%s%d%c", a[l] - '0',"su",l,'\n');
                 vrmass[vrmass_size] = (a[l]-'0');
@@ -173,6 +177,7 @@ int main()
             index_of_b += 1;
             wera = 1;
             free(vrmass);
+            //view(aa);
             continue;
         }
         else
@@ -191,10 +196,11 @@ int main()
                 if (opr == -10 || cy == 0)
                 {
                     errorfunc();
-                    return 0;
+                    //return 0;
                 }
                 wera = 1;
                 i += 1;
+                //view(aa);
                 continue;
             }
             else
@@ -213,6 +219,7 @@ int main()
                     }
                     wera = 0;
                     i += 1;
+                    //view(aa);
                     continue;
                 }
                 else
@@ -231,6 +238,7 @@ int main()
                         }
                         wera = 0;
                         i += 1;
+                        //view(aa);
                         continue;
                     }
                     else
@@ -249,6 +257,7 @@ int main()
                             }
                             wera = 0;
                             i += 1;
+                            //view(aa);
                             continue;
                         }
                         else
@@ -267,6 +276,7 @@ int main()
                                 }
                                 wera = 0;
                                 i += 1;
+                                //view(aa);
                                 continue;
                             }
                             else
@@ -282,6 +292,7 @@ int main()
                                 }
                                 wera = 0;
                                 i += 1;
+                                //view(aa);
                                 continue;
                             }
                         }
@@ -290,14 +301,17 @@ int main()
             }
         }
     }
-    //printf("%s", "dg");
     if (empty(aa) == 0)
     {
         //printf("%s", "carr");
         int q;
         while (empty(aa) == 0)
         {
+        	//view(aa);
+            //printf("%c", '\n');
+            //printf("%s","dvor");
             q = pop(aa);
+            //printf("%d",empty(aa));
             if (wera == 1)
             {
                 //printf("%s", "dfsdrg");
@@ -311,20 +325,18 @@ int main()
             }
         }
     }
-    //printf("%s", "dg");
     makenull(aa);
     tos* lol = create();
     /*
     for (int i = 0; i < index_of_b; i++)
     {
-        printf("%c", b[i]);
+        printf("%d", b[i]);
     }
     */
-    //printf("%s", "dg");
     for (int i = 0; i < index_of_b; i++)
     {
         //view(lol);
-        printf("%c", '\n');
+        //printf("%c", '\n');
         if (b[i]>=0)
         {
             push(lol,b[i]);
