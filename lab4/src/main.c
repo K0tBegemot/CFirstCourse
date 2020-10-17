@@ -17,11 +17,7 @@ void errorfunc()
 {
     FILE* ptr=fopen("output.txt","w");
     char mas[]="syntax error";
-    int i=fwrite(mas,sizeof(char),12,ptr);
-    if(i)
-    {
-        
-    }
+    fwrite(mas,sizeof(char),12,ptr);
     fclose(ptr);
 }
 
@@ -387,7 +383,7 @@ int main()
         }
     }
     FILE* ptr=fopen("output.txt","w");
-    int i=fwrite(pop(lol),sizeof(int),0,ptr);
+    fwrite(pop(lol),sizeof(int),0,ptr);
     fclose(ptr);
     makenull(lol);
     return 0;
