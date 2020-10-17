@@ -383,7 +383,8 @@ int main()
         }
     }
     FILE* ptr=fopen("output.txt","w");
-    fwrite(pop(lol),sizeof(int),0,ptr);
+    int a=pop(lol);
+    fwrite(a,sizeof(int),1,ptr);
     fclose(ptr);
     makenull(lol);
     return 0;
