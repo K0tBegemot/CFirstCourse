@@ -335,7 +335,6 @@ int main()
     */
     for (int i = 0; i < index_of_b; i++)
     {
-        //view(lol);
         //printf("%c", '\n');
         if (b[i]>=0)
         {
