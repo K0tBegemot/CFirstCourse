@@ -387,6 +387,9 @@ int main()
             }
         }
     }
-    printf("%d",pop(lol));
+    FILE* file;
+    file= fopen("output.txt","w");
+    fprintf(file,"%d",pop(lol));
+    fclose(file);
     return 0;
 }
