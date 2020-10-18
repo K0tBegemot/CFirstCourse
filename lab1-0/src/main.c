@@ -4,7 +4,7 @@
 
 int main()
 {
-    char a[18], b[1000];
+    char a[18], b[1000],c[100];
     int table[16];
     char table_w[16];
     FILE* ptrfile=fopen("in.txt","r");
@@ -13,15 +13,38 @@ int main()
     	//printf("%d%s",0," ");
     	return 0;
 	}
-	if(fgets(b,999,ptrfile)==0)
+	int count=0;
+	while(fgets(c,100,ptrfile)!=0)
     {
-    	//printf("%d%s",0," ");
-    	return 0;
+    	int size_c=strlen(c);
+    	if(size_c==0)
+    	{
+    		break;
+		}else
+		{
+			if(c[size_c-1]=='\n')
+			{
+				//printf("%s","/");
+				for(int i=0;i<size_c-1;i++)
+    	        {
+    	         	b[i+count]=c[i];
+	        	}
+	        	count+=size_c-1;
+			}else
+			{
+				for(int i=0;i<size_c;i++)
+          	    {
+    	         	b[i+count]=c[i];
+	        	}
+	        	count+=size_c;
+	        	break;
+			}
+		}
 	}
     //gets(a);
     //gets(b);
-    //printf("%d%s%d%c", strlen(a)," ", strlen(b),'\n');
-    int counter = 0, a_size = strlen(a), b_size = strlen(b), table_size = 0;
+    //printf("%d%s%d%c", strlen(a)," ", count,'\n');
+    int counter = 0, a_size = strlen(a), b_size = count, table_size = 0;
     /*
     for(int i=0;i<a_size;i++)
     {
