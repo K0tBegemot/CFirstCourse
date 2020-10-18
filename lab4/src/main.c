@@ -117,9 +117,9 @@ int empty(tos* a)
 
 int main()
 {
-    char* a = (char*)malloc(1000*sizeof(char));
+    char* a = (char*)malloc(1100*sizeof(char));
     FILE* ptrfile=fopen("in.txt", "r");
-    if(fgets(a, 1000,ptrfile)==0)
+    if(fgets(a, 1100,ptrfile)==0)
     {
     	/*
     	printf("%s","sgs");
@@ -403,5 +403,6 @@ int main()
         }
     }
     printf("%d",pop(lol));
+    makenull(lol);
     return 0;
 }
