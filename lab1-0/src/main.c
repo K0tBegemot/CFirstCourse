@@ -49,7 +49,7 @@ int main()
     }
     FILE* ptrfile2=fopen("out.txt","w");
     unsigned long long int gerb=0;
-    while(fgets(c,17,ptrfile)!=0)
+    while(fgets(c,97,ptrfile)!=0)
     {
     	int size_c=strlen(c);
     	if(size_c==0)
@@ -64,7 +64,6 @@ int main()
         printf("%c%d%s", table_w[i], table[i]," ");
     }
     */
-    //printf("%lld%c",a_size,'\n');
     while (location < size_c)
     {
         fprintf(ptrfile2,"%lld%s", location+1+gerb, " ");
@@ -91,7 +90,7 @@ int main()
                             location += table[ii];
                             if(location>=size_c)
                             {
-                                gerb+=a_size;	
+                                gerb+=size_c;	
 							}
                             l = 1;
                             break;
@@ -102,7 +101,7 @@ int main()
                         location += a_size-1;
                         if(location>=size_c)
                         {
-                        	gerb+=a_size;
+                        	gerb+=size_c;
 						}
                     }
                     break;
@@ -119,7 +118,7 @@ int main()
                         location += table[i];
                         if(location>=size_c)
                         {
-                        	gerb+=a_size;
+                        	gerb+=size_c;
 						}
                         break;
 					}
@@ -129,7 +128,7 @@ int main()
                     location += a_size-1;
                     if(location>=size_c)
                     {
-                    	gerb+=a_size;
+                    	gerb+=size_c;
 					}
                 }
             }
@@ -145,7 +144,7 @@ int main()
                     q = 1;
                     if(location>=size_c)
                     {
-                    	gerb+=a_size;
+                    	gerb+=size_c;
 					}
                     break;
                 }   
@@ -155,7 +154,7 @@ int main()
                 location += a_size-1;
                 if(location>=size_c)
                     {
-                    	gerb+=a_size;
+                    	gerb+=size_c;
 					}
             }
         }
