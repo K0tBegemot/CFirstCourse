@@ -12,9 +12,9 @@ int main()
     {
     	return 0;
 	}
-	long long int a_size = strlen(a);
+	long long int count=0,a_size = strlen(a);
     //printf("%d%s%d%c", strlen(a)," ", count,'\n');
-    long long int counter = 0, table_size = 0;
+    long long int counter = 0, b_size = count, table_size = 0;
     /*
     for(int i=0;i<a_size;i++)
     {
@@ -64,6 +64,7 @@ int main()
         printf("%c%d%s", table_w[i], table[i]," ");
     }
     */
+    //printf("%lld%c",size_c,'\n');
     while (location < size_c)
     {
         fprintf(ptrfile2,"%lld%s", location+1+gerb, " ");
