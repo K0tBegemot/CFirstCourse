@@ -129,13 +129,13 @@ int main()
     }
     fclose(ptrfile);
     int size_a = strlen(a);
-    a=(char*)realloc(a,(size_a-1)*sizeof(char));
+    a=(char*)realloc(a,(size_a)*sizeof(char));
     if (size_a == 1||size_a==0)
     {
         errorfunc();
         return 0;
     }
-    int* b = (int*)malloc((size_a-1)*sizeof(int));
+    int* b = (int*)malloc(size_a*sizeof(int));
     int index_of_b = 0;
     tos* aa = create();
     for (int i = 0; i < size_a; i++)
