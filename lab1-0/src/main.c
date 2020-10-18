@@ -4,10 +4,14 @@
 
 int main()
 {
-    char a[18], b[4000],c[100];
+    char a[18],c[100];
+    long long int *p=(long long int*)malloc(sizeof(long long int));
+    *p=140000000;
+    char *b=(char*)malloc((*p)*sizeof(char));
     int table[16];
     char table_w[16];
     FILE* ptrfile=fopen("in.txt","r");
+    //printf("%d%s",*p," ");
     if(fgets(a,18,ptrfile)==0)
     {
     	//printf("%d%s",0," ");
@@ -33,7 +37,8 @@ int main()
     	         	b[i+count]=c[i];
 	        	}
 	        	count+=size_c;
-	        	if(a_size-2==size_c)
+	        	//printf("%d%c",count,'\n');
+	        	if(a_size-1==size_c)
     	{
     		pol+=1;
 		}
@@ -44,6 +49,7 @@ int main()
     	         	b[i+count]=c[i];
 	        	}
 	        	count+=size_c;
+	        	//printf("%d%c",count,'\n');
 	        	if(a_size-2==size_c)
     	{
     		pol+=1;
@@ -52,16 +58,19 @@ int main()
 			}
 		}
 	}
-	//printf("%d",pol2);
+	fclose(ptrfile);
+	FILE* ptrfile2=fopen("out.txt","w");
+	//printf("%d%s%d",pol," ",pol2);
 	if(pol2==pol&&pol!=0)
 	{
 		long int k=a_size-1;
 		for(int i=0;i<pol2;i++)
 		{
-			printf("%ld%s",k," ");
+			fprintf(ptrfile2,"%d%s",k," ");
 			k+=a_size-1;
 		}
 		//printf("%d",pol);
+		free(b);
 		return 0;
 	}
     //gets(a);
@@ -179,5 +188,6 @@ int main()
             }
         }
     }
+    free(b);
     return 0;
 }
