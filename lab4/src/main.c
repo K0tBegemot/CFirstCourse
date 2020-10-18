@@ -137,9 +137,9 @@ int main()
     for (int i = 0; i < size_a; i++)
     {
         //printf("%c%s", a[i], " ");
-        if (a[i] == '+' || a[i] == '-' || a[i] == '*' || a[i] == '/')
+        if (a[i] == '+' || a[i] == '-' || a[i] == '*' || a[i] == '/'||a[i]=='('||a[i]==')')
         {
-            if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/')
+            if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/'||a[i]=='('||a[i]==')')
             {
                 errorfunc();
                 return 0;
@@ -195,7 +195,7 @@ int main()
                 if (opr == -10 || cy == 0)
                 {
                     errorfunc();
-                    //return 0;
+                    return 0;
                 }
                 wera = 1;
                 i += 1;
