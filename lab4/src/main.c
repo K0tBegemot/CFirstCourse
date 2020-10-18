@@ -161,7 +161,7 @@ int main()
     }
     int wera = 0;
     int i=0;
-    while(i<size_a-1)
+    while(i<size_a)
     {
     	//printf("%c",'\n');
     	//printf("%d%s%c%s",i," ",a[i]," ");
