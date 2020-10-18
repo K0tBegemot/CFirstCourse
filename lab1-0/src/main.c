@@ -44,7 +44,7 @@ int main()
     	         	b[i+count]=c[i];
 	        	}
 	        	count+=size_c;
-	        	if(a_size-1==size_c)
+	        	if(a_size-2==size_c)
     	{
     		pol+=1;
 		}
@@ -56,9 +56,9 @@ int main()
 	if(pol2==pol&&pol!=0)
 	{
 		long int k=a_size-1;
-		for(int i=0;i<pol2+1;i++)
+		for(int i=0;i<pol2;i++)
 		{
-			//printf("%d%s",k," ");
+			printf("%d%s",k," ");
 			k+=a_size-1;
 		}
 		//printf("%d",pol);
