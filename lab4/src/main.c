@@ -129,7 +129,7 @@ int main()
     }
     fclose(ptrfile);
     int size_a = strlen(a);
-    a=(char*)realloc(a,(size_a)*sizeof(char));
+    //a=(char*)realloc(a,(size_a)*sizeof(char));
     if (size_a == 1||size_a==0)
     {
         errorfunc();
