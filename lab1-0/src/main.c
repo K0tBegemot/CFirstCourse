@@ -25,11 +25,11 @@ int main()
 			if(c[size_c-1]=='\n')
 			{
 				//printf("%s","/");
-				for(int i=0;i<size_c-1;i++)
+				for(int i=0;i<size_c;i++)
     	        {
     	         	b[i+count]=c[i];
 	        	}
-	        	count+=size_c-1;
+	        	count+=size_c;
 			}else
 			{
 				for(int i=0;i<size_c;i++)
