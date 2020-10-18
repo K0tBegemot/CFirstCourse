@@ -64,7 +64,7 @@ int main()
 	}
     //gets(a);
     //gets(b);
-    printf("%d%s%d%c", strlen(a)," ", count,'\n');
+    //printf("%d%s%d%c", strlen(a)," ", count,'\n');
     long long int counter = 0, b_size = count, table_size = 0;
     /*
     for(int i=0;i<a_size;i++)
