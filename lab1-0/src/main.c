@@ -4,7 +4,7 @@
 
 int main()
 {
-    char a[18],c[96];
+    char a[18],c[97];
     int table[16];
     char table_w[16];
     FILE* ptrfile=fopen("in.txt","r");
