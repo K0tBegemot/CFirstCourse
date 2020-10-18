@@ -5,8 +5,6 @@
 int main()
 {
     char a[16], b[1000];
-    a[16] = '\0';
-    b[999] = '\0';
     int table[16];
     char table_w[16];
     FILE* ptrfile=fopen("in.txt","r");
@@ -22,7 +20,7 @@ int main()
 	}
     //gets(a);
     //gets(b);
-    printf("%d%s%d%c", strlen(a)," ", strlen(b),'\n');
+    //printf("%d%s%d%c", strlen(a)," ", strlen(b),'\n');
     int counter = 0, a_size = strlen(a), b_size = strlen(b), table_size = 0;
     for (int i = 0; i < a_size-2; i++)
     {
