@@ -117,12 +117,15 @@ int empty(tos* a)
 
 int main()
 {
-    char* a = (char*)malloc(1000*sizeof(int));
+    char* a = (char*)malloc(1000*sizeof(char));
     FILE* ptrfile=fopen("in.txt", "r");
     if(fgets(a, 1000,ptrfile)==0)
     {
+    	/*
+    	printf("%s","sgs");
         errorfunc();
         return 0;
+        */
     }
     fclose(ptrfile);
     int size_a = strlen(a);
@@ -141,6 +144,7 @@ int main()
         {
             if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/'||a[i+1]==')')
             {
+            	//printf("%s","sgs");
                 errorfunc();
                 return 0;
             }
@@ -149,6 +153,7 @@ int main()
         {
             if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/'||a[i+1]==')')
             {
+            	//printf("%s","sgs");
                 errorfunc();
                 return 0;
             }
@@ -192,17 +197,16 @@ int main()
             if (a[i] == ')')
             {
                 int opr = pop(aa);
-                int cy = 0;
                 while (opr != -5 && opr != -10)
                 {
                     b[index_of_b] = opr;
                     index_of_b += 1;
                     opr = pop(aa);
-                    cy += 1;
                 }
-                if (opr == -10 || cy == 0)
+                if (opr == -10 )
                 {
                     errorfunc();
+                    //printf("%s","sgs");
                     return 0;
                 }
                 wera = 1;
@@ -342,7 +346,7 @@ int main()
     */
     for (int i = 0; i < index_of_b; i++)
     {
-        //printf("%c", '\n');
+        printf("%c", '\n');
         if (b[i]>=0)
         {
             push(lol,b[i]);
