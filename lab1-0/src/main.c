@@ -4,7 +4,7 @@
 
 int main()
 {
-    char a[18], b[6000],c[100];
+    char a[18], b[4000],c[100];
     int table[16];
     char table_w[16];
     FILE* ptrfile=fopen("in.txt","r");
@@ -13,10 +13,12 @@ int main()
     	//printf("%d%s",0," ");
     	return 0;
 	}
-	int count=0;
+	long long int count=0,a_size = strlen(a);
+	long long int pol=0,pol2=0;
 	while(fgets(c,100,ptrfile)!=0)
     {
     	int size_c=strlen(c);
+    	//printf("%d%s%d%c",a_size," ",size_c,'\n');
     	if(size_c==0)
     	{
     		break;
@@ -30,6 +32,10 @@ int main()
     	         	b[i+count]=c[i];
 	        	}
 	        	count+=size_c;
+	        	if(a_size-1==size_c)
+    	{
+    		pol+=1;
+		}
 			}else
 			{
 				for(int i=0;i<size_c;i++)
@@ -37,14 +43,29 @@ int main()
     	         	b[i+count]=c[i];
 	        	}
 	        	count+=size_c;
+	        	if(a_size-2==size_c)
+    	{
+    		pol+=1;
+		}
 	        	break;
 			}
 		}
+		pol2+=1;
+	}
+	if(pol2==pol&&pol!=0)
+	{
+		long int k=a_size-1;
+		for(int i=0;i<pol2+1;i++)
+		{
+			printf("%d%s",k," ");
+			k+=a_size-1;
+		}
+		return 0;
 	}
     //gets(a);
     //gets(b);
-    //printf("%d%s%d%c", strlen(a)," ", count,'\n');
-    int counter = 0, a_size = strlen(a), b_size = count, table_size = 0;
+    printf("%d%s%d%c", strlen(a)," ", count,'\n');
+    long long int counter = 0, b_size = count, table_size = 0;
     /*
     for(int i=0;i<a_size;i++)
     {
@@ -56,6 +77,7 @@ int main()
 		printf("%c%s",b[i],"-");
 	}
 	*/
+	//if((b_size+1)%a_size==0)
     for (int i = 0; i < a_size-2; i++)
     {
     	//printf("%d%s",a[i]," ");
