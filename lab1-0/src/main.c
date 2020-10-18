@@ -13,9 +13,8 @@ int main()
     	return 0;
 	}
 	long long int count=0,a_size = strlen(a);
-	long long int pol=0,pol2=0;
     //printf("%d%s%d%c", strlen(a)," ", count,'\n');
-    long long int counter = 0, b_size = count, table_size = 0;
+    long long int counter = 0, table_size = 0;
     /*
     for(int i=0;i<a_size;i++)
     {
@@ -67,7 +66,6 @@ int main()
     */
     while (location < size_c)
     {
-    	int h=0;
         fprintf(ptrfile2,"%d%s", location+1+gerb, " ");
         //printf("%lld%s",location," ");
         if (c[location] == a[a_size - 2])
