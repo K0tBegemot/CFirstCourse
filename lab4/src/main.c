@@ -346,7 +346,7 @@ int main()
     */
     for (int i = 0; i < index_of_b; i++)
     {
-        printf("%c", '\n');
+        //printf("%c", '\n');
         if (b[i]>=0)
         {
             push(lol,b[i]);
