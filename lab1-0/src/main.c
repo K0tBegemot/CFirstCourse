@@ -57,7 +57,7 @@ int main()
 		long int k=a_size-1;
 		for(int i=0;i<pol2+1;i++)
 		{
-			printf("%d%s",k," ");
+			printf("%ld%s",k," ");
 			k+=a_size-1;
 		}
 		return 0;
