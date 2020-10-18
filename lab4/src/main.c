@@ -340,6 +340,7 @@ int main()
             }
         }
     }
+    free(a);
     makenull(aa);
     tos* lol = create();
     /*
@@ -402,6 +403,7 @@ int main()
             }
         }
     }
+    free(b);
     printf("%d",pop(lol));
     makenull(lol);
     return 0;
