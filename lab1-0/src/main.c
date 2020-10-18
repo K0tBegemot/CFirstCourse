@@ -66,7 +66,7 @@ int main()
 		long int k=a_size-1;
 		for(int i=0;i<pol2;i++)
 		{
-			fprintf(ptrfile2,"%d%s",k," ");
+			fprintf(ptrfile2,"%ld%s",k," ");
 			k+=a_size-1;
 		}
 		//printf("%d",pol);
