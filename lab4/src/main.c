@@ -402,9 +402,6 @@ int main()
             }
         }
     }
-    FILE* file;
-    file= fopen("out.txt","w");
-    fprintf(file,"%d",pop(lol));
-    fclose(file);
+    printf("%d",pop(lol));
     return 0;
 }
