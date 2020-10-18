@@ -4,11 +4,11 @@
 
 int main()
 {
-    char a[18],c[100];
+    char a[18],c[96];
     int table[16];
     char table_w[16];
     FILE* ptrfile=fopen("in.txt","r");
-    if(fgets(a,18,ptrfile)==0)
+    if(fgets(a,97,ptrfile)==0)
     {
     	return 0;
 	}
