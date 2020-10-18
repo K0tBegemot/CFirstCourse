@@ -24,7 +24,7 @@ int main()
     int counter = 0, a_size = strlen(a), b_size = strlen(b), table_size = 0;
     for (int i = 0; i < a_size-2; i++)
     {
-    	 //printf("%d%s",a[i]," ");
+    	//printf("%d%s",a[i]," ");
          counter = 0;
          for (int ii = 0; ii < table_size; ii++)
          {
@@ -49,8 +49,7 @@ int main()
         printf("%c%d%s", table_w[i], table[i]," ");
     }
     */
-    printf("%c",'\n');
-    while (location < b_size-1)
+    while (location < b_size)
     {
         printf("%d%s", location+1, " ");
         //printf("%c%s%c", b[location], " ", a[a_size - 1]);
