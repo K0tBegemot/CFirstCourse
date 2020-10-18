@@ -14,7 +14,7 @@ int main()
 	}
 	long long int count=0,a_size = strlen(a);
     //printf("%d%s%d%c", strlen(a)," ", count,'\n');
-    long long int counter = 0, b_size = count, table_size = 0;
+    long long int counter = 0, table_size = 0;
     /*
     for(int i=0;i<a_size;i++)
     {
