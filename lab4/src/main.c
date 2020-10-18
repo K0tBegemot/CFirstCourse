@@ -163,6 +163,10 @@ int main()
     int i=0;
     while(i<size_a)
     {
+        if(a[i]=='\n')
+        {
+            continue;
+        }
     	//printf("%c",'\n');
     	//printf("%d%s%c%s",i," ",a[i]," ");
         //printf("%c%s%d%c", a[i], " ", i, '\n');
