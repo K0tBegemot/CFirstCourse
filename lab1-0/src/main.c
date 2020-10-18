@@ -12,7 +12,7 @@ int main()
     {
     	return 0;
 	}
-	long long int count=0,a_size = strlen(a);
+	long long int a_size = strlen(a);
     //printf("%d%s%d%c", strlen(a)," ", count,'\n');
     long long int counter = 0, table_size = 0;
     /*
@@ -66,14 +66,14 @@ int main()
     */
     while (location < size_c)
     {
-        fprintf(ptrfile2,"%d%s", location+1+gerb, " ");
+        fprintf(ptrfile2,"%lld%s", location+1+gerb, " ");
         //printf("%lld%s",location," ");
         if (c[location] == a[a_size - 2])
         {
             long long int location_copy = location - 1,popp=1;
             for (int i = a_size - 3; i > -1; i--)
             {
-                fprintf(ptrfile2,"%d%s", location_copy + 1+gerb," ");
+                fprintf(ptrfile2,"%lld%s", location_copy + 1+gerb," ");
                 //printf("%c%s%c", b[location_copy], " ", a[i]);
                 if (c[location_copy] == a[i])
                 {
