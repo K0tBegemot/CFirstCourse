@@ -4,22 +4,25 @@
 
 int main()
 {
-    char a[16], b[1000];
+    char a[17], b[1000];
     int table[16];
     char table_w[16];
     FILE* ptrfile=fopen("in.txt","r");
     if(fgets(a,18,ptrfile)==0)
     {
+    	printf("%d%s",0," ");
     	return 0;
 	}
 	if(fgets(b,999,ptrfile)==0)
     {
+    	printf("%d%s",0," ");
     	return 0;
 	}
     //gets(a);
     //gets(b);
     //printf("%d%s%d%c", strlen(a)," ", strlen(b),'\n');
     int counter = 0, a_size = strlen(a), b_size = strlen(b), table_size = 0;
+    /*
     for(int i=0;i<a_size;i++)
     {
     	printf("%c%s",a[i],"-");
@@ -29,6 +32,7 @@ int main()
 	{
 		printf("%c%s",b[i],"-");
 	}
+	*/
     for (int i = 0; i < a_size-2; i++)
     {
     	//printf("%d%s",a[i]," ");
