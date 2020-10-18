@@ -165,7 +165,7 @@ int main()
     {
         if(a[i]=='\n')
         {
-            continue;
+            break;
         }
     	//printf("%c",'\n');
     	//printf("%d%s%c%s",i," ",a[i]," ");
