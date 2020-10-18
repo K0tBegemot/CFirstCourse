@@ -49,6 +49,7 @@ int main()
         printf("%c%d%s", table_w[i], table[i]," ");
     }
     */
+    printf("%c",'\n');
     while (location < b_size-1)
     {
         printf("%d%s", location+1, " ");
