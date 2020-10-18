@@ -119,7 +119,7 @@ int main()
 {
     char* a = (char*)malloc(1050*sizeof(char));
     FILE* ptrfile=fopen("in.txt", "r");
-    if(fgets(a, 1050,ptrfile)==0)
+    if(fgets(a, 1050*sizeof(char),ptrfile)==0)
     {
     	/*
     	printf("%s","sgs");
