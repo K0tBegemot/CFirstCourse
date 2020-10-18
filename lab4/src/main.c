@@ -130,7 +130,7 @@ int main()
     fclose(ptrfile);
     int size_a = strlen(a);
     a=(char*)realloc(a,(size_a-1)*sizeof(char));
-    if (size_a == 1)
+    if (size_a == 1||size_a==0)
     {
         errorfunc();
         return 0;
@@ -174,7 +174,7 @@ int main()
         if ((a[i] - '0' >= 0) && (a[i] - '0' <= 9))
         {
             int l = i;
-            int r = 1;
+            long long int r = 1;
             int* vrmass = (int*)malloc(50*sizeof(int));
             int vrmass_size = 0;
             while ((a[l] - '0' >= 0) && (a[l] - '0' <= 9)&&(l<size_a-1))
