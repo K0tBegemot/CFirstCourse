@@ -131,7 +131,6 @@ int main()
         errorfunc();
         return 0;
     }
-    //printf("%d%c", size_a, '\n');
     int* b = (int*)malloc(size_a*sizeof(int));
     int index_of_b = 0;
     tos* aa = create();
