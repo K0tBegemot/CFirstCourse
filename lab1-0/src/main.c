@@ -20,7 +20,7 @@ int main()
 	}
     //gets(a);
     //gets(b);
-    printf("%d%s%d%c", strlen(a)," ", strlen(b),'\n');
+    //printf("%d%s%d%c", strlen(a)," ", strlen(b),'\n');
     int counter = 0, a_size = strlen(a), b_size = strlen(b), table_size = 0;
     for (int i = 0; i < a_size-2; i++)
     {
