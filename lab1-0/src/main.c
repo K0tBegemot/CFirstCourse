@@ -10,17 +10,17 @@ int main()
     FILE* ptrfile=fopen("in.txt","r");
     if(fgets(a,16,ptrfile)==0)
     {
-    	printf("%d",0);
+    	printf("%d%s",0," ");
     	return 0;
 	}
 	if(fgets(b,999,ptrfile)==0)
     {
-    	printf("%d",0);
+    	printf("%d%s",0," ");
     	return 0;
 	}
     //gets(a);
     //gets(b);
-    //printf("%d%s%d%c", strlen(a)," ", strlen(b),'\n');
+    printf("%d%s%d%c", strlen(a)," ", strlen(b),'\n');
     int counter = 0, a_size = strlen(a), b_size = strlen(b), table_size = 0;
     for (int i = 0; i < a_size-2; i++)
     {
