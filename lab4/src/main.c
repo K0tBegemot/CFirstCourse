@@ -118,7 +118,7 @@ int empty(tos* a)
 int main()
 {
     char* a = (char*)malloc(1000*sizeof(int));
-    FILE* ptrfile=fopen("input.txt", "r");
+    FILE* ptrfile=fopen("in.txt", "r");
     if(fgets(a, 1000,ptrfile)==0)
     {
         errorfunc();
@@ -387,7 +387,7 @@ int main()
         }
     }
     FILE* file;
-    file= fopen("output.txt","w");
+    file= fopen("out.txt","w");
     fprintf(file,"%d",pop(lol));
     fclose(file);
     return 0;
