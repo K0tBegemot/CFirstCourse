@@ -10,12 +10,12 @@ int main()
     FILE* ptrfile=fopen("in.txt","r");
     if(fgets(a,16,ptrfile)==0)
     {
-    	printf("%d%s",0," ");
+    	//printf("%d%s",0," ");
     	return 0;
 	}
 	if(fgets(b,999,ptrfile)==0)
     {
-    	printf("%d%s",0," ");
+    	//printf("%d%s",0," ");
     	return 0;
 	}
     //gets(a);
