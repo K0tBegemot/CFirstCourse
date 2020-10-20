@@ -132,7 +132,8 @@ int main()
 				if (halop_counter_1 == 7)
 				{
 					int crypa = 1,otvet=index_of_timemass;
-					for (int ii = index_of_timemass; ii < minrun_copy; ii)
+					int ii=index_of_timemass;
+					while(ii<minrun_copy)
 					{
 						if (ii >= minrun_copy)
 						{
@@ -172,7 +173,8 @@ int main()
 					if (halop_counter_2 == 7)
 					{
 						int crypa = 1, otvet = index_of_timemass;
-						for (int ii = index_of_ss; ii < size_m && ii < mint + 2 * minrun_copy ; ii)
+						int ii=index_of_ss;
+						while(ii < size_m && ii < mint + 2 * minrun_copy)
 						{
 							if (ii >= size_m)
 							{
