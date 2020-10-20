@@ -355,7 +355,9 @@ int main()
     }
     free(a);
     makenull(aa);
-    tos* lol = create();
+    tos* lol;
+	lol=(tos*)malloc(sizeof(tos));
+    lol->top = 0;
     /*
     for (int i = 0; i < index_of_b; i++)
     {
