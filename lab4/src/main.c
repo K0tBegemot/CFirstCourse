@@ -331,7 +331,7 @@ int main()
     if (empty(aa) == 0)
     {
         //printf("%s", "carr");
-        int q;
+        int q=0;
         while (empty(aa) == 0)
         {
         	//view(aa);
