@@ -10,6 +10,7 @@ int main()
     FILE* ptrfile=fopen("in.txt","r");
     if(fgets(a,18,ptrfile)==0)
     {
+    	fclose(ptrfile);
     	return 0;
 	}
 	long long int a_size = strlen(a);
@@ -48,7 +49,7 @@ int main()
          }
     }
     FILE* ptrfile2=fopen("out.txt","w");
-    unsigned long long int gerb=0;
+    long long int gerb=0;
     while(fgets(c,97,ptrfile)!=0)
     {
     	int size_c=strlen(c);
@@ -162,5 +163,7 @@ int main()
     }
 		}
 	}
+	fclose(ptrfile);
+	fclose(ptrfile2);
     return 0;
 }
