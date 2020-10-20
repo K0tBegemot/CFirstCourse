@@ -53,6 +53,7 @@ void makenull(tos* a)
         a->top = b->next;
         free(b);
     }
+    
 }
 
 void view(tos* a)
@@ -64,6 +65,14 @@ void view(tos* a)
         printf("%d%s", (b->data), " ");
         b = b->next;
     }
+}
+
+tos* create()
+{
+    tos* a = NULL;
+	a=(tos*)malloc(sizeof(tos));
+    a->top = 0;
+    return a; 
 }
 
 int top(tos* a)
@@ -82,7 +91,7 @@ int pop(tos* a)
 {
     st* b;
 	b=a->top;
-    if (b == NULL)
+    if (b == 0)
     {
         return -10;
     }
@@ -131,8 +140,7 @@ int main()
     }
     int* b = (int*)malloc(size_a*sizeof(int));
     int index_of_b = 0;
-    tos* aa = (tos*)malloc(sizeof(tos));
-    aa->top = 0;
+    tos* aa = create();
     for (int i = 0; i < size_a; i++)
     {
         //printf("%c%s", a[i], " ");
@@ -353,8 +361,7 @@ int main()
     }
     free(a);
     makenull(aa);
-    tos* lol =(tos*)malloc(sizeof(tos));
-    lol->top = 0;
+    tos* lol = create();
     /*
     for (int i = 0; i < index_of_b; i++)
     {
@@ -374,6 +381,8 @@ int main()
             int chislo_2 = pop(lol);
             if (chislo_1 == -10 || chislo_2 == -10)
             {
+                makenull(lol);
+                free(b);
                 errorfunc();
                 return 0;
             }
