@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <algorithm>
 
 int minim(int *a,int size)
 {
