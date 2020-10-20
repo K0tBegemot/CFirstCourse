@@ -331,13 +331,12 @@ int main()
     if (empty(aa) == 0)
     {
         //printf("%s", "carr");
-        int q=0;
         while (empty(aa) == 0)
         {
         	//view(aa);
             //printf("%c", '\n');
             //printf("%s","dvor");
-            q = pop(aa);
+            int q = pop(aa);
             //printf("%d",empty(aa));
             if (wera == 1)
             {
