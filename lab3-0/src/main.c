@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <math.h>
 
-
+int minrun_global=0;
 int Minrun(int);
 void sdvig(int*, int, int);
 
@@ -58,9 +58,10 @@ int main()
 	*/
 	//printf("%c%s%c", '\n', "-----------------------------", '\n');
 	int lil = 1;
-	for (int i = 0; i < step; i++)
+	for (int i = 0; i < step-1; i++)// without changes: for (int i = 0; i < step; i++)
 	{
 		int minrun_copy = minrun * lil;
+		minrun_global=minrun_copy;
 		//printf("%d%c", minrun_copy,'\n');
 		int for_c = size_m / minrun_copy;
 		if (size_m % minrun_copy != 0)
@@ -246,6 +247,24 @@ int main()
 		*/
 		lil *= 2;
 	}
+	//this part of application wasn't exist before my correction
+	for(int ii=2*minrun_global;ii<size_m;ii++)
+	{
+		int coip=0;
+		for(int i=0;i<2*minrun_global;i++)
+	    {
+			if(ss[i]>ss[ii])
+			{
+				sdvig(ss,i,ii);
+				coip+=1;
+			}
+		}
+		if(coip==0)
+		{
+			break;
+		}  
+	}
+	//the end of this strange, but working, amazing, wonderful, brilliant and intelegent part
 	for (int i = 0; i < size_m; i++)
 	{
 		printf("%d%s", ss[i], " ");
