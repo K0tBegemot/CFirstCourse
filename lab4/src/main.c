@@ -117,9 +117,9 @@ int empty(tos* a)
 
 int main()
 {
-    char* a = (char*)malloc(1050*sizeof(char));
+    char* a = (char*)malloc(1100*sizeof(char));
     FILE* ptrfile=fopen("in.txt", "r");
-    if(fgets(a, 1050*sizeof(char),ptrfile)==0)
+    if(fgets(a, 1100,ptrfile)==0)
     {
     	/*
     	printf("%s","sgs");
@@ -129,9 +129,10 @@ int main()
     }
     fclose(ptrfile);
     int size_a = strlen(a);
-    //a=(char*)realloc(a,(size_a)*sizeof(char));
+    a=(char*)realloc(a,(size_a)*sizeof(char));
     if (size_a == 1||size_a==0)
     {
+    	free(a);
         errorfunc();
         return 0;
     }
@@ -146,6 +147,9 @@ int main()
             if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/'||a[i+1]==')')
             {
             	//printf("%s","sgs");
+            	free(a);
+            	free(b);
+            	makenull(aa);
                 errorfunc();
                 return 0;
             }
@@ -155,6 +159,9 @@ int main()
             if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/'||a[i+1]==')')
             {
             	//printf("%s","sgs");
+            	free(a);
+            	free(b);
+            	makenull(aa);
                 errorfunc();
                 return 0;
             }
@@ -210,6 +217,9 @@ int main()
                 }
                 if (opr == -10 )
                 {
+                	free(a);
+            	    free(b);
+            	    makenull(aa);
                     errorfunc();
                     //printf("%s","sgs");
                     return 0;
@@ -303,6 +313,9 @@ int main()
                                 }
                                 else
                                 {
+                                	free(a);
+                                 	free(b);
+                                 	makenull(aa);
                                     errorfunc();
                                     return 0;
                                 }
@@ -336,6 +349,9 @@ int main()
             }
             else
             {
+            	free(a);
+            	free(b);
+            	makenull(aa);
                 errorfunc();
                 return 0;
             }
@@ -390,6 +406,8 @@ int main()
                             {
                                 if (chislo_1 == 0)
                                 {
+                                	free(b);
+                                	makenull(lol);
                                     printf("%s","division by zero");
                                     return 0;
                                 }
