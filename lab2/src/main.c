@@ -43,11 +43,13 @@ int main()
 	if(fgets(a,100,ptrfile)==0)
 	{
 		printf("%s","bad input");
+		fclose(ptrfile);
 		return 0;
 	}
 	if(fscanf(ptrfile,"%d",&count)==0)
 	{
 		printf("%s","bad input");
+		fclose(ptrfile);
 		return 0;
 	}
 	int size_a=strlen(a);
@@ -72,7 +74,6 @@ int main()
 			return 0;
 		}
 	}
-	int r;
 	for(int i=0;i<count;i++)
 	{
 		/*
@@ -82,7 +83,7 @@ int main()
 		}
 		printf("%c",'\n');
 		*/
-		r=minim(b,size_a);
+		int r=minim(b,size_a);
 		/*
 		for(int ii=0;ii<size_a-1;ii++)
 		{
