@@ -74,10 +74,10 @@ int main()
             long long int location_copy = location - 1,popp=1;
             for (int i = a_size - 3; i > -1; i--)
             {
-                fprintf(ptrfile2,"%lld%s", location_copy + 1+gerb," ");
-                //printf("%c%s%c", b[location_copy], " ", a[i]);
                 if (c[location_copy] == a[i])
                 {
+                	fprintf(ptrfile2,"%lld%s", location_copy + 1+gerb," ");
+                //printf("%c%s%c", b[location_copy], " ", a[i]);
                     popp += 1;
                     location_copy -= 1;
                 }
