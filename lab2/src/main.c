@@ -4,13 +4,12 @@
 
 int minim(int *a,int size)
 {
-	int s;
 	int counter=0;
 	for(int i=size-2;i>0;i--)
 	{
 		if(a[i]>a[i-1])
 		{
-			s=i;
+			int s=i;
 			counter+=1;
 			break;
 		}
@@ -33,16 +32,6 @@ int minim(int *a,int size)
 	a[s-1]=minn;
 	a[minn_index]=u;
 	return s;
-}
-
-int compare_ints(const void* a, const void* b)
-{
-    int arg1 = *(const int*)a;
-    int arg2 = *(const int*)b;
- 
-    if (arg1 < arg2) return -1;
-    if (arg1 > arg2) return 1;
-    return 0;
 }
 
 int main()
@@ -128,5 +117,6 @@ int main()
 		printf("%d%c",b[i],'\n');
 	}
 	*/
+	fclose(ptrfile);
 	return 0;
 }
