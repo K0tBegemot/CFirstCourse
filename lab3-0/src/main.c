@@ -1,6 +1,6 @@
 //timsort-like algorithm (without split-arrays of unconstant size)
 #include <stdlib.h>
-#include <iomanip>
+#include <stdio.h>
 #include <math.h>
 
 
