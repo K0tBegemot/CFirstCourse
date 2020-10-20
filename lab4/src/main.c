@@ -67,14 +67,6 @@ void view(tos* a)
     }
 }
 
-tos* create()
-{
-    tos* a = NULL;
-	a=(tos*)malloc(sizeof(tos));
-    a->top = 0;
-    return a; 
-}
-
 int top(tos* a)
 {
     if (a->top)
@@ -140,7 +132,9 @@ int main()
     }
     int* b = (int*)malloc(size_a*sizeof(int));
     int index_of_b = 0;
-    tos* aa = create();
+    tos* aa;
+	aa=(tos*)malloc(sizeof(tos));
+    aa->top = 0;
     for (int i = 0; i < size_a; i++)
     {
         //printf("%c%s", a[i], " ");
