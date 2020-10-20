@@ -108,7 +108,7 @@ void push(tos* a, int b)
 
 int empty(tos* a)
 {
-    return (a->top == NULL);
+    return (a->top == 0);
 }
 
 int main()
