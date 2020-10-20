@@ -15,7 +15,8 @@ int main()
 	}
 	long long int a_size = strlen(a);
     //printf("%d%s%d%c", strlen(a)," ", count,'\n');
-    long long int counter, table_size = 0;
+    //long long int counter, 
+    long long int table_size = 0;
     /*
     for(int i=0;i<a_size;i++)
     {
@@ -31,7 +32,7 @@ int main()
     for (int i = 0; i < a_size-2; i++)
     {
     	//printf("%d%s",a[i]," ");
-         counter = 0;
+         long long int counter = 0;
          for (int ii = 0; ii < table_size; ii++)
          {
                 if (a[i] == table_w[ii])
