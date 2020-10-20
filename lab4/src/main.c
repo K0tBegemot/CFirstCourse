@@ -132,7 +132,7 @@ int main()
     int* b = (int*)malloc(size_a*sizeof(int));
     int index_of_b = 0;
     tos* aa = (tos*)malloc(sizeof(tos));
-    aa->top = NULL;
+    aa->top = 0;
     for (int i = 0; i < size_a; i++)
     {
         //printf("%c%s", a[i], " ");
@@ -354,7 +354,7 @@ int main()
     free(a);
     makenull(aa);
     tos* lol =(tos*)malloc(sizeof(tos));
-    lol->top = NULL;
+    lol->top = 0;
     /*
     for (int i = 0; i < index_of_b; i++)
     {
