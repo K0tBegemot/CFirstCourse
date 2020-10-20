@@ -11,11 +11,18 @@ int main()
 {
 	int size_m;
 	FILE* ptrfile=fopen("in.txt","r");
-	fscanf(ptrfile,"%d", &size_m);
-	int* ss = new int[size_m];
+	if(fscanf(ptrfile,"%d", &size_m)==0)
+	{
+		fclose(ptrfile);
+		return 0;
+	}
+	int* ss =(int*)malloc(size_m*sizeof(int));
 	for (int i = 0; i < size_m; i++)
 	{
-		fscanf(ptrfile,"%d", (ss+i));
+		if(fscanf(ptrfile,"%d", (ss+i))==0)
+		{
+			
+		}
 	}
 	int minrun = Minrun(size_m);
 	int per = (size_m / minrun);
@@ -67,14 +74,14 @@ int main()
 		for (int mint = 0; mint < (for_c)*minrun_copy; mint += 2 * minrun_copy)
 		{
 			//printf("%c%d%c",'\n', mint%minrun_copy, '\n');
-			int* timemass = new int[minrun_copy];
+			int* timemass = (int*)malloc(minrun_copy*sizeof(int));
 			for (int ii = 0; ii < minrun_copy; ii++)
 			{
 				timemass[ii] = ss[mint + ii];
 				//printf("%d%s%d%c", timemass[ii], " ",ss[mint+ii],'\n');
 			}
 			//printf("%s%c","-----------", '\n');
-			int index_of_timemass = 0, index_of_ss = mint + minrun_copy, index_of_sort_ss = mint, halop_counter_1 = 0, halop_counter_2 = 0, halop1 = 0, halop2 = 0;
+			int index_of_timemass = 0, index_of_ss = mint + minrun_copy, index_of_sort_ss = mint, halop_counter_1 = 0, halop_counter_2 = 0;
 			while (index_of_timemass < minrun_copy && index_of_ss < size_m && index_of_ss < mint + 2 * minrun_copy)
 			{
 				/*
@@ -226,6 +233,7 @@ int main()
 					index_of_ss += 1;
 				}
 			}
+			free(timemass);
 		}
 		/*
 		for (int iii = 0; iii < size_m; iii++)
@@ -240,6 +248,7 @@ int main()
 	{
 		printf("%d%s", ss[i], " ");
 	}
+	free(ss);
 	fclose(ptrfile);
 	return 0;
 }
