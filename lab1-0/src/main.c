@@ -4,7 +4,7 @@
 
 int main()
 {
-    char a[18],c[98];
+    char a[18],c[97];
     int table[16];
     char table_w[16];
     FILE* ptrfile=fopen("in.txt","r");
@@ -74,9 +74,9 @@ int main()
             long long int location_copy = location - 1,popp=1;
             for (int i = a_size - 3; i > -1; i--)
             {
+            	fprintf(ptrfile2,"%lld%s", location_copy + 1+gerb," ");
                 if (c[location_copy] == a[i])
                 {
-                	fprintf(ptrfile2,"%lld%s", location_copy + 1+gerb," ");
                 //printf("%c%s%c", b[location_copy], " ", a[i]);
                     popp += 1;
                     location_copy -= 1;
