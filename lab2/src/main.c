@@ -5,11 +5,12 @@
 int minim(int *a,int size)
 {
 	int counter=0;
+	int s=0;
 	for(int i=size-2;i>0;i--)
 	{
 		if(a[i]>a[i-1])
 		{
-			int s=i;
+			s=i;
 			counter+=1;
 			break;
 		}
