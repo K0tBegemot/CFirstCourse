@@ -55,7 +55,11 @@ int main()
 		printf("%s","bad input");
 		return 0;
 	}
-	fscanf(ptrfile,"%d",&count);
+	if(fscanf(ptrfile,"%d",&count)==0)
+	{
+		printf("%s","bad input");
+		return 0;
+	}
 	int size_a=strlen(a);
 	for(int i=0;i<10;i++)
 	{
