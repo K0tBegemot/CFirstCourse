@@ -53,9 +53,10 @@ void makenull(tos* a)
         a->top = b->next;
         free(b);
     }
-    
+    free(a);
 }
 
+/*
 void view(tos* a)
 {
     st* b; 
@@ -66,6 +67,7 @@ void view(tos* a)
         b = b->next;
     }
 }
+*/
 
 int top(tos* a)
 {
