@@ -66,13 +66,6 @@ void view(tos* a)
     }
 }
 
-tos* create()
-{
-    tos* a = (tos*)malloc(sizeof(tos));
-    a->top = NULL;
-    return a; 
-}
-
 int top(tos* a)
 {
     if (a->top)
@@ -138,7 +131,8 @@ int main()
     }
     int* b = (int*)malloc(size_a*sizeof(int));
     int index_of_b = 0;
-    tos* aa = create();
+    tos* aa = (tos*)malloc(sizeof(tos));
+    aa->top = NULL;
     for (int i = 0; i < size_a; i++)
     {
         //printf("%c%s", a[i], " ");
@@ -359,7 +353,8 @@ int main()
     }
     free(a);
     makenull(aa);
-    tos* lol = create();
+    tos* lol =(tos*)malloc(sizeof(tos));
+    lol->top = NULL;;
     /*
     for (int i = 0; i < index_of_b; i++)
     {
