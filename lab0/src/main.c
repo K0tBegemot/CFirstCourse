@@ -39,7 +39,7 @@ int main()
 		return 0;
 	}
 	int X_size=strlen(X);
-	for (indx=0; indx <X_size-1; indx++)
+	for (indx=0; indx <X_size; indx++)
 	{
 	    int numeral=-1;
 		if(X[indx]-'.'==0)
