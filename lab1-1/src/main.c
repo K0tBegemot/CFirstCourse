@@ -61,7 +61,15 @@ int hash(char* aa, int firstel, int a_size)
     //printf("%d%s%d%c", firstel, " ", a_size,'\n');
     for (int i = firstel; i < firstel + a_size; i++)
     {
-        hasher += ((abs((int)aa[i]) % 3) * pow(3, (i-firstel)));
+    	int k=0;
+    	if((int)aa[i]<0)
+    	{
+    		k=127+abs((int)aa[i]);
+		}else
+		{
+			k=(int)aa[i];
+		}
+        hasher += ((k % 3) * pow(3, (i-firstel)));
     }
     //printf("%d%c", hasher, '\n');
     return hasher;
