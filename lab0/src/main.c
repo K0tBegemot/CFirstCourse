@@ -6,7 +6,7 @@ int main()
 {
 	long long int indx=0,tochka=0,treq=0,part1=0,part2=0,step=1,part1_size=0,p1=0;
 	int a,b;
-	char X[13],j;
+	char X[14],j;
 	FILE* ptrfile=fopen("in.txt","r");
 	if(fscanf(ptrfile,"%d",&a)==0)
 	{
@@ -26,7 +26,7 @@ int main()
 	    fclose(ptrfile);
 		return 0;
 	}
-	if (fgets(X,13,ptrfile)==0)
+	if (fgets(X,14,ptrfile)==0)
 	{
 	    printf("%s","bad input");
 	    fclose(ptrfile);
