@@ -30,6 +30,7 @@ int main()
 			break;
 		}
 	}
+	fclose(ptrfile);
     return 0;
 }
 
@@ -59,7 +60,7 @@ int hash(char* aa, int firstel, int a_size)
 {
     int hasher = 0;
     //printf("%d%s%d%c", firstel, " ", a_size,'\n');
-    //int los=0;
+    int los=0;
     for (int i = firstel; i < firstel + a_size; i++)
     {
     	int k=0;
@@ -77,12 +78,10 @@ int hash(char* aa, int firstel, int a_size)
 		}
         hasher += ((k % 3) * pow(3, (i-firstel)));
     }
-    /*
     if(los>0)
     {
     	printf("%c",'\n');
 	}
-	*/
     //printf("%d%c", hasher, '\n');
     return hasher;
 }
