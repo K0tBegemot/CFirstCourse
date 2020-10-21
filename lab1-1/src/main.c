@@ -66,7 +66,7 @@ int hash(char* aa, int firstel, int a_size)
     	int k=0;
     	if((int)aa[i]<0)
     	{
-    		k=192+(int)aa[i];
+    		k=193+(int)aa[i];
     		
     	
     		printf("%d%s",k," ");
