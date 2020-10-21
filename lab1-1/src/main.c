@@ -67,23 +67,22 @@ int hash(char* aa, int firstel, int a_size)
     	if((int)aa[i]<0)
     	{
     		k=193+(int)aa[i];
-    		
-    	
+    	    /*
     		printf("%d%s",k," ");
     		los+=1;
-    	
+    	    */
 		}else
 		{
 			k=(int)aa[i];
 		}
         hasher += ((k % 3) * pow(3, (i-firstel)));
     }
-    
+    /*
     if(los>0)
     {
     	printf("%c",'\n');
 	}
-	
+	*/
     //printf("%d%c", hasher, '\n');
     return hasher;
 }
