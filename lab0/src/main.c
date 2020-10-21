@@ -1,17 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int main()
 {
-	long long int a, b,indx=0,tochka=0,treq=0,part1=0,part2=0,step=1,part1_size=0,p1=0;
-	char X[13];
+	long long int indx=0,tochka=0,treq=0,part1=0,part2=0,step=1,part1_size=0,p1=0;
+	int a,b;
+	char X[13],j;
 	FILE* ptrfile=fopen("in.txt","r");
-	if(fscanf(ptrfile,"%lld%lld",&a,&b)==0)
-	{
-	    printf("%s","bad input");
-	    fclose(ptrfile);
-	    return 0;
-	}
+	fscanf(ptrfile,"%d",&a);
+	fscanf(ptrfile,"%d",&b);
+	fscanf(ptrfile,"%c",&j);
 	if (fgets(X,13,ptrfile)==0)
 	{
 	    printf("%s","bad input");
@@ -24,7 +23,8 @@ int main()
 	    fclose(ptrfile);
 		return 0;
 	}
-	for (indx=0; indx < 13 &&X[indx]!=0; indx++)
+	int X_size=strlen(X);
+	for (indx=0; indx <X_size-1; indx++)
 	{
 	    int numeral=-1;
 		if(X[indx]-'.'==0)
