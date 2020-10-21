@@ -60,7 +60,7 @@ int hash(char* aa, int firstel, int a_size)
 {
     int hasher = 0;
     //printf("%d%s%d%c", firstel, " ", a_size,'\n');
-    int los=0;
+    //int los=0;
     for (int i = firstel; i < firstel + a_size; i++)
     {
     	int k=0;
