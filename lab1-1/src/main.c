@@ -64,7 +64,7 @@ int hash(char* aa, int firstel, int a_size)
     	int k=0;
     	if((int)aa[i]<0)
     	{
-    		k=127+abs((int)aa[i]);
+    		k=128+abs((int)aa[i]);
 		}else
 		{
 			k=(int)aa[i];
