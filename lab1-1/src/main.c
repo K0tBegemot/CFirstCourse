@@ -30,6 +30,7 @@ int main()
 			break;
 		}
 	}
+	fclose(ptrfile);
     return 0;
 }
 
