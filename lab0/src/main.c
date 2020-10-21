@@ -6,7 +6,7 @@ int main()
 	long long int a, b,indx=0,tochka=0,treq=0,part1=0,part2=0,step=1,part1_size=0,p1=0;
 	char X[13];
 	FILE* ptrfile=fopen("in.txt","r");
-	if(fscanf(ptrfile,"%lld%lld",a,b)==0)
+	if(fscanf(ptrfile,"%lld%lld",&a,&b)==0)
 	{
 	    printf("%s","bad input");
 	    fclose(ptrfile);
