@@ -8,9 +8,24 @@ int main()
 	int a,b;
 	char X[13],j;
 	FILE* ptrfile=fopen("in.txt","r");
-	fscanf(ptrfile,"%d",&a);
-	fscanf(ptrfile,"%d",&b);
-	fscanf(ptrfile,"%c",&j);
+	if(fscanf(ptrfile,"%d",&a)==0)
+	{
+	    printf("%s","bad input");
+	    fclose(ptrfile);
+		return 0;
+	}
+	if(fscanf(ptrfile,"%d",&b)==0)
+	{
+	    printf("%s","bad input");
+	    fclose(ptrfile);
+		return 0;
+	}
+	if(fscanf(ptrfile,"%c",&j)==0)
+	{
+	    printf("%s","bad input");
+	    fclose(ptrfile);
+		return 0;
+	}
 	if (fgets(X,13,ptrfile)==0)
 	{
 	    printf("%s","bad input");
