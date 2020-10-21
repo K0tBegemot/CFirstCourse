@@ -41,7 +41,9 @@ int main()
 	int X_size=strlen(X);
 	for (indx=0; indx <X_size; indx++)
 	{
-	    int numeral=-1;
+	    if(X[indx]!='\n')
+	    {
+	        	    int numeral=-1;
 		if(X[indx]-'.'==0)
 		{
 			tochka=1;
@@ -118,6 +120,7 @@ int main()
 			fclose(ptrfile);
 			return 0;
 		}
+	    }
 	}
 	if(p1>1)
 	{
