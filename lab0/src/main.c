@@ -5,16 +5,15 @@ int main()
 {
 	long long int a, b,indx=0,tochka=0,treq=0,part1=0,part2=0,step=1,part1_size=0,p1=0;
 	char X[13];
-	if (scanf("%lld", &a) != 1) 
+	FILE* ptrfile=fopen("in.txt","r");
+	if(fscanf(ptrfile,"%d%d",a,b)==0)
 	{
+	    printf("%s","bad input");
 	    return 0;
 	}
-	if (scanf("%lld", &b) != 1)
+	if (fgets(X,13,ptrfile)==0)
 	{
-		return 0;
-	}
-	if (scanf("%s", X) != 1)
-	{
+	    printf("%s","bad input");
 		return 0;
 	}
 	if(a<2||a>16||b<2||b>16)
