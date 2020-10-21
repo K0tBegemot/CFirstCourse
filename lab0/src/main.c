@@ -22,7 +22,7 @@ int main()
 	    printf("%s", "bad input");
 		return 0;
 	}
-	for (indx; indx < 13 &&X[indx]!=0; indx++)
+	for (indx=0; indx < 13 &&X[indx]!=0; indx++)
 	{
 	    int numeral=-1;
 		if(X[indx]-'.'==0)
@@ -133,7 +133,6 @@ int main()
 		}
 		part1_end[i] = symb;
 	}
-	int cv=0;
 	for(long long int i=0;i<15;i++)
 	{
 			symbol =(part2*b)/step;
