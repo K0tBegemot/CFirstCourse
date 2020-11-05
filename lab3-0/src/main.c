@@ -77,5 +77,7 @@ int main()
 	{
 		printf("%lld%s",mass[i]," ");
 	}
+	free(mass);
+	fclose(ptrfile);
 	return 0;
 }
