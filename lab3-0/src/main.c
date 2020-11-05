@@ -61,29 +61,14 @@ int main()
 		
 	}
 	long int *mass=(long int*)malloc(sizeof(long int) * size);
-	//int counter=1;
 	for(long int i=0;i<size;i++)
 	{
 		if(fscanf(ptrfile,"%ld%c",&mass[i],&delet)==0)
 		{
 		    
 		}
-		/*
-		if(mass[i]<mass[i-1]&&i>=1)
-		{
-			
-		}else
-		{
-			counter=1;
-		}
-		*/
 	}
-	/*
-	if(counter==1)
-	{
-	*/
-		quicksort(mass,0,size-1);
-	//}
+	quicksort(mass,0,size-1);
 	FILE* ptrfile2=fopen("out.txt","w");
 	for(long int i=0;i<size;i++)
 	{
