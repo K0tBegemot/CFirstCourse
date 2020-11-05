@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void quicksort(int *mass,long long int first,long long int end)
+void quicksort(long long int *mass,long long int first,long long int end)
 {
 	if(end-first==0)//end-first==1||
 	{
@@ -67,12 +67,15 @@ int main()
 	long long int *mass=(long long int*)malloc(sizeof(long long int)*size);
 	for(long long int i=0;i<size;i++)
 	{
-		fscanf(ptrfile,"%d%c",mass+i,&delet);
+		if(fscanf(ptrfile,"%lld%c",mass+i,&delet)==0)
+		{
+		    
+		}
 	}
 	quicksort(mass,0,size-1);
 	for(long long int i=0;i<size;i++)
 	{
-		printf("%d%s",mass[i]," ");
+		printf("%lld%s",mass[i]," ");
 	}
 	return 0;
 }
