@@ -69,10 +69,6 @@ int main()
 		{
 		    
 		}
-		if(i==0)
-		{
-			minimal=mass[i];
-		}
 		if(mass[i]>=mass[i-1]&&counter==0&&i!=0)
 		{
 			
