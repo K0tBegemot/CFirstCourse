@@ -56,7 +56,7 @@ int main()
 	FILE *ptrfile=fopen("in.txt","r");
 	char delet;
 	long long int size;
-	if(fscanf(ptrfile,"%ld%c",&size,&delet)==0)
+	if(fscanf(ptrfile,"%lld%c",&size,&delet)==0)
 	{
 		
 	}
