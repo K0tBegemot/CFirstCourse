@@ -64,7 +64,7 @@ int main()
 	int counter=0;
 	for(long int i=0;i<size;i++)
 	{
-		if(fscanf(ptrfile,"%ld%c",mass+i,&delet)==0)
+		if(fscanf(ptrfile,"%ld%c",&mass[i],&delet)==0)
 		{
 		    
 		}
