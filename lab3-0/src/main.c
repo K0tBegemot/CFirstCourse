@@ -55,31 +55,35 @@ int main()
 {
 	FILE *ptrfile=fopen("in.txt","r");
 	char delet;
-	long long int size;
-	if(fscanf(ptrfile,"%lld%c",&size,&delet)==0)
+	long int size;
+	if(fscanf(ptrfile,"%ld%c",&size,&delet)==0)
 	{
 		
 	}
 	long int *mass=(long int*)malloc(sizeof(long int) * size);
-	int counter=0;
+	//int counter=1;
 	for(long int i=0;i<size;i++)
 	{
 		if(fscanf(ptrfile,"%ld%c",&mass[i],&delet)==0)
 		{
 		    
 		}
-		if(mass[i]>=mass[i-1]&&counter==0&&i>=1)
+		/*
+		if(mass[i]<mass[i-1]&&i>=1)
 		{
 			
 		}else
 		{
 			counter=1;
 		}
+		*/
 	}
+	/*
 	if(counter==1)
 	{
+	*/
 		quicksort(mass,0,size-1);
-	}
+	//}
 	FILE* ptrfile2=fopen("out.txt","w");
 	for(long int i=0;i<size;i++)
 	{
