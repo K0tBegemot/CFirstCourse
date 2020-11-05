@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void quicksort(long long int *mass,long long int first,long long int end)
+void quicksort(long int *mass,long int first,long int end)
 {
 	
 	if(end-first==0)//end-first==1||
@@ -11,8 +11,8 @@ void quicksort(long long int *mass,long long int first,long long int end)
 	}else
 	{
 	
-		long long pivot=mass[(first+end)/2];
-		long long int i=first,ii=end;
+		long pivot=mass[(first+end)/2];
+		long int i=first,ii=end;
 		while(i<=ii)
 		{
 			while(mass[i]<pivot)
@@ -25,7 +25,7 @@ void quicksort(long long int *mass,long long int first,long long int end)
 			}
 			if(i<=ii)
 			{
-			long long int t;
+			long int t;
 			t=mass[i];
 			mass[i]=mass[ii];
 			mass[ii]=t;
@@ -55,17 +55,17 @@ int main()
 {
 	FILE *ptrfile=fopen("in.txt","r");
 	char delet;
-	long long int size;
-	if(fscanf(ptrfile,"%lld%c",&size,&delet)==0)
+	long int size;
+	if(fscanf(ptrfile,"%ld%c",&size,&delet)==0)
 	{
 		
 	}
-	long long int *mass=(long long int*)malloc(sizeof(long long int)*size);
+	long int *mass=(long int*)malloc(sizeof(long int)*size);
 	int counter=0;
 	FILE* ptrfile2=fopen("out.txt","w");
-	for(long long int i=0;i<size;i++)
+	for(long int i=0;i<size;i++)
 	{
-		if(fscanf(ptrfile,"%lld%c",mass+i,&delet)==0)
+		if(fscanf(ptrfile,"%ld%c",mass+i,&delet)==0)
 		{
 		    
 		}
@@ -81,9 +81,9 @@ int main()
 	{
 		quicksort(mass,0,size-1);
 	}
-	for(long long int i=0;i<size;i++)
+	for(long int i=0;i<size;i++)
 	{
-		fprintf(ptrfile2,"%lld%s",mass[i]," ");
+		fprintf(ptrfile2,"%ld%s",mass[i]," ");
 	}
 	free(mass);
 	fclose(ptrfile);
