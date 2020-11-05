@@ -87,7 +87,7 @@ int main()
 	}
 	for(long long int i=0;i<size;i++)
 	{
-		fprintf(ptrfile2,"%d%s",mass[i]," ");
+		fprintf(ptrfile2,"%lld%s",mass[i]," ");
 	}
 	free(mass);
 	fclose(ptrfile);
