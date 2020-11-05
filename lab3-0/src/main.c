@@ -61,7 +61,7 @@ int main()
 		
 	}
 	long long int *mass=(long long int*)malloc(sizeof(long long int)*size);
-	int minimal,counter=0;
+	int counter=0;
 	FILE* ptrfile2=fopen("out.txt","w");
 	for(long long int i=0;i<size;i++)
 	{
