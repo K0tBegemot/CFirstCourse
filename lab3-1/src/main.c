@@ -54,11 +54,17 @@ int main()
 {
 	int size;
 	char deleter;
-	scanf("%d%c",&size,&deleter);
+	if(scanf("%d%c",&size,&deleter)==0)
+	{
+	    
+	}
 	int *massive=(int*)malloc(sizeof(int)*size);
 	for(int i=0;i<size;i++)
 	{
-		scanf("%d%c",massive+i,&deleter);
+		if(scanf("%d%c",massive+i,&deleter)==0)
+		{
+		    
+		}
 	}
 	heapsort(massive,size);
 	printer_mass(massive,size);
