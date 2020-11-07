@@ -62,7 +62,7 @@ int main()
 {
 	int size;
 	char deleter;
-	ifscanf("%d%c",&size,&deleter)==0)
+	if(scanf("%d%c",&size,&deleter)==0)
 	{
 		
 	}
