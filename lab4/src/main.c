@@ -23,19 +23,19 @@ int retindex(char symbol)
     int k = 0;
     if (symbol == '+')
     {
-        k= -1;
+        k = -1;
     }
     if (symbol == '-')
     {
-        k= -2;
+        k = -2;
     }
     if (symbol == '/')
     {
-        k= -3;
+        k = -3;
     }
     if (symbol == '*')
     {
-        k= -4;
+        k = -4;
     }
     if (symbol == '(')
     {
@@ -56,19 +56,6 @@ void makenull(tos* a)
     free(a);
 }
 
-/*
-void view(tos* a)
-{
-    st* b; 
-	b=a->top;
-    while (b != NULL)
-    {
-        printf("%d%s", (b->data), " ");
-        b = b->next;
-    }
-}
-*/
-
 int top(tos* a)
 {
     if (a->top)
@@ -84,7 +71,7 @@ int top(tos* a)
 int pop(tos* a)
 {
     st* b;
-	b=a->top;
+	b = a->top;
     if (b == 0)
     {
         return -10;
@@ -113,38 +100,31 @@ int empty(tos* a)
 
 int main()
 {
-    char* a = (char*)malloc(1100*sizeof(char));
+    char* a = (char*)malloc(1100 * sizeof(char));
     FILE* ptrfile=fopen("in.txt", "r");
-    if(fgets(a, 1100,ptrfile)==0)
+    if (fgets(a, 1100, ptrfile) == 0)
     {
-    	/*
-    	printf("%s","sgs");
-        errorfunc();
-        return 0;
-        */
+    	
     }
     fclose(ptrfile);
     int size_a = strlen(a);
-    //a=(char*)realloc(a,(size_a)*sizeof(char));
-    if (size_a == 1||size_a==0)
+    if (size_a == 1 || size_a == 0)
     {
     	free(a);
         errorfunc();
         return 0;
     }
-    int* b = (int*)malloc(size_a*sizeof(int));
+    int* b = (int*)malloc(size_a * sizeof(int));
     int index_of_b = 0;
     tos* aa;
-	aa=(tos*)malloc(sizeof(tos));
+	aa = (tos*)malloc(sizeof(tos));
     aa->top = 0;
     for (int i = 0; i < size_a; i++)
     {
-        //printf("%c%s", a[i], " ");
         if (a[i] == '+' || a[i] == '-' || a[i] == '*' || a[i] == '/')
         {
             if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/'||a[i+1]==')')
             {
-            	//printf("%s","sgs");
             	free(a);
             	free(b);
             	makenull(aa);
@@ -152,11 +132,10 @@ int main()
                 return 0;
             }
         }
-        if(a[i]=='(')
+        if (a[i] == '(')
         {
             if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/'||a[i+1]==')')
             {
-            	//printf("%s","sgs");
             	free(a);
             	free(b);
             	makenull(aa);
@@ -166,21 +145,18 @@ int main()
         }
     }
     int wera = 0;
-    int i=0;
-    while(i<size_a)
+    int i = 0;
+    while (i < size_a)
     {
-        if(a[i]=='\n')
+        if (a[i] == '\n')
         {
             break;
         }
-    	//printf("%c",'\n');
-    	//printf("%d%s%c%s",i," ",a[i]," ");
-        //printf("%c%s%d%c", a[i], " ", i, '\n');
         if ((a[i] - '0' >= 0) && (a[i] - '0' <= 9))
         {
             int l = i;
             long long int r = 1;
-            int* vrmass = (int*)malloc(50*sizeof(int));
+            int* vrmass = (int*)malloc(50 * sizeof(int));
             int vrmass_size = 0;
             while ((a[l] - '0' >= 0) && (a[l] - '0' <= 9)&&(l<size_a-1))
             {
@@ -199,7 +175,6 @@ int main()
             index_of_b += 1;
             wera = 1;
             free(vrmass);
-            //view(aa);
             continue;
         }
         else
@@ -219,19 +194,17 @@ int main()
             	    free(b);
             	    makenull(aa);
                     errorfunc();
-                    //printf("%s","sgs");
                     return 0;
                 }
                 wera = 1;
                 i += 1;
-                //view(aa);
                 continue;
             }
             else
             {
                 if (a[i] == '+')
                 {
-                    if (empty(aa) == 0 && top(aa)<0&&top(aa)>-5)
+                    if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
                     {
                         b[index_of_b] = pop(aa);
                         index_of_b += 1;
@@ -243,14 +216,13 @@ int main()
                     }
                     wera = 0;
                     i += 1;
-                    //view(aa);
                     continue;
                 }
                 else
                 {
                     if (a[i] == '-')
                     {
-                        if (empty(aa) == 0 && top(aa)<0&&top(aa)>-5)
+                        if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
                         {
                             b[index_of_b] = pop(aa);
                             index_of_b += 1;
@@ -262,16 +234,15 @@ int main()
                         }
                         wera = 0;
                         i += 1;
-                        //view(aa);
                         continue;
                     }
                     else
                     {
                         if (a[i] == '/')
                         {
-                            if (empty(aa) == 0 && top(aa)<-2&&top(aa)>-5)
+                            if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
                             {
-                                b[index_of_b] =pop(aa);
+                                b[index_of_b] = pop(aa);
                                 index_of_b += 1;
                                 push(aa, retindex('/'));
                             }
@@ -281,7 +252,6 @@ int main()
                             }
                             wera = 0;
                             i += 1;
-                            //view(aa);
                             continue;
                         }
                         else
@@ -300,7 +270,6 @@ int main()
                                 }
                                 wera = 0;
                                 i += 1;
-                                //view(aa);
                                 continue;
                             }
                             else
@@ -319,7 +288,6 @@ int main()
                                 }
                                 wera = 0;
                                 i += 1;
-                                //view(aa);
                                 continue;
                             }
                         }
@@ -330,17 +298,11 @@ int main()
     }
     if (empty(aa) == 0)
     {
-        //printf("%s", "carr");
         while (empty(aa) == 0)
         {
-        	//view(aa);
-            //printf("%c", '\n');
-            //printf("%s","dvor");
             int q = pop(aa);
-            //printf("%d",empty(aa));
             if (wera == 1)
             {
-                //printf("%s", "dfsdrg");
                 b[index_of_b] = q;
                 index_of_b += 1;
             }
@@ -357,20 +319,13 @@ int main()
     free(a);
     makenull(aa);
     tos* lol;
-	lol=(tos*)malloc(sizeof(tos));
+	lol = (tos*)malloc(sizeof(tos));
     lol->top = 0;
-    /*
     for (int i = 0; i < index_of_b; i++)
     {
-        printf("%d", b[i]);
-    }
-    */
-    for (int i = 0; i < index_of_b; i++)
-    {
-        //printf("%c", '\n');
-        if (b[i]>=0)
+        if (b[i] >= 0)
         {
-            push(lol,b[i]);
+            push(lol, b[i]);
         }
         else
         {
@@ -424,7 +379,7 @@ int main()
         }
     }
     free(b);
-    printf("%d",pop(lol));
+    printf("%d", pop(lol));
     makenull(lol);
     return 0;
 }
