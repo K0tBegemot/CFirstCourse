@@ -48,7 +48,7 @@ void Rabin_Karp(char* a, char* b, int a_size, int b_size)
                 if(a[ii-i] != b[ii])
                 {
                 	break;
-				}
+                }
             }
         }
         hashstr = hash(b, i+1, a_size);
