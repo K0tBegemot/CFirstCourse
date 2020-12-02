@@ -10,8 +10,8 @@ int main()
 	FILE* ptrfile = fopen("in.txt", "r");
 	if (fscanf(ptrfile, "%d%d%c%13s", &a, &b, &j, X) != 3)
 	{
-	    printf("%s", "bad input\n");
-	    fclose ptrfile;
+	    printf("%s", "bad input");
+	    fclose(ptrfile);
 	    return 0;
 	}
 	/*
@@ -187,7 +187,7 @@ int main()
 	if(tochka == 2 && copy_part2 != 0)
 	{
 		printf("%c", '.');
-		for(long long int i=0; i<12; ++)
+		for(long long int i=0; i<12; i++)
 		{
 			if(part2_end[i] != '-')
 			{
