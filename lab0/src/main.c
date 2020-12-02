@@ -8,28 +8,7 @@ int main()
 	int a, b;
 	char X[14], j;
 	FILE* ptrfile = fopen("in.txt", "r");
-	/*
-	if (fscanf(ptrfile, "%d%d%c%13s", &a, &b, &j, X) != 3)
-	{
-	    printf("%s", "bad input");
-	    fclose(ptrfile);
-	    return 0;
-	}
-	*/
-	
-	if (fscanf(ptrfile, "%d", &a) == 0)
-	{
-	    printf("%s","bad input");
-	    fclose(ptrfile);
-		return 0;
-	}
-	if (fscanf(ptrfile, "%d", &b) == 0)
-	{
-	    printf("%s","bad input");
-	    fclose(ptrfile);
-		return 0;
-	}
-	if(fscanf(ptrfile,"%c",&j)==0)
+	if (fscanf(ptrfile, "%d%d%c", &a, &b, &j) != 3)
 	{
 	    printf("%s","bad input");
 	    fclose(ptrfile);
