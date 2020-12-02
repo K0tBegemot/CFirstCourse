@@ -25,7 +25,7 @@ void make_heap(int *mass, int *size, int index)
 	if(largest != index)
 	{
 		swap(mass, largest, index);
-		heap(mass, size, largest);
+		make_heap(mass, size, largest);
 	}
 }
 
