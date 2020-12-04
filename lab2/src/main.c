@@ -6,7 +6,7 @@ int minimizer(int *a, int size)
 {
 	int counter = 0;
 	int s = 0;
-	for (int i = size-1; i > 0; i--)
+	for (int i = size-2; i > 0; i--)
 	{
 		if (a[i] > a[i-1])
 		{
@@ -20,7 +20,7 @@ int minimizer(int *a, int size)
 		return -1;
 	}
 	int minn = a[s], minn_index = s;
-	for (int i = s + 1; i < size - 1; i++)
+	for (int i = s + 1; i < size - 2; i++)
 	{
 		if (a[i] < minn && a[i] > a[s-1])
 		{
@@ -53,7 +53,7 @@ int main()
 		return 0;
 	}
 	int size_a = strlen(a);
-	for (int i = 0;i < 10; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		cou[i] = 0;
 	}
@@ -83,7 +83,7 @@ int main()
 		}
 		for(int i = 0; i < size_a - 2 - r; i++)
 		{
-			for(int ii = r; ii < size_a-2; ii++)
+			for(int ii = r; ii < size_a - 2; ii++)
 			{
 				if(b[ii] > b[ii+1])
 				{
@@ -93,7 +93,7 @@ int main()
 				}
 			}
 		}
-		for(int ii = 0;ii < size_a-1; ii++)
+		for(int ii = 0; ii < size_a-1; ii++)
 		{
 			printf("%d", b[ii]);
 		}
