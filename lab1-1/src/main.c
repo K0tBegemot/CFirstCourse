@@ -38,22 +38,46 @@ void Rabin_Karp(char* a, char* b, int a_size, int b_size)
 {
     int hashstr = hash(b, 0, a_size);
     int hashsubstr = hash(a, 0, a_size);
+    int firstNumber = 0,lastNumber = 0;
     for (int i = 0; i < b_size - a_size+1; i++)
     {
         if (hashstr == hashsubstr)
         {
             for (int ii = i; ii < i + a_size; ii++)
             {
-                printf("%d%c", counter+ii + 1, ' ');
+                printf("%d%c", counter + ii + 1, ' ');
                 if(a[ii-i] != b[ii])
                 {
                 	break;
                 }
             }
         }
-        hashstr = hash(b, i+1, a_size);
+        //hashstr = hash(b, i+1, a_size);
+        remakeHash(&hashstr, b, i, a_size);
     }
     counter += (b_size);
+}
+
+void remakeHash(int *hashstr, char *a, int min, int aSize)
+{
+    int first, second;
+    if(a[min]<0)
+    {
+        first = 193 + (int)a[min];
+    }else
+    {
+        first = (int)a[min];
+    }
+    if(a[min+aSize]<0)
+    {
+        second = 193 + (int)a[min+aSize];
+    }else
+    {
+        second = (int)a[min+aSize];
+    }
+    *hashstr-=(first % 3);
+    *hashstr/=3;
+    *hashstr+=(second % 3) * pow(3, aSize-1);
 }
 
 int hash(char* aa, int firstel, int a_size)
