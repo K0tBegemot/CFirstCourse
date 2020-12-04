@@ -39,7 +39,6 @@ void Rabin_Karp(char* a, char* b, int a_size, int b_size)
 {
     int hashstr = hash(b, 0, a_size);
     int hashsubstr = hash(a, 0, a_size);
-    int firstNumber = 0,lastNumber = 0;
     for (int i = 0; i < b_size - a_size+1; i++)
     {
         if (hashstr == hashsubstr)
