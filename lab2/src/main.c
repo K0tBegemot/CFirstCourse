@@ -53,7 +53,6 @@ int main()
 		return 0;
 	}
 	int size_a = strlen(a) - 1;
-	printf("%d%c", size_a, ' ');
 	for (int i = 0; i < 10; i++)
 	{
 		cou[i] = 0;
