@@ -20,7 +20,7 @@ int makeRearrangement(int *a, int size)
 		return -1;
 	}
 	int minn = a[s], minn_index = s;
-	for (int i = s + 1; i < size - 1; i++)
+	for (int i = s + 1; i < size; i++)
 	{
 		if (a[i] < minn && a[i] > a[s-1])
 		{
@@ -94,7 +94,7 @@ int main()
 				}
 			}
 		}
-		for(int ii = 0;ii < size_a-1; ii++)
+		for(int ii = 0;ii < size_a; ii++)
 		{
 			printf("%d", b[ii]);
 		}
