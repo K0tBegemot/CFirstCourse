@@ -6,7 +6,7 @@ int minimizer(int *a, int size)
 {
 	int counter = 0;
 	int s = 0;
-	for (int i = size-2; i > 0; i--)
+	for (int i = size-1; i > 0; i--)
 	{
 		if (a[i] > a[i-1])
 		{
@@ -81,7 +81,7 @@ int main()
 		{
 			return 0;
 		}
-		for(int i = 0;i < size_a - 2 - r; i++)
+		for(int i = 0; i < size_a - 2 - r; i++)
 		{
 			for(int ii = r; ii < size_a-2; ii++)
 			{
