@@ -52,8 +52,9 @@ int main()
 		fclose(ptrfile);
 		return 0;
 	}
-	int size_a = strlen(a)-1;
-	for (int i = 0;i < 10; i++)
+	int size_a = strlen(a) - 1;
+	printf("%d%c", size_a, ' ');
+	for (int i = 0; i < 10; i++)
 	{
 		cou[i] = 0;
 	}
@@ -61,7 +62,7 @@ int main()
 	{
 		if ((a[i] - '0' >= 0) && (a[i] - '0' <= 9))
 		{
-			b[i] = a[i]-'0';
+			b[i] = a[i] - '0';
 			cou[b[i]] += 1;
 			if (cou[b[i]] > 1)
 			{
@@ -81,19 +82,19 @@ int main()
 		{
 			return 0;
 		}
-		for(int i = 0; i < size_a - r; i++)
+		for(int i = 0; i < r; i++)
 		{
-			for(int ii = r; ii < size_a; ii++)
+			for(int ii = r; ii < size_a - 1; ii++)
 			{
-				if(b[ii] > b[ii+1])
+				if(b[ii] > b[ii + 1])
 				{
 					int c = b[ii];
-					b[ii] = b[ii+1];
-					b[ii+1] = c;
+					b[ii] = b[ii + 1];
+					b[ii + 1] = c;
 				}
 			}
 		}
-		for(int ii = 0;ii < size_a; ii++)
+		for(int ii = 0; ii < size_a; ii++)
 		{
 			printf("%d", b[ii]);
 		}
