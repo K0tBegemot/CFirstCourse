@@ -4,8 +4,8 @@
 #include <math.h>
 
 int counter=0;
-void remakeHash(int*, char*, int, int)
 void Rabin_Karp(char*, char*, int, int);
+void remakeHash(int*, char*, int, int);
 int hash(char*, int, int);
 
 int main()
