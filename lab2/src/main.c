@@ -52,12 +52,12 @@ int main()
 		fclose(ptrfile);
 		return 0;
 	}
-	int size_a = strlen(a);
+	int size_a = strlen(a)-1;
 	for (int i = 0;i < 10; i++)
 	{
 		cou[i] = 0;
 	}
-	for (int i = 0;i < size_a - 1; i++)
+	for (int i = 0;i < size_a; i++)
 	{
 		if ((a[i] - '0' >= 0) && (a[i] - '0' <= 9))
 		{
@@ -74,7 +74,6 @@ int main()
 			return 0;
 		}
 	}
-	size_a-=1;
 	for (int i = 0; i < count; i++)
 	{
 		int r = makeRearrangement(b, size_a);
@@ -82,9 +81,9 @@ int main()
 		{
 			return 0;
 		}
-		for(int i = 0; i < size_a - 1 - r; i++)
+		for(int i = 0; i < size_a - r; i++)
 		{
-			for(int ii = r; ii < size_a - 1; ii++)
+			for(int ii = r; ii < size_a; ii++)
 			{
 				if(b[ii] > b[ii+1])
 				{
