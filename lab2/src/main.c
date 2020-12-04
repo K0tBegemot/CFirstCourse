@@ -6,7 +6,7 @@ int makeRearrangement(int *a, int size)
 {
 	int counter = 0;
 	int s = 0;
-	for (int i = size - 2; i > 0; i--)
+	for (int i = size - 1; i > 0; i--)
 	{
 		if (a[i] > a[i-1])
 		{
@@ -20,7 +20,7 @@ int makeRearrangement(int *a, int size)
 		return -1;
 	}
 	int minn = a[s], minn_index = s;
-	for (int i = s + 1; i < size - 2; i++)
+	for (int i = s + 1; i < size - 1; i++)
 	{
 		if (a[i] < minn && a[i] > a[s-1])
 		{
@@ -74,6 +74,7 @@ int main()
 			return 0;
 		}
 	}
+	size_a-=1;
 	for (int i = 0; i < count; i++)
 	{
 		int r = makeRearrangement(b, size_a);
@@ -81,9 +82,9 @@ int main()
 		{
 			return 0;
 		}
-		for(int i = 0; i < size_a - 2 - r; i++)
+		for(int i = 0; i < size_a - 1 - r; i++)
 		{
-			for(int ii = r; ii < size_a-2; ii++)
+			for(int ii = r; ii < size_a - 1; ii++)
 			{
 				if(b[ii] > b[ii+1])
 				{
