@@ -63,7 +63,7 @@ void Rabin_Karp(char *a, char *b, int a_size, int b_size, int *constRemHash)
     counter += (b_size);
 }
 
-void remakeHash(int *hashstr, char *a, int min, int aSize, int constRemHash)
+void remakeHash(int *hashstr, char *a, int min, int aSize, int *constRemHash)
 {
     int first, second;
     if (a[min] < 0)
