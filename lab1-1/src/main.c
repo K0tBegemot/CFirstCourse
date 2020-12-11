@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
+const int globalTranslateToPositive = 193;//make our life more comfortable
 int counter = 0;
 void Rabin_Karp(char *, char *, int, int, int*);
 void remakeHash(int *, char *, int, int, int*);
@@ -67,7 +68,7 @@ void remakeHash(int *hashstr, char *a, int min, int aSize, int *constRemHash)
     int first, second;
     if (a[min] < 0)
     {
-        first = 193 + (int)a[min];
+        first = globalTranslateToPositive + (int)a[min];
     }
     else
     {
@@ -75,7 +76,7 @@ void remakeHash(int *hashstr, char *a, int min, int aSize, int *constRemHash)
     }
     if (a[min + aSize] < 0)
     {
-        second = 193 + (int)a[min + aSize];
+        second = globalTranslateToPositive + (int)a[min + aSize];
     }
     else
     {
@@ -94,7 +95,7 @@ int hash(char *aa, int firstel, int a_size)
         int k = 0;
         if ((int)aa[i] < 0)
         {
-            k = 193 + (int)aa[i];
+            k = globalTranslateToPositive + (int)aa[i];
         }
         else
         {
