@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
 
 int counter = 0;
 void Rabin_Karp(char *, char *, int, int, int*);
@@ -23,7 +22,7 @@ int main()
     {
         constRemHash*=3;
     }
-    printf("%d%c", hash(a, 0, a_size), ' ');
+    printf("%d ", hash(a, 0, a_size));
     while (fgets(b, 1000, ptrfile) != 0)
     {
         int b_size = strlen(b);
