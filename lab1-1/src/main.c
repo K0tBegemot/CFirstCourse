@@ -72,7 +72,6 @@ void remakeHash(int *hashstr, char *a, int min, int aSize)
     if (a[min + aSize] < 0)
     {
         second = 193 + (int)a[min + aSize];
-        а
     }
     else
     {
