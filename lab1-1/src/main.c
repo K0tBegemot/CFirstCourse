@@ -100,7 +100,12 @@ int hash(char *aa, int firstel, int a_size)
         {
             k = (int)aa[i];
         }
-        hasher += ((k % 3) * pow(3, (i - firstel)));
+        int constCount=1;
+        for(int o = 0; o < i - firstel; o++)
+        {
+            constCount*=3;
+        }
+        hasher += ((k % 3) * constCount);
     }
     return hasher;
 }
