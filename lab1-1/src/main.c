@@ -27,13 +27,9 @@ int main()
     while (fgets(b, 1000, ptrfile) != 0)
     {
         int b_size = strlen(b);
-        if (b[b_size - 1] == '\n')
+        Rabin_Karp(a, b, a_size, b_size, &constRemHash);
+        if (b[b_size - 1] != '\n')
         {
-            Rabin_Karp(a, b, a_size, b_size, &constRemHash);
-        }
-        else
-        {
-            Rabin_Karp(a, b, a_size, b_size, &constRemHash);
             break;
         }
     }
