@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-const int globalTranslateToPositive = 193;//make our life more comfortable
+const int globalTranslateToPositive = 193;
 int counter = 0;
 void Rabin_Karp(char *, char *, int, int, int*);
 void remakeHash(int *, char *, int, int, int*);
