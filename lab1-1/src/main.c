@@ -29,11 +29,11 @@ int main()
         int b_size = strlen(b);
         if (b[b_size - 1] == '\n')
         {
-            Rabin_Karp(a, b, a_size, b_size, constRemHash);
+            Rabin_Karp(a, b, a_size, b_size, &constRemHash);
         }
         else
         {
-            Rabin_Karp(a, b, a_size, b_size, constRemHash);
+            Rabin_Karp(a, b, a_size, b_size, &constRemHash);
             break;
         }
     }
