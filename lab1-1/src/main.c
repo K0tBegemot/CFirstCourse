@@ -29,11 +29,11 @@ int main()
         int b_size = strlen(b);
         if (b[b_size - 1] == '\n')
         {
-            Rabin_Karp(a, b, a_size, b_size);
+            Rabin_Karp(a, b, a_size, b_size, constRemHash);
         }
         else
         {
-            Rabin_Karp(a, b, a_size, b_size);
+            Rabin_Karp(a, b, a_size, b_size, constRemHash);
             break;
         }
     }
@@ -84,7 +84,7 @@ void remakeHash(int *hashstr, char *a, int min, int aSize, int constRemHash)
     }
     *hashstr -= (first % 3);
     *hashstr /= 3;
-    *hashstr += (second % 3) * constRemHash;
+    *hashstr += (second % 3) * (*constRemHash);
 }
 
 int hash(char *aa, int firstel, int a_size)
