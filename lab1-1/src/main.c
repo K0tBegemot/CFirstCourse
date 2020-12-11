@@ -4,8 +4,8 @@
 #include <math.h>
 
 int counter = 0;
-void Rabin_Karp(char *, char *, int, int);
-void remakeHash(int *, char *, int, int);
+void Rabin_Karp(char *, char *, int, int, int*);
+void remakeHash(int *, char *, int, int, int*);
 int hash(char *, int, int);
 
 int main()
@@ -18,6 +18,11 @@ int main()
         return 0;
     }
     int a_size = strlen(a) - 1;
+    int constRemHash=1;
+    for(int i=0;i<a_size-1;i++)
+    {
+        constRemHash*=3;
+    }
     printf("%d%c", hash(a, 0, a_size), ' ');
     while (fgets(b, 1000, ptrfile) != 0)
     {
@@ -36,7 +41,7 @@ int main()
     return 0;
 }
 
-void Rabin_Karp(char *a, char *b, int a_size, int b_size)
+void Rabin_Karp(char *a, char *b, int a_size, int b_size, int *constRemHash)
 {
     int hashstr = hash(b, 0, a_size);
     int hashsubstr = hash(a, 0, a_size);
@@ -53,12 +58,12 @@ void Rabin_Karp(char *a, char *b, int a_size, int b_size)
                 }
             }
         }
-        remakeHash(&hashstr, b, i, a_size);
+        remakeHash(&hashstr, b, i, a_size, constRemHash);
     }
     counter += (b_size);
 }
 
-void remakeHash(int *hashstr, char *a, int min, int aSize)
+void remakeHash(int *hashstr, char *a, int min, int aSize, int constRemHash)
 {
     int first, second;
     if (a[min] < 0)
@@ -79,7 +84,7 @@ void remakeHash(int *hashstr, char *a, int min, int aSize)
     }
     *hashstr -= (first % 3);
     *hashstr /= 3;
-    *hashstr += (second % 3) * pow(3, aSize - 1);
+    *hashstr += (second % 3) * constRemHash;
 }
 
 int hash(char *aa, int firstel, int a_size)
