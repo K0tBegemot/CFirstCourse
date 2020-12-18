@@ -1,4 +1,4 @@
-# Progress, current score: 2.5
+# Progress, current score: 3.25
 
 
 - **3** lab0 - all in one function, formatting issues, abuse of `else{if(a){b}}` instead of `else if (a){b}`
