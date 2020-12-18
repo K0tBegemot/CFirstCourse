@@ -7,6 +7,8 @@
 - **4** lab3-0 bad formatting, strange constructs with empty body (`if(a){}else{...}`), strange constructs like `prinf("%c", ' ')`
 - **4** lab4 not enough functional decomposition, abuse of `else{if` instead of `else if`
 - **3** lab1-1 `globalTranslateToPositive` shall not be used(!)
+- **wip** lab3-1
+- **wip** lab5
 
 <!--
 # Как сдавать лабораторные работы через gitlab.ccfit.nsu.ru
