@@ -1,4 +1,15 @@
-﻿# Как сдавать лабораторные работы через gitlab.ccfit.nsu.ru
+# Progress, current score: 2.5
+
+
+- **3** lab0 - all in one function, formatting issues, abuse of `else{if(a){b}}` instead of `else if (a){b}`
+- **3** lab1-0 - one function, bad formatting, lots of copy-paste
+- **3** lab2 - formatting, strange constructs `printf("%c", '\n')`, bad decomposition (strange code after call of `makeRearrangement`)
+- **4** lab3-0 bad formatting, strange constructs with empty body (`if(a){}else{...}`), strange constructs like `prinf("%c", ' ')`
+- **4** lab4 not enough functional decomposition, abuse of `else{if` instead of `else if`
+- **3** lab1-1 `globalTranslateToPositive` shall not be used(!)
+
+<!--
+# Как сдавать лабораторные работы через gitlab.ccfit.nsu.ru
 * Сделайте форк (fork) этого репозитория (repository) в свое рабочее пространство (workspace)
 * Для лабораторной работы номер 0, 1-0, 1-1 и т.д. нужно создать ветку с именем lab0, lab1-0, lab1-1 и т.д.
 # Следите за тем, чтобы ветки лабораторных работ начинались от мастера
@@ -11,3 +22,4 @@
 * Назначьте исполнителем мерж-реквеста Вашего преподавателя по программированию
 * Исправьте все замечания
 * PROFIT!!!
+-->
