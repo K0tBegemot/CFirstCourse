@@ -173,7 +173,7 @@ int main()
         {
             switch (a[i])
             {
-            case ')':
+            case ")":
                 int opr = pop(aa);
                 while (opr != -5 && opr != -10)
                 {
