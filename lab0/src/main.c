@@ -117,7 +117,10 @@ int main()
                     error(ptrfile);
                     return 0;
                 }
-                choiceOfTheNextActionFromTochka(X, &tochka, &part1, &part2, &treq, &step, numeral, &p1, &indx, a, ptrfile);
+                if(choiceOfTheNextActionFromTochka(X, &tochka, &part1, &part2, &treq, &step, numeral, &p1, &indx, a, ptrfile))
+                {
+                    return 0;
+                }
             }
             else
             {
