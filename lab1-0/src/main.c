@@ -93,28 +93,7 @@ int main()
                         }
                         else
                         {
-                            int l = 0;
-                            for (int ii = 0; ii < table_size; ii++)
-                            {
-                                if (table_w[ii] == a[a_size - 2])
-                                {
-                                    location += table[ii];
-                                    if (location >= size_c)
-                                    {
-                                        gerb += size_c;
-                                    }
-                                    l = 1;
-                                    break;
-                                }
-                            }
-                            if (l != 1)
-                            {
-                                location += a_size - 1;
-                                if (location >= size_c)
-                                {
-                                    gerb += size_c;
-                                }
-                            }
+                            changeTable(c, size_c, table_size, &location, table_w, table, &gerb, a_size);
                             break;
                         }
                     }
