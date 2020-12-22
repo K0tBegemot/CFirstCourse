@@ -36,7 +36,7 @@ void changeTable(char *c, int size_c, int table_size, long long int *location, c
             q = 1;
             if (*location >= size_c)
             {
-                gerb += size_c;
+                *gerb += size_c;
             }
             break;
         }
@@ -46,7 +46,7 @@ void changeTable(char *c, int size_c, int table_size, long long int *location, c
         *location += a_size - 1;
         if (*location >= size_c)
         {
-            gerb += size_c;
+            *gerb += size_c;
         }
     }
 }
