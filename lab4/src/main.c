@@ -5,12 +5,12 @@
 typedef struct Stack
 {
     int data;
-    struct Stack* next;
+    struct Stack *next;
 } st;
 
 typedef struct Top_of_stack
 {
-    st* top;
+    st *top;
 } tos;
 
 void errorfunc()
@@ -44,9 +44,9 @@ int retindex(char symbol)
     return k;
 }
 
-void makenull(tos* a)
+void makenull(tos *a)
 {
-    st* b;
+    st *b;
     while (a->top)
     {
         b = a->top;
@@ -56,7 +56,7 @@ void makenull(tos* a)
     free(a);
 }
 
-int top(tos* a)
+int top(tos *a)
 {
     if (a->top)
     {
@@ -68,10 +68,10 @@ int top(tos* a)
     }
 }
 
-int pop(tos* a)
+int pop(tos *a)
 {
-    st* b;
-	b = a->top;
+    st *b;
+    b = a->top;
     if (b == 0)
     {
         return -10;
@@ -82,9 +82,9 @@ int pop(tos* a)
     return c;
 }
 
-void push(tos* a, int b)
+void push(tos *a, int b)
 {
-    st* c = (st*)malloc(sizeof(st));
+    st *c = (st *)malloc(sizeof(st));
     if (c)
     {
         c->data = b;
@@ -93,53 +93,54 @@ void push(tos* a, int b)
     }
 }
 
-int empty(tos* a)
+int empty(tos *a)
 {
     return (a->top == 0);
 }
 
+void error()
+{
+    free(a);
+    free(b);
+    makenull(aa);
+    errorfunc();
+}
+
 int main()
 {
-    char* a = (char*)malloc(1100 * sizeof(char));
-    FILE* ptrfile=fopen("in.txt", "r");
+    char *a = (char *)malloc(1100 * sizeof(char));
+    FILE *ptrfile = fopen("in.txt", "r");
     if (fgets(a, 1100, ptrfile) == 0)
     {
-    	
     }
     fclose(ptrfile);
     int size_a = strlen(a);
     if (size_a == 1 || size_a == 0)
     {
-    	free(a);
+        free(a);
         errorfunc();
         return 0;
     }
-    int* b = (int*)malloc(size_a * sizeof(int));
+    int *b = (int *)malloc(size_a * sizeof(int));
     int index_of_b = 0;
-    tos* aa;
-	aa = (tos*)malloc(sizeof(tos));
+    tos *aa;
+    aa = (tos *)malloc(sizeof(tos));
     aa->top = 0;
     for (int i = 0; i < size_a; i++)
     {
         if (a[i] == '+' || a[i] == '-' || a[i] == '*' || a[i] == '/')
         {
-            if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/'||a[i+1]==')')
+            if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/' || a[i + 1] == ')')
             {
-            	free(a);
-            	free(b);
-            	makenull(aa);
-                errorfunc();
+                error();
                 return 0;
             }
         }
         if (a[i] == '(')
         {
-            if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/'||a[i+1]==')')
+            if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/' || a[i + 1] == ')')
             {
-            	free(a);
-            	free(b);
-            	makenull(aa);
-                errorfunc();
+                error();
                 return 0;
             }
         }
@@ -156,12 +157,12 @@ int main()
         {
             int l = i;
             long long int r = 1;
-            int* vrmass = (int*)malloc(50 * sizeof(int));
+            int *vrmass = (int *)malloc(50 * sizeof(int));
             int vrmass_size = 0;
-            while ((a[l] - '0' >= 0) && (a[l] - '0' <= 9)&&(l<size_a-1))
+            while ((a[l] - '0' >= 0) && (a[l] - '0' <= 9) && (l < size_a - 1))
             {
                 //printf("%d%s%d%c", a[l] - '0',"su",l,'\n');
-                vrmass[vrmass_size] = (a[l]-'0');
+                vrmass[vrmass_size] = (a[l] - '0');
                 l += 1;
                 vrmass_size += 1;
             }
@@ -188,11 +189,11 @@ int main()
                     index_of_b += 1;
                     opr = pop(aa);
                 }
-                if (opr == -10 )
+                if (opr == -10)
                 {
-                	free(a);
-            	    free(b);
-            	    makenull(aa);
+                    free(a);
+                    free(b);
+                    makenull(aa);
                     errorfunc();
                     return 0;
                 }
@@ -280,9 +281,9 @@ int main()
                                 }
                                 else
                                 {
-                                	free(a);
-                                 	free(b);
-                                 	makenull(aa);
+                                    free(a);
+                                    free(b);
+                                    makenull(aa);
                                     errorfunc();
                                     return 0;
                                 }
@@ -308,9 +309,9 @@ int main()
             }
             else
             {
-            	free(a);
-            	free(b);
-            	makenull(aa);
+                free(a);
+                free(b);
+                makenull(aa);
                 errorfunc();
                 return 0;
             }
@@ -318,8 +319,8 @@ int main()
     }
     free(a);
     makenull(aa);
-    tos* lol;
-	lol = (tos*)malloc(sizeof(tos));
+    tos *lol;
+    lol = (tos *)malloc(sizeof(tos));
     lol->top = 0;
     for (int i = 0; i < index_of_b; i++)
     {
@@ -362,9 +363,9 @@ int main()
                             {
                                 if (chislo_1 == 0)
                                 {
-                                	free(b);
-                                	makenull(lol);
-                                    printf("%s","division by zero");
+                                    free(b);
+                                    makenull(lol);
+                                    printf("%s", "division by zero");
                                     return 0;
                                 }
                                 else
