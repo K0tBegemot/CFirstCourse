@@ -15,6 +15,7 @@ typedef struct Top_of_stack
 
 void errorfunc()
 {
+    //еае
     printf("syntax error");
 }
 
