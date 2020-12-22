@@ -113,6 +113,25 @@ void makeNumber(long long int *part1_size, long long int *symbol, long long int 
     }
 }
 
+void printNumber(long long int *part1_size, char *part1_end, char *part2_end, long long int *tochka, long long int *copy_part2)
+{
+    for (long long int i = *part1_size - 1; i > -1; i--)
+    {
+        printf("%c", part1_end[i]);
+    }
+    if (*tochka == 2 && *copy_part2 != 0)
+    {
+        printf("%c", '.');
+        for (long long int i = 0; i < 12; i++)
+        {
+            if (part2_end[i] != '-')
+            {
+                printf("%c", part2_end[i]);
+            }
+        }
+    }
+}
+
 int main()
 {
     long long int indx = 0, tochka = 0, treq = 0, part1 = 0, part2 = 0, step = 1, part1_size = 0, p1 = 0;
@@ -183,21 +202,7 @@ int main()
     long long int symbol, symb;
     char part1_end[part1_size], part2_end[15];
     makeNumber(&part1_size, &symbol, &symb, part1_end, part2_end, &part1, &part2, &b, &step);
-    for (long long int i = part1_size - 1; i > -1; i--)
-    {
-        printf("%c", part1_end[i]);
-    }
-    if (tochka == 2 && copy_part2 != 0)
-    {
-        printf("%c", '.');
-        for (long long int i = 0; i < 12; i++)
-        {
-            if (part2_end[i] != '-')
-            {
-                printf("%c", part2_end[i]);
-            }
-        }
-    }
+    printNumber(&part1_size, part1_end, part2_end, &tochka, &copy_part2);
     fclose(ptrfile);
     return 0;
 }
