@@ -20,7 +20,7 @@ void constructTables(char *a, int *table, char *table_w, long long int a_size, l
         {
             table_w[*table_size] = a[i];
             table[*table_size] = a_size - i - 2;
-            table_size += 1;
+            *table_size += 1;
         }
     }
 }
