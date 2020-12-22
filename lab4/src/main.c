@@ -267,10 +267,7 @@ int main()
             }
             default:
             {
-                free(a);
-                free(b);
-                makenull(aa);
-                errorfunc();
+                error(a, b. aa);
                 return 0;
             }
             }
