@@ -279,7 +279,6 @@ int choiceOfNextAction2(int *b, int *i, tos *lol)
             counter = 1;
         }
         else
-        {
             switch (b[*i])
             {
             case -1:
@@ -313,7 +312,6 @@ int choiceOfNextAction2(int *b, int *i, tos *lol)
                 break;
             }
             }
-        }
     }
     return counter;
 }
@@ -382,7 +380,7 @@ int main()
     }
     if (empty(aa) == 0)
     {
-        if(makeAANotEmpty(a, b, aa, &wera, &index_of_b))
+        if (makeAANotEmpty(a, b, aa, &wera, &index_of_b))
         {
             return 0;
         }
