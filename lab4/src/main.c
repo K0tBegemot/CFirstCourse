@@ -260,7 +260,7 @@ int choiceOfNextAction1(char *a, int *i, int size_a, int *b, int *index_of_b, in
     return counter;
 }
 
-int choiceOfNextAction2(int *b, int *i, tos*lol)
+int choiceOfNextAction2(int *b, int *i, tos *lol)
 {
     int counter = 0;
     if (b[*i] >= 0)
@@ -318,6 +318,26 @@ int choiceOfNextAction2(int *b, int *i, tos*lol)
     return counter;
 }
 
+int makeAANotEmpty(char *a, int *b, tos *aa, int *wera, int *index_of_b)
+{
+    int counter = 0;
+    while (empty(aa) == 0)
+    {
+        int q = pop(aa);
+        if (*wera == 1)
+        {
+            b[*index_of_b] = q;
+            *index_of_b += 1;
+        }
+        else
+        {
+            error(a, b, aa);
+            counter = 1;
+        }
+    }
+    return counter;
+}
+
 int main()
 {
     char *a = (char *)malloc(1100 * sizeof(char));
@@ -361,19 +381,9 @@ int main()
     }
     if (empty(aa) == 0)
     {
-        while (empty(aa) == 0)
+        if(makeAANotEmpty(a, b, aa, &wera, &index_of_b))
         {
-            int q = pop(aa);
-            if (wera == 1)
-            {
-                b[index_of_b] = q;
-                index_of_b += 1;
-            }
-            else
-            {
-                error(a, b, aa);
-                return 0;
-            }
+            return 0;
         }
     }
     free(a);
@@ -383,7 +393,7 @@ int main()
     lol->top = 0;
     for (int i = 0; i < index_of_b; i++)
     {
-        if(choiceOfNextAction2())
+        if (choiceOfNextAction2(b, &i, lol))
         {
             return 0;
         }
