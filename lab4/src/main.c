@@ -311,40 +311,38 @@ int main()
             }
             else
             {
-                if (b[i] == -1)
+                switch (b[i])
+                {
+                case -1:
                 {
                     push(lol, chislo_2 + chislo_1);
+                    break;
                 }
-                else
+                case -2:
                 {
-                    if (b[i] == -2)
+                    push(lol, chislo_2 - chislo_1);
+                    break;
+                }
+                case -4:
+                {
+                    push(lol, chislo_2 * chislo_1);
+                    break;
+                }
+                case -3:
+                {
+                    if (chislo_1 == 0)
                     {
-                        push(lol, chislo_2 - chislo_1);
+                        free(b);
+                        makenull(lol);
+                        printf("%s", "division by zero");
+                        return 0;
                     }
                     else
                     {
-                        if (b[i] == -4)
-                        {
-                            push(lol, chislo_2 * chislo_1);
-                        }
-                        else
-                        {
-                            if (b[i] == -3)
-                            {
-                                if (chislo_1 == 0)
-                                {
-                                    free(b);
-                                    makenull(lol);
-                                    printf("%s", "division by zero");
-                                    return 0;
-                                }
-                                else
-                                {
-                                    push(lol, (chislo_2 / chislo_1));
-                                }
-                            }
-                        }
+                        push(lol, (chislo_2 / chislo_1));
                     }
+                    break;
+                }
                 }
             }
         }
