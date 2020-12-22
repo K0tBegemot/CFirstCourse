@@ -25,6 +25,32 @@ void constructTables(char *a, int *table, char *table_w, long long int a_size, l
     }
 }
 
+void changeTable(char *c, int size_c, int table_size, long long int *location, char *table_w, int *table, long long int *gerb, int a_size)
+{
+    int q = 0;
+    for (int i = 0; i < table_size; i++)
+    {
+        if (table_w[i] == c[*location])
+        {
+            *location += table[i];
+            q = 1;
+            if (*location >= size_c)
+            {
+                gerb += size_c;
+            }
+            break;
+        }
+    }
+    if (q != 1)
+    {
+        *location += a_size - 1;
+        if (*location >= size_c)
+        {
+            gerb += size_c;
+        }
+    }
+}
+
 int main()
 {
     char a[18], c[97];
@@ -120,28 +146,7 @@ int main()
                 }
                 else
                 {
-                    int q = 0;
-                    for (int i = 0; i < table_size; i++)
-                    {
-                        if (table_w[i] == c[location])
-                        {
-                            location += table[i];
-                            q = 1;
-                            if (location >= size_c)
-                            {
-                                gerb += size_c;
-                            }
-                            break;
-                        }
-                    }
-                    if (q != 1)
-                    {
-                        location += a_size - 1;
-                        if (location >= size_c)
-                        {
-                            gerb += size_c;
-                        }
-                    }
+                    changeTable(c, size_c, table_size, &location, table_w, table, &gerb, a_size);
                 }
             }
         }
