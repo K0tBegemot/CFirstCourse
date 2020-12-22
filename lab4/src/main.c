@@ -106,6 +106,23 @@ void error(char *a, int *b, tos *aa)
     errorfunc();
 }
 
+int checkForLice(int size_a, char *a, int *b, tos *aa)
+{
+    int counter = 0;
+    for (int i = 0; i < size_a; i++)
+    {
+        if (a[i] == '+' || a[i] == '-' || a[i] == '*' || a[i] == '/' || a[i] == '(')
+        {
+            if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/' || a[i + 1] == ')')
+            {
+                error(a, b, aa);
+                counter = 1;
+            }
+        }
+    }
+    return counter;
+}
+
 int main()
 {
     char *a = (char *)malloc(1100 * sizeof(char));
@@ -126,16 +143,9 @@ int main()
     tos *aa;
     aa = (tos *)malloc(sizeof(tos));
     aa->top = 0;
-    for (int i = 0; i < size_a; i++)
+    if(checkForLice(size_a, a, b, aa))
     {
-        if (a[i] == '+' || a[i] == '-' || a[i] == '*' || a[i] == '/' || a[i] == '(')
-        {
-            if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/' || a[i + 1] == ')')
-            {
-                error(a, b, aa);
-                return 0;
-            }
-        }
+        return 0;
     }
     int wera = 0;
     int i = 0;
