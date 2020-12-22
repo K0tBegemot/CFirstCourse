@@ -15,7 +15,6 @@ typedef struct Top_of_stack
 
 void errorfunc()
 {
-    //еае
     printf("syntax error");
 }
 
@@ -154,7 +153,6 @@ int main()
             int vrmass_size = 0;
             while ((a[l] - '0' >= 0) && (a[l] - '0' <= 9) && (l < size_a - 1))
             {
-                //printf("%d%s%d%c", a[l] - '0',"su",l,'\n');
                 vrmass[vrmass_size] = (a[l] - '0');
                 l += 1;
                 vrmass_size += 1;
@@ -173,9 +171,7 @@ int main()
         }
         else
         {
-            switch (a[i])
-            {
-            case ')':
+            if (a[i] == ')')
             {
                 int opr = pop(aa);
                 while (opr != -5 && opr != -10)
@@ -194,38 +190,21 @@ int main()
                 }
                 wera = 1;
                 i += 1;
-                break;
-            }
-            }
-            if (a[i] == '+')
-            {
-                if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
-                {
-                    b[index_of_b] = pop(aa);
-                    index_of_b += 1;
-                    push(aa, retindex('+'));
-                }
-                else
-                {
-                    push(aa, retindex('+'));
-                }
-                wera = 0;
-                i += 1;
                 continue;
             }
             else
             {
-                if (a[i] == '-')
+                if (a[i] == '+')
                 {
                     if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
                     {
                         b[index_of_b] = pop(aa);
                         index_of_b += 1;
-                        push(aa, retindex('-'));
+                        push(aa, retindex('+'));
                     }
                     else
                     {
-                        push(aa, retindex('-'));
+                        push(aa, retindex('+'));
                     }
                     wera = 0;
                     i += 1;
@@ -233,17 +212,17 @@ int main()
                 }
                 else
                 {
-                    if (a[i] == '/')
+                    if (a[i] == '-')
                     {
-                        if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
+                        if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
                         {
                             b[index_of_b] = pop(aa);
                             index_of_b += 1;
-                            push(aa, retindex('/'));
+                            push(aa, retindex('-'));
                         }
                         else
                         {
-                            push(aa, retindex('/'));
+                            push(aa, retindex('-'));
                         }
                         wera = 0;
                         i += 1;
@@ -251,17 +230,17 @@ int main()
                     }
                     else
                     {
-                        if (a[i] == '*')
+                        if (a[i] == '/')
                         {
                             if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
                             {
                                 b[index_of_b] = pop(aa);
                                 index_of_b += 1;
-                                push(aa, retindex('*'));
+                                push(aa, retindex('/'));
                             }
                             else
                             {
-                                push(aa, retindex('*'));
+                                push(aa, retindex('/'));
                             }
                             wera = 0;
                             i += 1;
@@ -269,21 +248,40 @@ int main()
                         }
                         else
                         {
-                            if (a[i] == '(')
+                            if (a[i] == '*')
                             {
-                                push(aa, retindex('('));
+                                if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
+                                {
+                                    b[index_of_b] = pop(aa);
+                                    index_of_b += 1;
+                                    push(aa, retindex('*'));
+                                }
+                                else
+                                {
+                                    push(aa, retindex('*'));
+                                }
+                                wera = 0;
+                                i += 1;
+                                continue;
                             }
                             else
                             {
-                                free(a);
-                                free(b);
-                                makenull(aa);
-                                errorfunc();
-                                return 0;
+                                if (a[i] == '(')
+                                {
+                                    push(aa, retindex('('));
+                                }
+                                else
+                                {
+                                    free(a);
+                                    free(b);
+                                    makenull(aa);
+                                    errorfunc();
+                                    return 0;
+                                }
+                                wera = 0;
+                                i += 1;
+                                continue;
                             }
-                            wera = 0;
-                            i += 1;
-                            continue;
                         }
                     }
                 }
@@ -302,10 +300,7 @@ int main()
             }
             else
             {
-                free(a);
-                free(b);
-                makenull(aa);
-                errorfunc();
+                error(a, b, aa);
                 return 0;
             }
         }
