@@ -124,6 +124,139 @@ int checkForLice(int size_a, char *a, int *b, tos *aa)
     return counter;
 }
 
+int choiceOfNextAction1(char *a, int *i, int size_a, int *b, int *index_of_b, int *wera, tos *aa)
+{
+    int counter = 2;
+    if (a[*i] == '\n')
+    {
+        counter = 1;
+    }
+    if ((a[*i] - '0' >= 0) && (a[*i] - '0' <= 9))
+    {
+        int l = *i;
+        long long int r = 1;
+        int *vrmass = (int *)malloc(50 * sizeof(int));
+        int vrmass_size = 0;
+        while ((a[l] - '0' >= 0) && (a[l] - '0' <= 9) && (l < size_a - 1))
+        {
+            vrmass[vrmass_size] = (a[l] - '0');
+            l += 1;
+            vrmass_size += 1;
+        }
+        b[*index_of_b] = 0;
+        for (int op = vrmass_size - 1; op > -1; op--)
+        {
+            b[*index_of_b] += vrmass[op] * r;
+            r *= 10;
+        }
+        *i = l;
+        *index_of_b += 1;
+        *wera = 1;
+        free(vrmass);
+    }
+    else
+    {
+        switch (a[*i])
+        {
+        case ')':
+        {
+            int opr = pop(aa);
+            while (opr != -5 && opr != -10)
+            {
+                b[*index_of_b] = opr;
+                *index_of_b += 1;
+                opr = pop(aa);
+            }
+            *wera = 1;
+            *i += 1;
+            if (opr == -10)
+            {
+                error(a, b, aa);
+                counter = 0;
+            }
+            break;
+        }
+        case '+':
+        {
+            if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
+            {
+                b[*index_of_b] = pop(aa);
+                *index_of_b += 1;
+                push(aa, retindex('+'));
+            }
+            else
+            {
+                push(aa, retindex('+'));
+            }
+            *wera = 0;
+            *i += 1;
+            break;
+        }
+        case '-':
+        {
+            if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
+            {
+                b[*index_of_b] = pop(aa);
+                *index_of_b += 1;
+                push(aa, retindex('-'));
+            }
+            else
+            {
+                push(aa, retindex('-'));
+            }
+            *wera = 0;
+            *i += 1;
+            break;
+        }
+        case '/':
+        {
+            if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
+            {
+                b[*index_of_b] = pop(aa);
+                *index_of_b += 1;
+                push(aa, retindex('/'));
+            }
+            else
+            {
+                push(aa, retindex('/'));
+            }
+            *wera = 0;
+            *i += 1;
+            break;
+        }
+        case '*':
+        {
+            if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
+            {
+                b[*index_of_b] = pop(aa);
+                *index_of_b += 1;
+                push(aa, retindex('*'));
+            }
+            else
+            {
+                push(aa, retindex('*'));
+            }
+            *wera = 0;
+            *i += 1;
+            break;
+        }
+        case '(':
+        {
+            push(aa, retindex('('));
+            *wera = 0;
+            *i += 1;
+            break;
+        }
+        default:
+        {
+            error(a, b, aa);
+            counter = 0;
+        }
+        }
+    }
+    return counter;
+}
+
 int main()
 {
     char *a = (char *)malloc(1100 * sizeof(char));
@@ -144,7 +277,7 @@ int main()
     tos *aa;
     aa = (tos *)malloc(sizeof(tos));
     aa->top = 0;
-    if(checkForLice(size_a, a, b, aa))
+    if (checkForLice(size_a, a, b, aa))
     {
         return 0;
     }
@@ -152,133 +285,17 @@ int main()
     int i = 0;
     while (i < size_a)
     {
-        if (a[i] == '\n')
+        switch (choiceOfNextAction1(a, &i, size_a, b, &index_of_b, &wera, aa))
         {
+        case 0:
+        {
+            return 0;
+        }
+        case 1:
+        {
+            i = size_a;
             break;
         }
-        if ((a[i] - '0' >= 0) && (a[i] - '0' <= 9))
-        {
-            int l = i;
-            long long int r = 1;
-            int *vrmass = (int *)malloc(50 * sizeof(int));
-            int vrmass_size = 0;
-            while ((a[l] - '0' >= 0) && (a[l] - '0' <= 9) && (l < size_a - 1))
-            {
-                vrmass[vrmass_size] = (a[l] - '0');
-                l += 1;
-                vrmass_size += 1;
-            }
-            b[index_of_b] = 0;
-            for (int op = vrmass_size - 1; op > -1; op--)
-            {
-                b[index_of_b] += vrmass[op] * r;
-                r *= 10;
-            }
-            i = l;
-            index_of_b += 1;
-            wera = 1;
-            free(vrmass);
-            continue;
-        }
-        else
-        {
-            switch (a[i])
-            {
-            case ')':
-            {
-                int opr = pop(aa);
-                while (opr != -5 && opr != -10)
-                {
-                    b[index_of_b] = opr;
-                    index_of_b += 1;
-                    opr = pop(aa);
-                }
-                if (opr == -10)
-                {
-                    error(a, b, aa);
-                    return 0;
-                }
-                wera = 1;
-                i += 1;
-                break;
-            }
-            case '+':
-            {
-                if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
-                {
-                    b[index_of_b] = pop(aa);
-                    index_of_b += 1;
-                    push(aa, retindex('+'));
-                }
-                else
-                {
-                    push(aa, retindex('+'));
-                }
-                wera = 0;
-                i += 1;
-                break;
-            }
-            case '-':
-            {
-                if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
-                {
-                    b[index_of_b] = pop(aa);
-                    index_of_b += 1;
-                    push(aa, retindex('-'));
-                }
-                else
-                {
-                    push(aa, retindex('-'));
-                }
-                wera = 0;
-                i += 1;
-                break;
-            }
-            case '/':
-            {
-                if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
-                {
-                    b[index_of_b] = pop(aa);
-                    index_of_b += 1;
-                    push(aa, retindex('/'));
-                }
-                else
-                {
-                    push(aa, retindex('/'));
-                }
-                wera = 0;
-                i += 1;
-                break;
-            }
-            case '*':
-            {
-                if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
-                {
-                    b[index_of_b] = pop(aa);
-                    index_of_b += 1;
-                    push(aa, retindex('*'));
-                }
-                else
-                {
-                    push(aa, retindex('*'));
-                }
-                wera = 0;
-                i += 1;
-                break;
-            }
-            case '(':
-            {
-                push(aa, retindex('('));
-                wera = 0;
-                i += 1;
-                break;
-            }
-            default:
-            {
-                error(a, b, aa);
-                return 0;
-            }
-            }
         }
     }
     if (empty(aa) == 0)
