@@ -35,7 +35,7 @@ int makeRearrangement(int *a, int size)
     return s;
 }
 
-int makeRightOrderOfTheElementsInThePermutationAfterTheEnlargedElement(int *b, int r, int size_a)
+void makeRightOrderOfTheElementsInThePermutationAfterTheEnlargedElement(int *b, int r, int size_a)
 {
     for (int i = 0; i < r; i++)
     {
