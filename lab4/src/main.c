@@ -148,12 +148,14 @@ void choiceOfNextAction(char *a, int size_a, int *i, int *b, int *index_of_b, in
                 *index_of_b += 1;
                 opr = pop(aa);
             }
+            /*
             if (opr == -10)
             {
                 error(a, b, aa);
                 *i = size_a;
                 globalError = 1;
             }
+            */
             *wera = 1;
             *i += 1;
         }
