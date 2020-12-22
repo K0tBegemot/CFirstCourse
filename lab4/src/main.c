@@ -98,7 +98,7 @@ int empty(tos *a)
     return (a->top == 0);
 }
 
-void error()
+void error(char *a, int *b, tos *aa)
 {
     free(a);
     free(b);
@@ -132,7 +132,7 @@ int main()
         {
             if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/' || a[i + 1] == ')')
             {
-                error();
+                error(a, b, aa);
                 return 0;
             }
         }
@@ -140,7 +140,7 @@ int main()
         {
             if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/' || a[i + 1] == ')')
             {
-                error();
+                error(a, b, aa);
                 return 0;
             }
         }
