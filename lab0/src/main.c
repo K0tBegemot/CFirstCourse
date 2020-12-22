@@ -42,7 +42,7 @@ void error(FILE *ptrfile)
     fclose(ptrfile);
 }
 
-int choiceOfTheNextActionFromTochka(long long int *tochka, long long int *part1, long long int *part2, long long int *treq, long long int *step, int numeral, long long int *p1, int *indx, int a, FILE *ptrfile)
+int choiceOfTheNextActionFromTochka(char *X, long long int *tochka, long long int *part1, long long int *part2, long long int *treq, long long int *step, int numeral, long long int *p1, int *indx, int a, FILE *ptrfile)
 {
     int counter = 0;
     if (*tochka == 0)
@@ -117,7 +117,7 @@ int main()
                     error(ptrfile);
                     return 0;
                 }
-                choiceOfTheNextActionFromTochka(&tochka, &part1, &part2, &treq, &step, numeral, &p1, &indx, a, ptrfile);
+                choiceOfTheNextActionFromTochka(X, &tochka, &part1, &part2, &treq, &step, numeral, &p1, &indx, a, ptrfile);
             }
             else
             {
