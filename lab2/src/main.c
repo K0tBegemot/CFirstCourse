@@ -37,6 +37,7 @@ int makeRearrangement(int *a, int size)
 
 void makeRightOrderOfTheElementsInThePermutationAfterTheEnlargedElement(int *b, int r, int size_a)
 {
+    //bubbleSortElementsInThePermutationAfterTheEnlargedElement
     for (int i = 0; i < r; i++)
     {
         for (int ii = r; ii < size_a - 1; ii++)
