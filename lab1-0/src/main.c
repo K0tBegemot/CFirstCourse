@@ -108,7 +108,6 @@ int main()
             }
         }
     }
-    fclose(ptrfile);
     fclose(ptrfile2);
     return 0;
 }
