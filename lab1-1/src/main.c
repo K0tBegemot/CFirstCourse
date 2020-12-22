@@ -9,7 +9,7 @@ int hash(char *, int, int);
 
 int main()
 {
-    unsigned char a[18], b[1000];
+    char a[18], b[1000];
     FILE *ptrfile = fopen("in.txt", "r");
     if (fgets(a, 18, ptrfile) == 0)
     {
@@ -22,10 +22,18 @@ int main()
     {
         constRemHash *= 3;
     }
+    for (int i = 0; i < a_size; i++)
+    {
+        a[i] = (unsigned char)(a[i]);
+    }
     printf("%d ", hash(a, 0, a_size));
     while (fgets(b, 1000, ptrfile) != 0)
     {
         int b_size = strlen(b);
+        for (int i = 0; i < b_size; i++)
+        {
+            b[i] = (unsigned char)(b[i]);
+        }
         Rabin_Karp(a, b, a_size, b_size, &constRemHash);
         if (b[b_size - 1] != '\n')
         {
