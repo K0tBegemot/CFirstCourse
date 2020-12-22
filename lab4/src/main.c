@@ -260,6 +260,64 @@ int choiceOfNextAction1(char *a, int *i, int size_a, int *b, int *index_of_b, in
     return counter;
 }
 
+int choiceOfNextAction2(int *b, int *i, tos*lol)
+{
+    int counter = 0;
+    if (b[*i] >= 0)
+    {
+        push(lol, b[*i]);
+    }
+    else
+    {
+        int chislo_1 = pop(lol);
+        int chislo_2 = pop(lol);
+        if (chislo_1 == -10 || chislo_2 == -10)
+        {
+            makenull(lol);
+            free(b);
+            errorfunc();
+            counter = 1;
+        }
+        else
+        {
+            switch (b[*i])
+            {
+            case -1:
+            {
+                push(lol, chislo_2 + chislo_1);
+                break;
+            }
+            case -2:
+            {
+                push(lol, chislo_2 - chislo_1);
+                break;
+            }
+            case -4:
+            {
+                push(lol, chislo_2 * chislo_1);
+                break;
+            }
+            case -3:
+            {
+                if (chislo_1 == 0)
+                {
+                    free(b);
+                    makenull(lol);
+                    printf("%s", "division by zero");
+                    return 0;
+                }
+                else
+                {
+                    push(lol, (chislo_2 / chislo_1));
+                }
+                break;
+            }
+            }
+        }
+    }
+    return counter;
+}
+
 int main()
 {
     char *a = (char *)malloc(1100 * sizeof(char));
@@ -325,57 +383,9 @@ int main()
     lol->top = 0;
     for (int i = 0; i < index_of_b; i++)
     {
-        if (b[i] >= 0)
+        if(choiceOfNextAction2())
         {
-            push(lol, b[i]);
-        }
-        else
-        {
-            int chislo_1 = pop(lol);
-            int chislo_2 = pop(lol);
-            if (chislo_1 == -10 || chislo_2 == -10)
-            {
-                makenull(lol);
-                free(b);
-                errorfunc();
-                return 0;
-            }
-            else
-            {
-                switch (b[i])
-                {
-                case -1:
-                {
-                    push(lol, chislo_2 + chislo_1);
-                    break;
-                }
-                case -2:
-                {
-                    push(lol, chislo_2 - chislo_1);
-                    break;
-                }
-                case -4:
-                {
-                    push(lol, chislo_2 * chislo_1);
-                    break;
-                }
-                case -3:
-                {
-                    if (chislo_1 == 0)
-                    {
-                        free(b);
-                        makenull(lol);
-                        printf("%s", "division by zero");
-                        return 0;
-                    }
-                    else
-                    {
-                        push(lol, (chislo_2 / chislo_1));
-                    }
-                    break;
-                }
-                }
-            }
+            return 0;
         }
     }
     free(b);
