@@ -117,6 +117,7 @@ int checkForLice(int size_a, char *a, int *b, tos *aa)
             {
                 error(a, b, aa);
                 counter = 1;
+                break;
             }
         }
     }
