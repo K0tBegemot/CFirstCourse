@@ -174,7 +174,6 @@ int main()
             switch (a[i])
             {
             case ')':
-
                 int opr = pop(aa);
                 while (opr != -5 && opr != -10)
                 {
@@ -193,9 +192,7 @@ int main()
                 wera = 1;
                 i += 1;
                 break;
-
             case '+':
-
                 if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
                 {
                     b[index_of_b] = pop(aa);
@@ -209,9 +206,7 @@ int main()
                 wera = 0;
                 i += 1;
                 break;
-
             case '-':
-
                 if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
                 {
                     b[index_of_b] = pop(aa);
@@ -225,9 +220,7 @@ int main()
                 wera = 0;
                 i += 1;
                 break;
-
             case '/':
-
                 if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
                 {
                     b[index_of_b] = pop(aa);
@@ -241,9 +234,7 @@ int main()
                 wera = 0;
                 i += 1;
                 break;
-
             case '*':
-
                 if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
                 {
                     b[index_of_b] = pop(aa);
@@ -257,16 +248,12 @@ int main()
                 wera = 0;
                 i += 1;
                 break;
-
             case '(':
-
                 push(aa, retindex('('));
                 wera = 0;
                 i += 1;
                 break;
-
             default:
-
                 free(a);
                 free(b);
                 makenull(aa);
