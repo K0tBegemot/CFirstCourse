@@ -171,8 +171,10 @@ int main()
         }
         else
         {
-            if (a[i] == ')')
+            switch (a[i])
             {
+            case ')':
+
                 int opr = pop(aa);
                 while (opr != -5 && opr != -10)
                 {
@@ -190,101 +192,87 @@ int main()
                 }
                 wera = 1;
                 i += 1;
-                continue;
-            }
-            else
-            {
-                if (a[i] == '+')
+                break;
+
+            case '+':
+
+                if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
                 {
-                    if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
-                    {
-                        b[index_of_b] = pop(aa);
-                        index_of_b += 1;
-                        push(aa, retindex('+'));
-                    }
-                    else
-                    {
-                        push(aa, retindex('+'));
-                    }
-                    wera = 0;
-                    i += 1;
-                    continue;
+                    b[index_of_b] = pop(aa);
+                    index_of_b += 1;
+                    push(aa, retindex('+'));
                 }
                 else
                 {
-                    if (a[i] == '-')
-                    {
-                        if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
-                        {
-                            b[index_of_b] = pop(aa);
-                            index_of_b += 1;
-                            push(aa, retindex('-'));
-                        }
-                        else
-                        {
-                            push(aa, retindex('-'));
-                        }
-                        wera = 0;
-                        i += 1;
-                        continue;
-                    }
-                    else
-                    {
-                        if (a[i] == '/')
-                        {
-                            if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
-                            {
-                                b[index_of_b] = pop(aa);
-                                index_of_b += 1;
-                                push(aa, retindex('/'));
-                            }
-                            else
-                            {
-                                push(aa, retindex('/'));
-                            }
-                            wera = 0;
-                            i += 1;
-                            continue;
-                        }
-                        else
-                        {
-                            if (a[i] == '*')
-                            {
-                                if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
-                                {
-                                    b[index_of_b] = pop(aa);
-                                    index_of_b += 1;
-                                    push(aa, retindex('*'));
-                                }
-                                else
-                                {
-                                    push(aa, retindex('*'));
-                                }
-                                wera = 0;
-                                i += 1;
-                                continue;
-                            }
-                            else
-                            {
-                                if (a[i] == '(')
-                                {
-                                    push(aa, retindex('('));
-                                }
-                                else
-                                {
-                                    free(a);
-                                    free(b);
-                                    makenull(aa);
-                                    errorfunc();
-                                    return 0;
-                                }
-                                wera = 0;
-                                i += 1;
-                                continue;
-                            }
-                        }
-                    }
+                    push(aa, retindex('+'));
                 }
+                wera = 0;
+                i += 1;
+                break;
+
+            case '-':
+
+                if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
+                {
+                    b[index_of_b] = pop(aa);
+                    index_of_b += 1;
+                    push(aa, retindex('-'));
+                }
+                else
+                {
+                    push(aa, retindex('-'));
+                }
+                wera = 0;
+                i += 1;
+                break;
+
+            case '/':
+
+                if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
+                {
+                    b[index_of_b] = pop(aa);
+                    index_of_b += 1;
+                    push(aa, retindex('/'));
+                }
+                else
+                {
+                    push(aa, retindex('/'));
+                }
+                wera = 0;
+                i += 1;
+                break;
+
+            case '*':
+
+                if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
+                {
+                    b[index_of_b] = pop(aa);
+                    index_of_b += 1;
+                    push(aa, retindex('*'));
+                }
+                else
+                {
+                    push(aa, retindex('*'));
+                }
+                wera = 0;
+                i += 1;
+                break;
+
+            case '(':
+
+                push(aa, retindex('('));
+                wera = 0;
+                i += 1;
+                break;
+
+            default:
+
+                free(a);
+                free(b);
+                makenull(aa);
+                errorfunc();
+                return 0;
+                break;
             }
         }
     }
