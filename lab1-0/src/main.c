@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void constructTables(char *a, char *c, int *table, char *table_w, long long int a_size, long long int *table_size)
+void constructTables(char *a, int *table, char *table_w, long long int a_size, long long int *table_size)
 {
     for (int i = 0; i < a_size - 2; i++)
     {
