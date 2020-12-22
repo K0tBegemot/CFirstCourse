@@ -132,7 +132,7 @@ int choiceOfNextAction1(char *a, int *i, int size_a, int *b, int *index_of_b, in
         counter = 1;
     }
     else
-    {
+    
         if ((a[*i] - '0' >= 0) && (a[*i] - '0' <= 9))
         {
             int l = *i;
@@ -157,7 +157,7 @@ int choiceOfNextAction1(char *a, int *i, int size_a, int *b, int *index_of_b, in
             free(vrmass);
         }
         else
-        {
+
             switch (a[*i])
             {
             case ')':
@@ -255,8 +255,7 @@ int choiceOfNextAction1(char *a, int *i, int size_a, int *b, int *index_of_b, in
                 counter = 0;
             }
             }
-        }
-    }
+    
     return counter;
 }
 
