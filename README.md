@@ -1,14 +1,14 @@
-# Progress, current score: 3.25
+# Progress, current score: 3.75
 
 
-- **3** lab0 - all in one function, formatting issues, abuse of `else{if(a){b}}` instead of `else if (a){b}`
-- **3** lab1-0 - one function, bad formatting, lots of copy-paste
-- **3** lab1-1 `globalTranslateToPositive` shall not be used(!)
-- **3** lab2 - formatting, strange constructs `printf("%c", '\n')`, bad decomposition (strange code after call of `makeRearrangement`)
+- **4** lab0 - all in one function, formatting issues, abuse of `else{if(a){b}}` instead of `else if (a){b}`
+- **4** lab1-0 - one function, bad formatting, lots of copy-paste
+- **4** lab1-1 `globalTranslateToPositive` shall not be used(!)
+- **4** lab2 - formatting, strange constructs `printf("%c", '\n')`, bad decomposition (strange code after call of `makeRearrangement`)
 - **4** lab3-0 bad formatting, strange constructs with empty body (`if(a){}else{...}`), strange constructs like `prinf("%c", ' ')`
-- **wip** lab3-1
+- **3** lab3-1
 - **4** lab4 not enough functional decomposition, abuse of `else{if` instead of `else if`
-- **wip** lab5
+- **3** lab5
 
 <!--
 # Как сдавать лабораторные работы через gitlab.ccfit.nsu.ru
