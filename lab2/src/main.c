@@ -97,7 +97,7 @@ int main()
 		{
 			printf("%d", b[ii]);
 		}
-		printf('\n');
+		printf("%c", '\n');
 	}
 	fclose(ptrfile);
 	return 0;
