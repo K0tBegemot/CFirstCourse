@@ -22,19 +22,20 @@ int main()
     {
         constRemHash *= 3;
     }
-    for (int i = 0; i < a_size; i++)
+    int c[18], d[1000];
+    for (int i = 0; i < 18; i++)
     {
-        a[i] = (unsigned char)(a[i]);
+        c[i] = (unsigned char)(a[i]);
     }
-    printf("%d ", hash(a, 0, a_size));
+    printf("%d ", hash(c, 0, a_size));
     while (fgets(b, 1000, ptrfile) != 0)
     {
         int b_size = strlen(b);
         for (int i = 0; i < b_size; i++)
         {
-            b[i] = (unsigned char)(b[i]);
+            d[i] = (unsigned char)(b[i]);
         }
-        Rabin_Karp(a, b, a_size, b_size, &constRemHash);
+        Rabin_Karp(c, d, a_size, b_size, &constRemHash);
         if (b[b_size - 1] != '\n')
         {
             break;
@@ -44,7 +45,7 @@ int main()
     return 0;
 }
 
-void Rabin_Karp(char *a, char *b, int a_size, int b_size, int *constRemHash)
+void Rabin_Karp(int *a, int *b, int a_size, int b_size, int *constRemHash)
 {
     int hashstr = hash(b, 0, a_size);
     int hashsubstr = hash(a, 0, a_size);
@@ -66,29 +67,27 @@ void Rabin_Karp(char *a, char *b, int a_size, int b_size, int *constRemHash)
     counter += (b_size);
 }
 
-void remakeHash(int *hashstr, char *a, int min, int aSize, int *constRemHash)
+void remakeHash(int *hashstr, int *a, int min, int aSize, int *constRemHash)
 {
     int first, second;
-    first = (int)a[min];
-    second = (int)a[min + aSize];
+    first = a[min];
+    second = a[min + aSize];
     *hashstr -= (first % 3);
     *hashstr /= 3;
     *hashstr += (second % 3) * (*constRemHash);
 }
 
-int hash(char *aa, int firstel, int a_size)
+int hash(int *a, int firstel, int a_size)
 {
     int hasher = 0;
     for (int i = firstel; i < firstel + a_size; i++)
     {
-        unsigned char k = 0;
-        k = (unsigned char)aa[i];
         int constCount = 1;
         for (int o = 0; o < i - firstel; o++)
         {
             constCount *= 3;
         }
-        hasher += ((k % 3) * constCount);
+        hasher += ((a[i] % 3) * constCount);
     }
     return hasher;
 }
