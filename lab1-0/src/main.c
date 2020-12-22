@@ -120,28 +120,7 @@ int main()
                     }
                     if (popp == a_size - 1)
                     {
-                        int olp = 0;
-                        for (int i = 0; i < table_size; i++)
-                        {
-                            if (table_w[i] == a[a_size - 2])
-                            {
-                                olp = 1;
-                                location += table[i];
-                                if (location >= size_c)
-                                {
-                                    gerb += size_c;
-                                }
-                                break;
-                            }
-                        }
-                        if (olp != 1)
-                        {
-                            location += a_size - 1;
-                            if (location >= size_c)
-                            {
-                                gerb += size_c;
-                            }
-                        }
+                        changeTable(c, size_c, table_size, &location, table_w, table, &gerb, a_size);
                     }
                 }
                 else
