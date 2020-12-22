@@ -304,7 +304,7 @@ int choiceOfNextAction2(int *b, int *i, tos *lol)
                     free(b);
                     makenull(lol);
                     printf("%s", "division by zero");
-                    return 0;
+                    counter = 1;
                 }
                 else
                 {
@@ -317,7 +317,7 @@ int choiceOfNextAction2(int *b, int *i, tos *lol)
     }
     return counter;
 }
-/*
+
 int makeAANotEmpty(char *a, int *b, tos *aa, int *wera, int *index_of_b)
 {
     int counter = 0;
@@ -337,7 +337,7 @@ int makeAANotEmpty(char *a, int *b, tos *aa, int *wera, int *index_of_b)
     }
     return counter;
 }
-*/
+
 int main()
 {
     char *a = (char *)malloc(1100 * sizeof(char));
@@ -381,25 +381,9 @@ int main()
     }
     if (empty(aa) == 0)
     {
-        /*
         if(makeAANotEmpty(a, b, aa, &wera, &index_of_b))
         {
             return 0;
-        }
-        */
-        while (empty(aa) == 0)
-        {
-            int q = pop(aa);
-            if (wera == 1)
-            {
-                b[index_of_b] = q;
-                index_of_b += 1;
-            }
-            else
-            {
-                error(a, b, aa);
-                return 0;
-            }
         }
     }
     free(a);
@@ -407,7 +391,7 @@ int main()
     tos *lol;
     lol = (tos *)malloc(sizeof(tos));
     lol->top = 0;
-    for (int i = 0; i < index_of_b; i++)
+    for (int i = 0; i < index_of_b; ++i)
     {
         if (choiceOfNextAction2(b, &i, lol))
         {
