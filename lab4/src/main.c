@@ -272,7 +272,6 @@ int main()
                 makenull(aa);
                 errorfunc();
                 return 0;
-                break;
             }
             }
         }
