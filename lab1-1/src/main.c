@@ -3,9 +3,9 @@
 #include <string.h>
 
 int counter = 0;
-void Rabin_Karp(char *, char *, int, int, int *);
-void remakeHash(int *, char *, int, int, int *);
-int hash(char *, int, int);
+void Rabin_Karp(int *, int *, int, int, int *);
+void remakeHash(int *, int *, int, int, int *);
+int hash(int *, int, int);
 
 int main()
 {
