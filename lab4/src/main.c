@@ -333,6 +333,7 @@ int makeAANotEmpty(char *a, int *b, tos *aa, int *wera, int *index_of_b)
         {
             error(a, b, aa);
             counter = 1;
+            break;
         }
     }
     return counter;
