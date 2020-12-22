@@ -51,6 +51,15 @@ void makeRightOrderOfTheElementsInThePermutationAfterTheEnlargedElement(int *b, 
     }
 }
 
+void printOnePermutation(int *b, int size_a)
+{
+    for (int ii = 0; ii < size_a; ii++)
+    {
+        printf("%d", b[ii]);
+    }
+    printf("\n");
+}
+
 int main()
 {
     char a[100];
@@ -99,11 +108,7 @@ int main()
             return 0;
         }
         makeRightOrderOfTheElementsInThePermutationAfterTheEnlargedElement(b, r, size_a);
-        for (int ii = 0; ii < size_a; ii++)
-        {
-            printf("%d", b[ii]);
-        }
-        printf("\n");
+        printOnePermutation(b, size_a);
     }
     fclose(ptrfile);
     return 0;
