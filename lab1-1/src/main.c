@@ -81,8 +81,8 @@ int hash(char *aa, int firstel, int a_size)
     int hasher = 0;
     for (int i = firstel; i < firstel + a_size; i++)
     {
-        int k = 0;
-        k = (int)aa[i];
+        unsigned char k = 0;
+        k = (unsigned char)aa[i];
         int constCount = 1;
         for (int o = 0; o < i - firstel; o++)
         {
