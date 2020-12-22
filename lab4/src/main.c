@@ -184,10 +184,7 @@ int main()
                 }
                 if (opr == -10)
                 {
-                    free(a);
-                    free(b);
-                    makenull(aa);
-                    errorfunc();
+                    error(a, b, aa);
                     return 0;
                 }
                 wera = 1;
@@ -267,7 +264,7 @@ int main()
             }
             default:
             {
-                error(a, b. aa);
+                error(a, b, aa);
                 return 0;
             }
             }
