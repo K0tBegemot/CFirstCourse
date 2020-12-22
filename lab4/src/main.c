@@ -159,7 +159,7 @@ void choiceOfNextAction(char *a, int size_a, int *i, int *b, int *index_of_b, in
         }
         else
         {
-            if (a[i] == '+')
+            if (a[*i] == '+')
             {
                 if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
                 {
