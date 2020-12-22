@@ -66,7 +66,6 @@ int main()
     long long int a_size = strlen(a);
     long long int table_size = 0;
     constructTables(a, table, table_w, a_size, &table_size);
-    fclose(ptrfile);
     FILE *ptrfile2 = fopen("out.txt", "w");
     long long int gerb = 0;
     while (fgets(c, 97, ptrfile) != 0)
@@ -108,6 +107,7 @@ int main()
             }
         }
     }
+    fclose(ptrfile);
     fclose(ptrfile2);
     return 0;
 }
