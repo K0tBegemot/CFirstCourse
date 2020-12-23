@@ -44,7 +44,7 @@ void error(FILE *ptrfile)
     fclose(ptrfile);
 }
 
-int choiceOfTheNextActionFromTochka(char *number, lli *tochka, lli *part1, long long int *part2, long long int *treq, long long int *step, int numeral, long long int *p1, long long int *indx, int a, FILE *ptrfile)
+int choiceOfTheNextActionFromTochka(char *number, lli *tochka, lli *part1, lli *part2, lli *treq, lli *step, int numeral, lli *counterOfPointer, lli *indx, int a, FILE *ptrfile)
 {
     int counter = 0;
     if (*tochka == 0)
@@ -55,7 +55,7 @@ int choiceOfTheNextActionFromTochka(char *number, lli *tochka, lli *part1, long 
     {
         if (*tochka == 1)
         {
-            *p1 += 1;
+            *counterOfPointer += 1;
             if (*indx == 0)
             {
                 error(ptrfile);
@@ -84,38 +84,40 @@ int choiceOfTheNextActionFromTochka(char *number, lli *tochka, lli *part1, long 
     return counter;
 }
 
-void makeNumber(long long int *part1Size, long long int *symbol, long long int *symb, char *part1End, char *part2End, long long int *part1, long long int *part2, int *b, long long int *step)
+void makeNumber(lli *part1Size, char *part1End, char *part2End, lli *part1, lli *part2, int *b, lli *step)
 {
     for (long long int i = 0; i < *part1Size; (*part1 /= *b), i++)
     {
-        *symbol = *part1 % *b;
-        if (*symbol <= 9)
+        int symbol = *part1 % *b;
+        char symb;
+        if (symbol <= 9)
         {
-            *symb = (char)((int)'0' + (int)(*symbol));
+            symb = (char)((int)'0' + (symbol));
         }
         else
         {
-            *symb = (char)((int)'a' + (int)(*symbol) - 10);
+            symb = (char)((int)'a' + (symbol) - 10);
         }
-        part1End[i] = *symb;
+        part1End[i] = symb;
     }
     for (long long int i = 0; i < 15; i++)
     {
-        *symbol = ((*part2) * (*b)) / (*step);
-        if (*symbol <= 9)
+        int symbol = ((*part2) * (*b)) / (*step);
+        char symb;
+        if (symbol <= 9)
         {
-            *symb = (char)((int)'0' + (int)(*symbol));
+            symb = (char)((int)'0' + (symbol));
         }
         else
         {
-            *symb = (char)((int)'a' + (int)(*symbol) - 10);
+            symb = (char)((int)'a' + (symbol) - 10);
         }
-        part2End[i] = *symb;
-        *part2 = (*part2) * (*b) - (*symbol) * (*step);
+        part2End[i] = symb;
+        *part2 = (*part2) * (*b) - (symbol) * (*step);
     }
 }
 
-void printNumber(long long int *part1Size, char *part1End, char *part2End, long long int *tochka, long long int *copyPart2)
+void printNumber(lli *part1Size, char *part1End, char *part2End, lli *tochka, lli *copyPart2)
 {
     for (long long int i = *part1Size - 1; i > -1; i--)
     {
@@ -136,7 +138,7 @@ void printNumber(long long int *part1Size, char *part1End, char *part2End, long 
 
 int main()
 {
-    long long int indx = 0, tochka = 0, treq = 0, part1 = 0, part2 = 0, step = 1, part1Size = 0, p1 = 0;
+    lli indx = 0, tochka = 0, treq = 0, part1 = 0, part2 = 0, step = 1, part1Size = 0, counterOfPointer = 0;
     int a, b;
     char number[14], j;
     FILE *ptrfile = fopen("in.txt", "r");
@@ -169,7 +171,7 @@ int main()
                     error(ptrfile);
                     return 0;
                 }
-                if (choiceOfTheNextActionFromTochka(number, &tochka, &part1, &part2, &treq, &step, numeral, &p1, &indx, a, ptrfile))
+                if (choiceOfTheNextActionFromTochka(number, &tochka, &part1, &part2, &treq, &step, numeral, &counterOfPointer, &indx, a, ptrfile))
                 {
                     return 0;
                 }
@@ -181,12 +183,12 @@ int main()
             }
         }
     }
-    if (p1 > 1)
+    if (counterOfPointer > 1)
     {
         error(ptrfile);
         return 0;
     }
-    long long int copyPart1 = part1, copyPart2 = part2;
+    lli copyPart1 = part1, copyPart2 = part2;
     if (part1 == 0 && part2 == 0 && tochka == 2)
     {
         error(ptrfile);
@@ -201,9 +203,9 @@ int main()
     {
         part1Size = 1;
     }
-    long long int symbol, symb;
+    lli symbol;
     char part1End[part1Size], part2End[15];
-    makeNumber(&part1Size, &symbol, &symb, part1End, part2End, &part1, &part2, &b, &step);
+    makeNumber(&part1Size, &symbol, part1End, part2End, &part1, &part2, &b, &step);
     printNumber(&part1Size, part1End, part2End, &tochka, &copyPart2);
     fclose(ptrfile);
     return 0;
