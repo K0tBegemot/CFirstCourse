@@ -195,7 +195,7 @@ int main()
         copy_part1 /= b;
         part1Size += 1;
     }
-    if (indx > 0 && part1_size == 0)
+    if (indx > 0 && part1Size == 0)
     {
         part1Size = 1;
     }
