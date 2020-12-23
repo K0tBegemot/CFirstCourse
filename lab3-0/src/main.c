@@ -41,6 +41,7 @@ void quicksort(int *mass, int first, int last)
 
 int main()
 {
+    //
     FILE *ptrfile = fopen("in.txt", "r");
     int size;
     if (fscanf(ptrfile, "%d", &size) == 0)
