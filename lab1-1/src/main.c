@@ -16,9 +16,9 @@ int main()
         fclose(ptrfile);
         return 0;
     }
-    int a_size = strlen(a) - 1;
+    int aSize = strlen(a) - 1;
     int constRemHash = 1;
-    for (int i = 0; i < a_size - 1; i++)
+    for (int i = 0; i < aSize - 1; i++)
     {
         constRemHash *= 3;
     }
@@ -30,13 +30,13 @@ int main()
     printf("%d ", hash(c, 0, a_size));
     while (fgets(b, 1000, ptrfile) != 0)
     {
-        int b_size = strlen(b);
-        for (int i = 0; i < b_size; i++)
+        int bSize = strlen(b);
+        for (int i = 0; i < bSize; i++)
         {
             d[i] = (unsigned char)(b[i]);
         }
-        Rabin_Karp(c, d, a_size, b_size, &constRemHash);
-        if (b[b_size - 1] != '\n')
+        Rabin_Karp(c, d, aSize, bSize, &constRemHash);
+        if (b[bSize - 1] != '\n')
         {
             break;
         }
@@ -45,15 +45,15 @@ int main()
     return 0;
 }
 
-void Rabin_Karp(int *a, int *b, int a_size, int b_size, int *constRemHash)
+void Rabin_Karp(int *a, int *b, int aSize, int bSize, int *constRemHash)
 {
-    int hashstr = hash(b, 0, a_size);
-    int hashsubstr = hash(a, 0, a_size);
-    for (int i = 0; i < b_size - a_size + 1; i++)
+    int hashstr = hash(b, 0, aSize);
+    int hashsubstr = hash(a, 0, aSize);
+    for (int i = 0; i < bSize - aSize + 1; i++)
     {
         if (hashstr == hashsubstr)
         {
-            for (int ii = i; ii < i + a_size; ii++)
+            for (int ii = i; ii < i + aSize; ii++)
             {
                 printf("%d ", counter + ii + 1);
                 if (a[ii - i] != b[ii])
@@ -62,9 +62,9 @@ void Rabin_Karp(int *a, int *b, int a_size, int b_size, int *constRemHash)
                 }
             }
         }
-        remakeHash(&hashstr, b, i, a_size, constRemHash);
+        remakeHash(&hashstr, b, i, aSize, constRemHash);
     }
-    counter += (b_size);
+    counter += (bSize);
 }
 
 void remakeHash(int *hashstr, int *a, int min, int aSize, int *constRemHash)
@@ -77,10 +77,10 @@ void remakeHash(int *hashstr, int *a, int min, int aSize, int *constRemHash)
     *hashstr += (second % 3) * (*constRemHash);
 }
 
-int hash(int *a, int firstel, int a_size)
+int hash(int *a, int firstel, int aSize)
 {
     int hasher = 0;
-    for (int i = firstel; i < firstel + a_size; i++)
+    for (int i = firstel; i < firstel + aSize; i++)
     {
         int constCount = 1;
         for (int o = 0; o < i - firstel; o++)
