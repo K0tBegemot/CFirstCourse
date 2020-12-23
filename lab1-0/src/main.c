@@ -80,7 +80,7 @@ int main()
             while (location < cSize)
             {
                 fprintf(ptrfile2, "%lld%s", location + 1 + gerb, " ");
-                if (c[location] == a[a_size - 2])
+                if (c[location] == a[aSize - 2])
                 {
                     long long int locationCopy = location - 1, popp = 1;
                     for (int i = aSize - 3; i > -1; i--)
