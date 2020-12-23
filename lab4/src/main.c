@@ -8,7 +8,7 @@ typedef struct Stack
     struct Stack *next;
 } st;
 
-typedef struct Top_of_stack
+typedef struct TopOfStack
 {
     st *top;
 } tos;
@@ -124,7 +124,7 @@ int checkForLice(int size_a, char *a, int *b, tos *aa)
     return counter;
 }
 
-int choiceOfNextAction1(char *a, int *i, int size_a, int *b, int *index_of_b, int *wera, tos *aa)
+int choiceOfNextAction1(char *a, int *i, int aSize, int *b, int *indexOfB, int *wera, tos *aa)
 {
     int counter = 2;
     if (a[*i] == '\n')
@@ -138,21 +138,21 @@ int choiceOfNextAction1(char *a, int *i, int size_a, int *b, int *index_of_b, in
             int l = *i;
             long long int r = 1;
             int *vrmass = (int *)malloc(50 * sizeof(int));
-            int vrmass_size = 0;
-            while ((a[l] - '0' >= 0) && (a[l] - '0' <= 9) && (l < size_a - 1))
+            int vrmassSize = 0;
+            while ((a[l] - '0' >= 0) && (a[l] - '0' <= 9) && (l < aSize - 1))
             {
                 vrmass[vrmass_size] = (a[l] - '0');
                 l += 1;
-                vrmass_size += 1;
+                vrmassSize += 1;
             }
-            b[*index_of_b] = 0;
-            for (int op = vrmass_size - 1; op > -1; op--)
+            b[*indexOfB] = 0;
+            for (int op = vrmassSize - 1; op > -1; op--)
             {
-                b[*index_of_b] += vrmass[op] * r;
+                b[*indexOfB] += vrmass[op] * r;
                 r *= 10;
             }
             *i = l;
-            *index_of_b += 1;
+            *indexOfB += 1;
             *wera = 1;
             free(vrmass);
         }
@@ -165,8 +165,8 @@ int choiceOfNextAction1(char *a, int *i, int size_a, int *b, int *index_of_b, in
                 int opr = pop(aa);
                 while (opr != -5 && opr != -10)
                 {
-                    b[*index_of_b] = opr;
-                    *index_of_b += 1;
+                    b[*indexOfB] = opr;
+                    *indexOfB += 1;
                     opr = pop(aa);
                 }
                 *wera = 1;
@@ -182,8 +182,8 @@ int choiceOfNextAction1(char *a, int *i, int size_a, int *b, int *index_of_b, in
             {
                 if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
                 {
-                    b[*index_of_b] = pop(aa);
-                    *index_of_b += 1;
+                    b[*indexOfB] = pop(aa);
+                    *indexOfB += 1;
                     push(aa, retindex('+'));
                 }
                 else
@@ -198,8 +198,8 @@ int choiceOfNextAction1(char *a, int *i, int size_a, int *b, int *index_of_b, in
             {
                 if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
                 {
-                    b[*index_of_b] = pop(aa);
-                    *index_of_b += 1;
+                    b[*indexOfB] = pop(aa);
+                    *indexOfB += 1;
                     push(aa, retindex('-'));
                 }
                 else
@@ -214,8 +214,8 @@ int choiceOfNextAction1(char *a, int *i, int size_a, int *b, int *index_of_b, in
             {
                 if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
                 {
-                    b[*index_of_b] = pop(aa);
-                    *index_of_b += 1;
+                    b[*indexOfB] = pop(aa);
+                    *indexOfB += 1;
                     push(aa, retindex('/'));
                 }
                 else
@@ -230,8 +230,8 @@ int choiceOfNextAction1(char *a, int *i, int size_a, int *b, int *index_of_b, in
             {
                 if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
                 {
-                    b[*index_of_b] = pop(aa);
-                    *index_of_b += 1;
+                    b[*indexOfB] = pop(aa);
+                    *indexOfB += 1;
                     push(aa, retindex('*'));
                 }
                 else
@@ -315,7 +315,7 @@ int choiceOfNextAction2(int *b, int *i, tos *lol)
     return counter;
 }
 
-int makeAANotEmpty(char *a, int *b, tos *aa, int *wera, int *index_of_b)
+int makeAANotEmpty(char *a, int *b, tos *aa, int *wera, int *indexOfB)
 {
     int counter = 0;
     while (empty(aa) == 0)
@@ -323,8 +323,8 @@ int makeAANotEmpty(char *a, int *b, tos *aa, int *wera, int *index_of_b)
         int q = pop(aa);
         if (*wera == 1)
         {
-            b[*index_of_b] = q;
-            *index_of_b += 1;
+            b[*indexOfB] = q;
+            *indexOfB += 1;
         }
         else
         {
@@ -344,27 +344,27 @@ int main()
     {
     }
     fclose(ptrfile);
-    int size_a = strlen(a);
-    if (size_a == 1 || size_a == 0)
+    int aSize = strlen(a);
+    if (aSize == 1 || aSize == 0)
     {
         free(a);
         errorfunc();
         return 0;
     }
-    int *b = (int *)malloc(size_a * sizeof(int));
-    int index_of_b = 0;
+    int *b = (int *)malloc(aSize * sizeof(int));
+    int indexOfB = 0;
     tos *aa;
     aa = (tos *)malloc(sizeof(tos));
     aa->top = 0;
-    if (checkForLice(size_a, a, b, aa))
+    if (checkForLice(aSize, a, b, aa))
     {
         return 0;
     }
     int wera = 0;
     int i = 0;
-    while (i < size_a)
+    while (i < aSize)
     {
-        switch (choiceOfNextAction1(a, &i, size_a, b, &index_of_b, &wera, aa))
+        switch (choiceOfNextAction1(a, &i, aSize, b, &indexOfB, &wera, aa))
         {
         case 0:
         {
@@ -372,14 +372,14 @@ int main()
         }
         case 1:
         {
-            i = size_a;
+            i = aSize;
             break;
         }
         }
     }
     if (empty(aa) == 0)
     {
-        if (makeAANotEmpty(a, b, aa, &wera, &index_of_b))
+        if (makeAANotEmpty(a, b, aa, &wera, &indexOfB))
         {
             return 0;
         }
@@ -389,7 +389,7 @@ int main()
     tos *lol;
     lol = (tos *)malloc(sizeof(tos));
     lol->top = 0;
-    for (int i = 0; i < index_of_b; ++i)
+    for (int i = 0; i < indexOfB; ++i)
     {
         if (choiceOfNextAction2(b, &i, lol))
         {
