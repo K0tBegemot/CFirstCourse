@@ -4,7 +4,7 @@
 
 typedef long long int lli;
 
-void choiceOfTheNextAction(char *number, long long int *indx, long long int *tochka, int *numeral)
+void choiceOfTheNextAction(char *number, lli *indx, lli *tochka, int *numeral)
 {
     if (number[*indx] == '.')
     {
@@ -44,7 +44,7 @@ void error(FILE *ptrfile)
     fclose(ptrfile);
 }
 
-int choiceOfTheNextActionFromTochka(char *number, long long int *tochka, long long int *part1, long long int *part2, long long int *treq, long long int *step, int numeral, long long int *p1, long long int *indx, int a, FILE *ptrfile)
+int choiceOfTheNextActionFromTochka(char *number, lli *tochka, lli *part1, long long int *part2, long long int *treq, long long int *step, int numeral, long long int *p1, long long int *indx, int a, FILE *ptrfile)
 {
     int counter = 0;
     if (*tochka == 0)
