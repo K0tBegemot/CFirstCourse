@@ -2,30 +2,30 @@
 #include <stdlib.h>
 #include <string.h>
 
-void choiceOfTheNextAction(char *X, long long int *indx, long long int *tochka, int *numeral)
+void choiceOfTheNextAction(char *number, long long int *indx, long long int *tochka, int *numeral)
 {
-    if (X[*indx] == '.')
+    if (number[*indx] == '.')
     {
         *tochka = 1;
         *numeral = 0;
     }
     else
     {
-        if ('0' <= X[*indx] && X[*indx] <= '9')
+        if ('0' <= number[*indx] && number[*indx] <= '9')
         {
-            *numeral = X[*indx] - '0';
+            *numeral = number[*indx] - '0';
         }
         else
         {
-            if (X[*indx] - 'A' >= 0 && X[*indx] - 'F' <= 0)
+            if (number[*indx] - 'A' >= 0 && number[*indx] - 'F' <= 0)
             {
-                *numeral = X[*indx] - 'A' + 10;
+                *numeral = number[*indx] - 'A' + 10;
             }
             else
             {
-                if (X[*indx] - 'a' >= 0 && X[*indx] - 'f' <= 0)
+                if (number[*indx] - 'a' >= 0 && number[*indx] - 'f' <= 0)
                 {
-                    *numeral = X[*indx] - 'a' + 10;
+                    *numeral = number[*indx] - 'a' + 10;
                 }
                 else
                 {
@@ -42,7 +42,7 @@ void error(FILE *ptrfile)
     fclose(ptrfile);
 }
 
-int choiceOfTheNextActionFromTochka(char *X, long long int *tochka, long long int *part1, long long int *part2, long long int *treq, long long int *step, int numeral, long long int *p1, long long int *indx, int a, FILE *ptrfile)
+int choiceOfTheNextActionFromTochka(char *number, long long int *tochka, long long int *part1, long long int *part2, long long int *treq, long long int *step, int numeral, long long int *p1, long long int *indx, int a, FILE *ptrfile)
 {
     int counter = 0;
     if (*tochka == 0)
@@ -61,7 +61,7 @@ int choiceOfTheNextActionFromTochka(char *X, long long int *tochka, long long in
             }
             else
             {
-                if (X[*indx + 1] == 0)
+                if (number[*indx + 1] == 0)
                 {
                     error(ptrfile);
                     counter = 1;
