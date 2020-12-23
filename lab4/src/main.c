@@ -141,7 +141,7 @@ int choiceOfNextAction1(char *a, int *i, int aSize, int *b, int *indexOfB, int *
             int vrmassSize = 0;
             while ((a[l] - '0' >= 0) && (a[l] - '0' <= 9) && (l < aSize - 1))
             {
-                vrmass[vrmass_size] = (a[l] - '0');
+                vrmass[vrmassSize] = (a[l] - '0');
                 l += 1;
                 vrmassSize += 1;
             }
