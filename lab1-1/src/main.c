@@ -27,7 +27,7 @@ int main()
     {
         c[i] = (unsigned char)(a[i]);
     }
-    printf("%d ", hash(c, 0, a_size));
+    printf("%d ", hash(c, 0, aSize));
     while (fgets(b, 1000, ptrfile) != 0)
     {
         int bSize = strlen(b);
