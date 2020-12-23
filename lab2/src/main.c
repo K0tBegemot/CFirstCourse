@@ -19,28 +19,28 @@ int makeRearrangement(int *a, int size)
     {
         return -1;
     }
-    int minn = a[s], minn_index = s;
+    int minn = a[s], minnIndex = s;
     for (int i = s + 1; i < size; i++)
     {
         if (a[i] < minn && a[i] > a[s - 1])
         {
             minn = a[i];
-            minn_index = i;
+            minnIndex = i;
         }
     }
     int u;
     u = a[s - 1];
     a[s - 1] = minn;
-    a[minn_index] = u;
+    a[minnIndex] = u;
     return s;
 }
 
-void makeRightOrderOfTheElementsInThePermutationAfterTheEnlargedElement(int *b, int r, int size_a)
+void makeRightOrderOfTheElementsInThePermutationAfterTheEnlargedElement(int *b, int r, int aSize)
 {
     //bubbleSortElementsInThePermutationAfterTheEnlargedElement
     for (int i = 0; i < r; i++)
     {
-        for (int ii = r; ii < size_a - 1; ii++)
+        for (int ii = r; ii < aSize - 1; ii++)
         {
             if (b[ii] > b[ii + 1])
             {
@@ -52,9 +52,9 @@ void makeRightOrderOfTheElementsInThePermutationAfterTheEnlargedElement(int *b, 
     }
 }
 
-void printOnePermutation(int *b, int size_a)
+void printOnePermutation(int *b, int aSize)
 {
-    for (int ii = 0; ii < size_a; ii++)
+    for (int ii = 0; ii < aSize; ii++)
     {
         printf("%d", b[ii]);
     }
@@ -78,12 +78,12 @@ int main()
         fclose(ptrfile);
         return 0;
     }
-    int size_a = strlen(a) - 1;
+    int aSize = strlen(a) - 1;
     for (int i = 0; i < 10; i++)
     {
         cou[i] = 0;
     }
-    for (int i = 0; i < size_a; i++)
+    for (int i = 0; i < aSize; i++)
     {
         if ((a[i] - '0' >= 0) && (a[i] - '0' <= 9))
         {
@@ -103,13 +103,13 @@ int main()
     }
     for (int i = 0; i < count; i++)
     {
-        int r = makeRearrangement(b, size_a);
+        int r = makeRearrangement(b, aSize);
         if (r == -1)
         {
             return 0;
         }
-        makeRightOrderOfTheElementsInThePermutationAfterTheEnlargedElement(b, r, size_a);
-        printOnePermutation(b, size_a);
+        makeRightOrderOfTheElementsInThePermutationAfterTheEnlargedElement(b, r, aSize);
+        printOnePermutation(b, aSize);
     }
     fclose(ptrfile);
     return 0;
