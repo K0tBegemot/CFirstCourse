@@ -203,9 +203,8 @@ int main()
     {
         part1Size = 1;
     }
-    lli symbol;
     char part1End[part1Size], part2End[15];
-    makeNumber(&part1Size, &symbol, part1End, part2End, &part1, &part2, &b, &step);
+    makeNumber(&part1Size, part1End, part2End, &part1, &part2, &b, &step);
     printNumber(&part1Size, part1End, part2End, &tochka, &copyPart2);
     fclose(ptrfile);
     return 0;
