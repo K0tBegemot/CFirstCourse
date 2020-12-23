@@ -25,7 +25,7 @@ void constructTables(char *a, int *table, char *tableW, long long int aSize, lon
     }
 }
 
-void changeTable(char *c, int size_c, int tableSize, long long int *location, char *tableW, int *table, long long int *gerb, int aSize)
+void changeTable(char *c, int cSize, int tableSize, long long int *location, char *tableW, int *table, long long int *gerb, int aSize)
 {
     int q = 0;
     for (int i = 0; i < tableSize; i++)
@@ -34,9 +34,9 @@ void changeTable(char *c, int size_c, int tableSize, long long int *location, ch
         {
             *location += table[i];
             q = 1;
-            if (*location >= size_c)
+            if (*location >= cSize)
             {
-                *gerb += size_c;
+                *gerb += cSize;
             }
             break;
         }
@@ -44,9 +44,9 @@ void changeTable(char *c, int size_c, int tableSize, long long int *location, ch
     if (q != 1)
     {
         *location += aSize - 1;
-        if (*location >= size_c)
+        if (*location >= cSize)
         {
-            *gerb += size_c;
+            *gerb += cSize;
         }
     }
 }
@@ -69,15 +69,15 @@ int main()
     long long int gerb = 0;
     while (fgets(c, 97, ptrfile) != 0)
     {
-        int size_c = strlen(c);
-        if (size_c == 0)
+        int cSize = strlen(c);
+        if (cSize == 0)
         {
             break;
         }
         else
         {
             long long int location = aSize - 2;
-            while (location < size_c)
+            while (location < cSize)
             {
                 fprintf(ptrfile2, "%lld%s", location + 1 + gerb, " ");
                 if (c[location] == a[aSize - 2])
@@ -93,18 +93,18 @@ int main()
                         }
                         else
                         {
-                            changeTable(c, size_c, tableSize, &location, tableW, table, &gerb, aSize);
+                            changeTable(c, cSize, tableSize, &location, tableW, table, &gerb, aSize);
                             break;
                         }
                     }
                     if (popp == aSize - 1)
                     {
-                        changeTable(c, size_c, tableSize, &location, tableW, table, &gerb, aSize);
+                        changeTable(c, cSize, tableSize, &location, tableW, table, &gerb, aSize);
                     }
                 }
                 else
                 {
-                    changeTable(c, size_c, tableSize, &location, tableW, table, &gerb, aSize);
+                    changeTable(c, cSize, tableSize, &location, tableW, table, &gerb, aSize);
                 }
             }
         }
