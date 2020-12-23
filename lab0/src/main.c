@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef long long int lli;
+
 void choiceOfTheNextAction(char *number, long long int *indx, long long int *tochka, int *numeral)
 {
     if (number[*indx] == '.')
