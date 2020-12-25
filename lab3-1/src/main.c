@@ -2,51 +2,51 @@
 #include <stdlib.h>
 #include <string.h>
 
-void swap(int *mass, int first, int second)
+void swap(int *arr, int i, int j)
 {
-    int a = mass[first];
-    mass[first] = mass[second];
-    mass[second] = a;
+    int a = arr[i];
+    arr[i] = arr[j];
+    arr[j] = a;
 }
 
-void make_heap(int *mass, int size, int index)
+void shiftDown(int *arr, int size, int index)
 {
     int largest = index;
     int l = 2 * index + 1;
     int r = 2 * index + 2;
-    if (l < (size) && mass[l] > mass[largest])
+    if (l < (size) && arr[l] > arr[largest])
     {
         largest = l;
     }
-    if (r < (size) && mass[r] > mass[largest])
+    if (r < (size) && arr[r] > arr[largest])
     {
         largest = r;
     }
     if (largest != index)
     {
-        swap(mass, largest, index);
-        make_heap(mass, size, largest);
+        swap(arr, largest, index);
+        shiftDown(arr, size, largest);
     }
 }
 
-void print_arr(int *mass, int size)
+void printArr(int *arr, int size)
 {
     for (int i = 0; i < size; i++)
     {
-        printf("%d ", mass[i]);
+        printf("%d ", arr[i]);
     }
 }
 
-void heapsort(int *mass, int size)
+void heapSort(int *arr, int size)
 {
     for (int i = size / 2 - 1; i >= 0; i--)
     {
-        make_heap(mass, size, i);
+        shiftDown(arr, size, i);
     }
     for (int i = size - 1; i >= 0; i--)
     {
-        swap(mass, 0, i);
-        make_heap(mass, i, 0);
+        swap(arr, 0, i);
+        shiftDown(arr, i, 0);
     }
 }
 
@@ -57,15 +57,15 @@ int main()
     if (scanf("%d%c", &size, &deleter) == 0)
     {
     }
-    int *massive = (int *)malloc(sizeof(int) * size);
+    int *array = (int *)malloc(sizeof(int) * size);
     for (int i = 0; i < size; i++)
     {
-        if (scanf("%d%c", massive + i, &deleter) == 0)
+        if (scanf("%d%c", array + i, &deleter) == 0)
         {
         }
     }
-    heapsort(massive, size);
-    print_arr(massive, size);
-    free(massive);
+    heapSort(array, size);
+    printArr(array, size);
+    free(array);
     return 0;
 }
