@@ -144,12 +144,6 @@ AVL* InsertElement(AVL *elem, int a)
 
 void clear(AVL *elem)
 {
-    if ((!(elem->RightKey)) && (!(elem->LeftKey)))
-    {
-        free(elem);
-    }
-    else
-    {
         if (elem->RightKey)
         {
             clear(elem->RightKey);
@@ -158,6 +152,9 @@ void clear(AVL *elem)
         {
             clear(elem->LeftKey);
         }
+        if ((!(elem->RightKey)) && (!(elem->LeftKey)))
+    {
+        free(elem);
     }
 }
 
@@ -179,5 +176,7 @@ int main()
         NewTree->Top=InsertElement(NewTree->Top, tmp);
     }
     printf("%d", GetHeight(NewTree->Top));
+    clear(NewTree->Top);
+    free(NewTree->Top);
     return 0;
 }
