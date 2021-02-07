@@ -158,12 +158,18 @@ void clear(AVL *elem)
 int main()
 {
     int n;
-    scanf("%d", &n);
+    if(scanf("%d", &n) == 0)
+    {
+    	printf("%s", "bad input");
+	}
     TH *NewTree = CreateTree();
     int tmp=0;
     for (int i = 0; i < n; i++)
     {
-        scanf("%d", &tmp);
+        if(scanf("%d", &tmp) == 0)
+        {
+        	printf("%s", "bad input");
+		}
         NewTree->Top=InsertElement(NewTree->Top, tmp);
     }
     printf("%d", GetHeight(NewTree->Top));
