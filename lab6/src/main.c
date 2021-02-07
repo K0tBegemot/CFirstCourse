@@ -17,7 +17,7 @@ typedef struct TreeHead
 TH *CreateTree()
 {
     TH *Head;
-    Head = (TH *)malloc(sizeof(TH));
+    //Head = (TH *)malloc(sizeof(TH));
     Head->Top = 0;
     return Head;
 }
