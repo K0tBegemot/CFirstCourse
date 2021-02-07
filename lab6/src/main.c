@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include <stdio.h>
 
 typedef struct AVLTree
@@ -160,7 +159,7 @@ void clear(AVL *elem)
 
 int main()
 {
-    unsigned int n;
+    int n;
     if (scanf("%d", &n) == 0)
     {
         printf("%s", "bad input");
