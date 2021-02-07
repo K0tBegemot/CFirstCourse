@@ -4,7 +4,7 @@
 typedef struct AVLTree
 {
     int value;
-    int height;
+    unsigned int height;
     struct AVLTree *LeftKey;
     struct AVLTree *RightKey;
 } AVL;
