@@ -179,9 +179,6 @@ int main()
     if(n>0)
     {
     	clear(NewTree->Top);
-	}else
-	{
-		free(NewTree->Top);
 	}
     free(NewTree);
     return 0;
