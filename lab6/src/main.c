@@ -176,7 +176,10 @@ int main()
         NewTree->Top=InsertElement(NewTree->Top, tmp);
     }
     printf("%d", GetHeight(NewTree->Top));
-    clear(NewTree->Top);
+    if(n>0)
+    {
+    	clear(NewTree->Top);
+	}
     free(NewTree->Top);
     return 0;
 }
