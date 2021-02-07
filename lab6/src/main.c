@@ -126,7 +126,7 @@ AVL* InsertElement(AVL *elem, int a)
         NewLeaf->value = a;
         return NewLeaf;
     }
-    if (a < elem->value)
+    if (a <= elem->value)
     {
         elem->LeftKey = InsertElement(elem->LeftKey, a);
         RestorationOfCorrectHeight(elem);
