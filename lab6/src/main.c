@@ -121,15 +121,15 @@ AVL *InsertElement(AVL *elem, int a)
     }
     if (a < elem->value)
     {
-        elem->height += 1;
         elem->LeftKey = InsertElement(elem->LeftKey, a);
+        RestorationOfCorrectHeight(elem);
     }
     else
     {
         if (a > elem->value)
         {
-            elem->height += 1;
             elem->RightKey = InsertElement(elem->RightKey, a);
+            RestorationOfCorrectHeight(elem);
         }
     }
     Balance(elem);
