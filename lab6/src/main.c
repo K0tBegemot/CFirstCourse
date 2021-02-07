@@ -4,7 +4,7 @@
 typedef struct AVLTree
 {
     int value;
-    unsigned long int height;
+    unsigned int height;
     struct AVLTree *LeftKey;
     struct AVLTree *RightKey;
 } AVL;
@@ -39,9 +39,9 @@ int CalculateHeightDifference(AVL *elem)
     return (GetHeight(elem->LeftKey) - GetHeight(elem->RightKey));
 }
 
-AVL* SmallRightSpin(AVL *elem)
+AVL *SmallRightSpin(AVL *elem)
 {
-    AVL *OldTop=elem;
+    AVL *OldTop = elem;
     elem = elem->LeftKey;
     OldTop->LeftKey = elem->RightKey;
     elem->RightKey = OldTop;
@@ -50,7 +50,7 @@ AVL* SmallRightSpin(AVL *elem)
     return elem;
 }
 
-AVL* SmallLeftSpin(AVL *elem)
+AVL *SmallLeftSpin(AVL *elem)
 {
     AVL *OldTop = elem;
     elem = elem->RightKey;
@@ -61,29 +61,29 @@ AVL* SmallLeftSpin(AVL *elem)
     return elem;
 }
 
-AVL* BigRightSpin(AVL *elem)
+AVL *BigRightSpin(AVL *elem)
 {
-    AVL* TMP1=SmallLeftSpin(elem->LeftKey);
-    elem->LeftKey=TMP1;
-    AVL* TMP2=SmallRightSpin(elem);
+    AVL *TMP1 = SmallLeftSpin(elem->LeftKey);
+    elem->LeftKey = TMP1;
+    AVL *TMP2 = SmallRightSpin(elem);
     RestorationOfCorrectHeight(TMP2->RightKey);
     RestorationOfCorrectHeight(TMP2->LeftKey);
     RestorationOfCorrectHeight(TMP2);
     return TMP2;
 }
 
-AVL* BigLeftSpin(AVL *elem)
+AVL *BigLeftSpin(AVL *elem)
 {
-    AVL* TMP1=SmallRightSpin(elem->RightKey);
-    elem->RightKey=TMP1;
-    AVL* TMP2=SmallLeftSpin(elem);
+    AVL *TMP1 = SmallRightSpin(elem->RightKey);
+    elem->RightKey = TMP1;
+    AVL *TMP2 = SmallLeftSpin(elem);
     RestorationOfCorrectHeight(TMP2->RightKey);
     RestorationOfCorrectHeight(TMP2->LeftKey);
     RestorationOfCorrectHeight(TMP2);
     return TMP2;
 }
 
-AVL* Balance(AVL *elem)
+AVL *Balance(AVL *elem)
 {
     int HeightDifference = CalculateHeightDifference(elem);
     if (HeightDifference == 2)
@@ -114,7 +114,7 @@ AVL* Balance(AVL *elem)
     return elem;
 }
 
-AVL* InsertElement(AVL *elem, int a)
+AVL *InsertElement(AVL *elem, int a)
 {
     if (!elem)
     {
@@ -144,15 +144,15 @@ AVL* InsertElement(AVL *elem, int a)
 
 void clear(AVL *elem)
 {
-        if (elem->RightKey)
-        {
-            clear(elem->RightKey);
-        }
-        if (elem->LeftKey)
-        {
-            clear(elem->LeftKey);
-        }
-        if ((!(elem->RightKey)) && (!(elem->LeftKey)))
+    if (elem->RightKey)
+    {
+        clear(elem->RightKey);
+    }
+    if (elem->LeftKey)
+    {
+        clear(elem->LeftKey);
+    }
+    if ((!(elem->RightKey)) && (!(elem->LeftKey)))
     {
         free(elem);
     }
@@ -160,26 +160,26 @@ void clear(AVL *elem)
 
 int main()
 {
-    int n;
-    if(scanf("%d", &n) == 0)
+    unsigned int n;
+    if (scanf("%d", &n) == 0)
     {
-    	printf("%s", "bad input");
-	}
+        printf("%s", "bad input");
+    }
     TH *NewTree = CreateTree();
-    int tmp=0;
+    int tmp = 0;
     for (int i = 0; i < n; i++)
     {
-        if(scanf("%d", &tmp) == 0)
+        if (scanf("%d", &tmp) == 0)
         {
-        	printf("%s", "bad input");
-		}
-        NewTree->Top=InsertElement(NewTree->Top, tmp);
+            printf("%s", "bad input");
+        }
+        NewTree->Top = InsertElement(NewTree->Top, tmp);
     }
     printf("%d", GetHeight(NewTree->Top));
-    if(n>0)
+    if (n > 0)
     {
-    	clear(NewTree->Top);
-	}
+        clear(NewTree->Top);
+    }
     free(NewTree);
     return 0;
 }
