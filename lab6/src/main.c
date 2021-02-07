@@ -36,59 +36,61 @@ void RestorationOfCorrectHeight(AVL *elem)
 
 int CalculateHeightDifference(AVL *elem)
 {
-    return GetHeight(elem->LeftKey) - GetHeight(elem->RightKey);
+    return (GetHeight(elem->LeftKey) - GetHeight(elem->RightKey));
 }
 
-void SmallRightSpin(AVL *elem)
+AVL* SmallRightSpin(AVL *elem)
 {
-    AVL *OldTop = elem;
+    AVL *OldTop=elem;
     elem = elem->LeftKey;
     OldTop->LeftKey = elem->RightKey;
-    elem->RightKey = 0;
+    elem->RightKey = OldTop;
     RestorationOfCorrectHeight(elem->RightKey);
     RestorationOfCorrectHeight(elem);
+    return elem;
 }
 
-void SmallLeftSpin(AVL *elem)
+AVL* SmallLeftSpin(AVL *elem)
 {
     AVL *OldTop = elem;
     elem = elem->RightKey;
     OldTop->RightKey = elem->LeftKey;
-    elem->LeftKey = 0;
+    elem->LeftKey = OldTop;
     RestorationOfCorrectHeight(elem->LeftKey);
     RestorationOfCorrectHeight(elem);
+    return elem;
 }
 
-void BigRightSpin(AVL *elem)
+AVL* BigRightSpin(AVL *elem)
 {
-    SmallLeftSpin(elem->LeftKey);
-    SmallRightSpin(elem);
-    RestorationOfCorrectHeight(elem->RightKey);
-    RestorationOfCorrectHeight(elem->LeftKey);
-    RestorationOfCorrectHeight(elem);
+    AVL* TMP=SmallRightSpin(SmallLeftSpin(elem->LeftKey));
+    RestorationOfCorrectHeight(TMP->RightKey);
+    RestorationOfCorrectHeight(TMP->LeftKey);
+    RestorationOfCorrectHeight(TMP);
+    return TMP;
 }
 
-void BigLeftSpin(AVL *elem)
+AVL* BigLeftSpin(AVL *elem)
 {
-    SmallRightSpin(elem->RightKey);
-    SmallLeftSpin(elem);
-    RestorationOfCorrectHeight(elem->RightKey);
-    RestorationOfCorrectHeight(elem->LeftKey);
-    RestorationOfCorrectHeight(elem);
+    AVL* TMP=SmallLeftSpin(SmallRightSpin(elem->RightKey));
+    RestorationOfCorrectHeight(TMP->RightKey);
+    RestorationOfCorrectHeight(TMP->LeftKey);
+    RestorationOfCorrectHeight(TMP);
+    return TMP;
 }
 
-void Balance(AVL *elem)
+AVL* Balance(AVL *elem)
 {
     int HeightDifference = CalculateHeightDifference(elem);
     if (HeightDifference == 2)
     {
         if (CalculateHeightDifference(elem->LeftKey) >= 0)
         {
-            SmallRightSpin(elem);
+            return SmallRightSpin(elem);
         }
         else
         {
-            BigRightSpin(elem);
+            return BigRightSpin(elem);
         }
     }
     else
@@ -97,17 +99,18 @@ void Balance(AVL *elem)
         {
             if (CalculateHeightDifference(elem->RightKey) <= 0)
             {
-                SmallLeftSpin(elem);
+                return SmallLeftSpin(elem);
             }
             else
             {
-                BigLeftSpin(elem);
+                return BigLeftSpin(elem);
             }
         }
     }
+    return elem;
 }
 
-AVL *InsertElement(AVL *elem, int a)
+AVL* InsertElement(AVL *elem, int a)
 {
     if (!elem)
     {
@@ -132,8 +135,7 @@ AVL *InsertElement(AVL *elem, int a)
             RestorationOfCorrectHeight(elem);
         }
     }
-    Balance(elem);
-    return elem;
+    return Balance(elem);
 }
 
 void clear(AVL *elem)
