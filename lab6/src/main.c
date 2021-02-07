@@ -181,5 +181,6 @@ int main()
     	clear(NewTree->Top);
 	}
     free(NewTree->Top);
+    free(NewTree);
     return 0;
 }
