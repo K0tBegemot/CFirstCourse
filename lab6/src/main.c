@@ -63,20 +63,24 @@ AVL* SmallLeftSpin(AVL *elem)
 
 AVL* BigRightSpin(AVL *elem)
 {
-    AVL* TMP=SmallRightSpin(SmallLeftSpin(elem->LeftKey));
-    RestorationOfCorrectHeight(TMP->RightKey);
-    RestorationOfCorrectHeight(TMP->LeftKey);
-    RestorationOfCorrectHeight(TMP);
-    return TMP;
+    AVL* TMP1=SmallLeftSpin(elem->LeftKey);
+    elem->LeftKey=TMP1;
+    AVL* TMP2=SmallRightSpin(elem);
+    RestorationOfCorrectHeight(TMP2->RightKey);
+    RestorationOfCorrectHeight(TMP2->LeftKey);
+    RestorationOfCorrectHeight(TMP2);
+    return TMP2;
 }
 
 AVL* BigLeftSpin(AVL *elem)
 {
-    AVL* TMP=SmallLeftSpin(SmallRightSpin(elem->RightKey));
-    RestorationOfCorrectHeight(TMP->RightKey);
-    RestorationOfCorrectHeight(TMP->LeftKey);
-    RestorationOfCorrectHeight(TMP);
-    return TMP;
+    AVL* TMP1=SmallRightSpin(elem->RightKey);
+    elem->RightKey=TMP1;
+    AVL* TMP2=SmallLeftSpin(elem);
+    RestorationOfCorrectHeight(TMP2->RightKey);
+    RestorationOfCorrectHeight(TMP2->LeftKey);
+    RestorationOfCorrectHeight(TMP2);
+    return TMP2;
 }
 
 AVL* Balance(AVL *elem)
