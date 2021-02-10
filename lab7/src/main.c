@@ -104,7 +104,10 @@ int TopologicSort(int *ColorArray, tost *Array, int *NumberOfBlackTops, int Whit
 int main()
 {
 	int n, m;
-	scanf("%d%d", &n, &m);
+	if(scanf("%d%d", &n, &m)==0)
+	{
+		
+	}
 	tost *Array = CreateStack(n);
 	int *ColorArray = (int *)malloc(sizeof(int) * n);
 	for (int i = 0; i < n; i++)
@@ -115,7 +118,10 @@ int main()
 	int exceptions = 0;
 	for (int i = 0; i < m; i++)
 	{
-		scanf("%d%d", &f, &s);
+		if(scanf("%d%d", &f, &s)==0)
+		{
+			
+		}
 		if (f == s)
 		{
 			exceptions = 1;
@@ -163,7 +169,7 @@ int main()
 	tost *FinishStack = CreateStack(1);
 	while (NumberOfWhiteTops > 0)
 	{
-		int NumberOfBlackTops = 0, WhiteTop;
+		int NumberOfBlackTops = 0, WhiteTop=0;
 		for (int i = 0; i < n; i++)
 		{
 			if (ColorArray[i] == 0)
