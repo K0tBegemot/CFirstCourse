@@ -53,6 +53,22 @@ int PopFromStack(tost *Head)
 	}
 }
 
+void DeleteStack(st* Top)
+{
+	DeleteStack(Top->Next);
+	free(Top);
+}
+
+void DeleteStacks(tost *Head, int X)
+{
+	for(int i=0;i<X;i++)
+	{
+		st* a=(Head+i)->Top;
+		DeleteStack(a);
+	}
+	free(Head);
+}
+
 void PushToStack(tost *Head, int element)
 {
 	st *NewElement = (st *)malloc(sizeof(st));
@@ -189,7 +205,7 @@ int main()
 	{
 		printf("%d ", PopFromStack(FinishStack));
 	}
-	free(FinishStack);
-	free(Array);
+	DeleteStacks(FinishStack,1);
+	DeleteStacks(Array,n);
 	free(ColorArray);
 }
