@@ -149,6 +149,7 @@ int main()
 		{
 			break;
 		}
+		counter+=1;
 		if (f == s)
 		{
 			exceptions = 1;
