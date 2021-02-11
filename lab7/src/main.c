@@ -55,16 +55,21 @@ int PopFromStack(tost *Head)
 
 void DeleteStack(st* Top)
 {
-	DeleteStack(Top->Next);
-	free(Top);
+	if(Top)
+	{
+		if(Top->Next)
+	    {
+	    	DeleteStack(Top->Next);
+    	}
+		free(Top);
+	}
 }
 
 void DeleteStacks(tost *Head, int X)
 {
 	for(int i=0;i<X;i++)
 	{
-		st* a=(Head+i)->Top;
-		DeleteStack(a);
+		DeleteStack((Head+i)->Top);
 	}
 	free(Head);
 }
