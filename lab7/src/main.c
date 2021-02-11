@@ -164,7 +164,7 @@ int main()
 	}
 	else
 	{
-		if (m < 0 || m > (n * (n - 1)) / 2)
+		if (m < 1 || m > (n * (n - 1)) / 2)
 		{
 			printf("bad number of edges");
 			return 0;
