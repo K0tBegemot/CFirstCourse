@@ -125,9 +125,15 @@ int TopologicSort(int *ColorArray, tost *Array, int *NumberOfBlackTops, int Whit
 int main()
 {
 	int n, m;
-	if(scanf("%d%d", &n, &m)==0)
+	if(scanf("%d", &n)==0)
 	{
-		
+		printf("bad number of vertices");
+		return 0;
+	}
+	if(scanf("%d", &m)==0)
+	{
+		printf("bad number of lines");
+		return 0;
 	}
 	tost *Array = CreateStack(n);
 	int *ColorArray = (int *)malloc(sizeof(int) * n);
@@ -136,12 +142,12 @@ int main()
 		ColorArray[i] = 0;
 	}
 	int f, s;
-	int exceptions = 0;
+	int exceptions = 0, counter=0;
 	for (int i = 0; i < m; i++)
 	{
-		if(scanf("%d%d", &f, &s)==0)
+		if(scanf("%d%d", &f, &s)<2)
 		{
-			
+			break;
 		}
 		if (f == s)
 		{
@@ -157,6 +163,10 @@ int main()
 		}
 		PushToStack(&Array[f - 1], s);
 	}
+	if(counter<m)
+	{
+		exceptions = 1;
+	}
 	if (n < 0 || n > 2000)
 	{
 		printf("bad number of vertices");
@@ -164,7 +174,7 @@ int main()
 	}
 	else
 	{
-		if (m < 1 || m > (n * (n - 1)) / 2)
+		if (m < 0 || m > (n * (n - 1)) / 2)
 		{
 			printf("bad number of edges");
 			return 0;
