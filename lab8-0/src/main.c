@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define INT_MAX 2147483647
+
 //this is begin of heapsort's part
 void swap(int **arr, int i, int j, int widthSize)
 {
@@ -86,7 +88,7 @@ void unionSubTree(int *parents, int *color, int vertex1, int vertex2)
             int o;
             o = vertex1;
             vertex1 = vertex2;
-            vertex2 = vertex1;
+            vertex2 = o;
         }
         parents[vertex2] = vertex1;
         if (color[vertex1] == color[vertex2])
