@@ -98,7 +98,7 @@ void unionSubTree(short int *parents, short int *color, int vertex1, int vertex2
     }
 }
 
-void freeAll(short int *color, short int *parents, short int *framesOfProcess, int *edges, int edge)
+void freeAll(short int *color, short int *parents, short int *framesOfProcess, int **edges, int edge)
 {
     free(color);
     free(parents);
