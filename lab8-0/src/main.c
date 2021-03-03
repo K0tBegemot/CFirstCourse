@@ -68,7 +68,7 @@ void heapSort(int **arr, int size, int numberOfSortedElement, int widthSize)
 
 //this is end of heapsort's part
 
-int findRoot(int *parents, int vertex)
+int findRoot(short int *parents, int vertex)
 {
     if (vertex == parents[vertex])
     {
@@ -77,13 +77,12 @@ int findRoot(int *parents, int vertex)
     return parents[vertex] = findRoot(parents, parents[vertex]);
 }
 
-void unionSubTree(int *parents, int vertex1, int vertex2)
+void unionSubTree(short int *parents, short int *color, int vertex1, int vertex2)
 {
     vertex1 = parents[vertex1];
     vertex2 = parents[vertex2];
     if (vertex1 != vertex2)
     {
-        /*
         if (color[vertex1] < color[vertex2])
         {
             int o;
@@ -91,14 +90,11 @@ void unionSubTree(int *parents, int vertex1, int vertex2)
             vertex1 = vertex2;
             vertex2 = o;
         }
-        */
         parents[vertex2] = vertex1;
-        /*
         if (color[vertex1] == color[vertex2])
         {
             color[vertex1] += 1;
         }
-        */
     }
 }
 
@@ -121,9 +117,9 @@ int main()
         fprintf(fout, "bad number of edges");
         return 0;
     }
-    int *parents = (int *)malloc(sizeof(int) * ver);
-    //int *color = (int *)malloc(sizeof(int) * ver);
-    int *framesOfProcess = (int *)malloc(sizeof(int) * edge);
+    short int *parents = (int *)malloc(sizeof(int) * ver);
+    short int *color = (int *)malloc(sizeof(int) * ver);
+    short int *framesOfProcess = (int *)malloc(sizeof(int) * edge);
     int **edges = (int **)malloc(sizeof(int *) * edge);
     for (int i = 0; i < edge; i++)
     {
@@ -154,13 +150,6 @@ int main()
                 {
                     fprintf(fout, "bad length");
                     return 0;
-                }else
-                {
-                    if(edges[i][0]==edges[i][1])
-                    {
-                        fprintf(fout, "no spanning tree");
-                        return 0;
-                    }
                 }
             }
         }
@@ -175,19 +164,18 @@ int main()
     for(int i=0;i<ver;i++)
     {
         parents[i] = i;
-        //color[i] = 0;
+        color[i] = 0;
     }
     int positionInProcess=0;
     for(int i=0;i<edge;i++)
     {
         if (findRoot(parents, edges[i][0]) != findRoot(parents, edges[i][1]))
         {
-            unionSubTree(parents, edges[i][0], edges[i][1]);
+            unionSubTree(parents, color, edges[i][0], edges[i][1]);
             framesOfProcess[positionInProcess] = i;
             positionInProcess += 1;
         }
     }
-    /*
     int root = parents[0];
     for(int i=0;i<ver;i++)
     {
@@ -197,12 +185,11 @@ int main()
             return 0;
         }
     }
-    */
     for(int i=0;i<positionInProcess;i++)
     {
         fprintf(fout, "%d %d\n", edges[framesOfProcess[i]][0]+1, edges[framesOfProcess[i]][1]+1);
     }
-    //free(color);
+    free(color);
     free(parents);
     free(framesOfProcess);
     for(int i=0;i<edge;i++)
