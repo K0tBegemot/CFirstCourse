@@ -98,6 +98,18 @@ void unionSubTree(short int *parents, short int *color, int vertex1, int vertex2
     }
 }
 
+void freeAll(short int *color, short int *parents, short int *framesOfProcess, int *edges, int edge)
+{
+    free(color);
+    free(parents);
+    free(framesOfProcess);
+    for(int i=0;i<edge;i++)
+    {
+    	free(edges[i]);
+	}
+	free(edges);
+}
+
 int main()
 {
     FILE *fin = fopen("in.txt", "r");
@@ -128,6 +140,7 @@ int main()
     if (ver == 0 || (ver > 1 && edge == 0) || (edge < ver - 1))
     {
         fprintf(fout, "no spanning tree");
+        freeAll(color, parents, framesOfProcess, edges, edge);
         return 0;
     }
     for (int i = 0; i < edge; i++)
@@ -135,6 +148,7 @@ int main()
         if (fscanf(fin, "%d%d%d", (edges[i] + 0), (edges[i] + 1), (edges[i] + 2)) == EOF)
         {
             fprintf(fout, "bad number of lines");
+            freeAll(color, parents, framesOfProcess, edges, edge);
             return 0;
         }
         else
@@ -142,6 +156,7 @@ int main()
             if ((edges[i][0] < 1 || edges[i][0] > ver) || (edges[i][1] < 1 || edges[i][1] > ver))
             {
                 fprintf(fout, "bad vertex");
+                freeAll(color, parents, framesOfProcess, edges, edge);
                 return 0;
             }
             else
@@ -149,6 +164,7 @@ int main()
                 if (edges[i][2] < 0 || edges[i][2] > INT_MAX)
                 {
                     fprintf(fout, "bad length");
+                    freeAll(color, parents, framesOfProcess, edges, edge);
                     return 0;
                 }
             }
@@ -158,6 +174,7 @@ int main()
     }
     if (ver == 1)
     {
+        freeAll(color, parents, framesOfProcess, edges, edge);
         return 0;
     }
     heapSort(edges, edge, 2, 3);
@@ -182,6 +199,7 @@ int main()
         if(root!=findRoot(parents, i))
         {
             fprintf(fout, "no spanning tree");
+            freeAll(color, parents, framesOfProcess, edges, edge);
             return 0;
         }
     }
@@ -189,13 +207,6 @@ int main()
     {
         fprintf(fout, "%d %d\n", edges[framesOfProcess[i]][0]+1, edges[framesOfProcess[i]][1]+1);
     }
-    free(color);
-    free(parents);
-    free(framesOfProcess);
-    for(int i=0;i<edge;i++)
-    {
-    	free(edges[i]);
-	}
-	free(edges);
+    freeAll(color, parents, framesOfProcess, edges, edge);
     return 0;
 }
