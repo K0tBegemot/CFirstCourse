@@ -185,7 +185,7 @@ int main()
             return 0;
         }
     }
-    for(int i=0;i<edge;i++)
+    for(int i=0;i<positionInProcess;i++)
     {
         fprintf(fout, "%d %d\n", edges[framesOfProcess[i]][0]+1, edges[framesOfProcess[i]][1]+1);
     }
