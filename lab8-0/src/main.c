@@ -74,7 +74,7 @@ int findRoot(int *parents, int vertex)
     {
         return vertex;
     }
-    findRoot(parents, parents[vertex]);
+    return parents[vertex] = findRoot(parents, parents[vertex]);
 }
 
 void unionSubTree(int *parents, int *color, int vertex1, int vertex2)
@@ -177,7 +177,7 @@ int main()
         }
     }
     int root = parents[0];
-    for(int i=0;i<n;i++)
+    for(int i=0;i<ver;i++)
     {
         if(root!=findRoot(parents, i))
         {
