@@ -154,6 +154,13 @@ int main()
                 {
                     fprintf(fout, "bad length");
                     return 0;
+                }else
+                {
+                    if(edges[i][0]==edges[i][1])
+                    {
+                        fprintf(fout, "no spanning tree");
+                        return 0;
+                    }
                 }
             }
         }
