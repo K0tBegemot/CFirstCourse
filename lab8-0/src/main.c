@@ -103,7 +103,10 @@ int main()
     FILE *fin = fopen("in.txt", "r");
     FILE *fout = fopen("out.txt", "w");
     int ver, edge;
-    fscanf(fin, "%d\n%d\n", &ver, &edge);
+    if(fscanf(fin, "%d\n%d\n", &ver, &edge)<2)
+    {
+        
+    }
     if (ver < 0 || ver > 5000)
     {
         fprintf(fout, "bad number of vertices");
@@ -172,6 +175,19 @@ int main()
             framesOfProcess[positionInProcess] = i;
             positionInProcess += 1;
         }
+    }
+    int root = parents[0];
+    for(int i=0;i<n;i++)
+    {
+        if(root!=findRoot(parents, i))
+        {
+            fprintf(fout, "no spanning tree");
+            return 0;
+        }
+    }
+    for(int i=0;i<edge;i++)
+    {
+        fprintf(fout, "%d %d\n", edges[framesOfProcess[i]][0]+1, edges[framesOfProcess[i]][1]+1);
     }
     return 0;
 }
