@@ -117,9 +117,9 @@ int main()
         fprintf(fout, "bad number of edges");
         return 0;
     }
-    short int *parents = (int *)malloc(sizeof(int) * ver);
-    short int *color = (int *)malloc(sizeof(int) * ver);
-    short int *framesOfProcess = (int *)malloc(sizeof(int) * edge);
+    short int *parents = (short int *)malloc(sizeof(short int) * ver);
+    short int *color = (short int *)malloc(sizeof(short int) * ver);
+    short int *framesOfProcess = (short int *)malloc(sizeof(short int) * edge);
     int **edges = (int **)malloc(sizeof(int *) * edge);
     for (int i = 0; i < edge; i++)
     {
