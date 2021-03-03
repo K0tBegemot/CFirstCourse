@@ -139,7 +139,7 @@ int main()
         }
         else
         {
-            if ((edges[i][0] < 1 || edges[i][0] > INT_MAX) || (edges[i][1] < 1 || edges[i][1] > INT_MAX))
+            if ((edges[i][0] < 1 || edges[i][0] > ver) || (edges[i][1] < 1 || edges[i][1] > ver))
             {
                 fprintf(fout, "bad vertex");
                 return 0;
