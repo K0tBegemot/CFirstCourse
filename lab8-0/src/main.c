@@ -125,7 +125,7 @@ int main()
     {
         edges[i] = (int *)malloc(sizeof(int) * 3);
     }
-    if (ver == 0 || (ver > 0 && edge == 0) || (edge<ver -1))
+    if (ver == 0 || (ver > 1 && edge == 0) || (edge < ver - 1))
     {
         fprintf(fout, "no spanning tree");
         return 0;
