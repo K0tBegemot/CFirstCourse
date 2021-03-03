@@ -189,7 +189,7 @@ int main()
     {
         fprintf(fout, "%d %d\n", edges[framesOfProcess[i]][0]+1, edges[framesOfProcess[i]][1]+1);
     }
-    free(color)
+    free(color);
     free(parents);
     free(framesOfProcess);
     for(int i=0;i<edge;i++)
