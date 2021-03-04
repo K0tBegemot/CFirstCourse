@@ -28,7 +28,7 @@ void swap(int **arr, int i, int j, int widthSize)
     }
 }
 
-/*this is begin of heapsort's part
+/*this is heapsort's part
 void shiftDown(int **arr, int size, int index, int numberOfSortedElement, int widthSize)
 {
     int largest = index;
