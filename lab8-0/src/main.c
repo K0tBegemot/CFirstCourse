@@ -181,7 +181,7 @@ int main()
         parents[i] = i;
         color[i] = 0;
     }
-    int positionInProcess = 0;
+    int positionInProcess = 1;
     for (int i = 0; i < edge; i++)
     {
         if (findRoot(parents, edges[i][0]) != findRoot(parents, edges[i][1]))
@@ -210,7 +210,7 @@ int main()
 
     }
     */
-    if (positionInProcess != edge)
+    if (positionInProcess != ver)
     {
         rewind(fout);
         fprintf(fout, "no spanning tree");
