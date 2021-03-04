@@ -140,7 +140,7 @@ int main()
     }
     short int *parents = (short int *)malloc(sizeof(short int) * ver);
     short int *color = (short int *)malloc(sizeof(short int) * ver);
-    edges *tree = (edges*)malloc(sizeof(edges) * edge);
+    struct edges *tree = (edges*)malloc(sizeof(edges) * edge);
     if (ver == 0 || (ver > 1 && edge == 0) || (edge < ver - 1))
     {
         fprintf(fout, "no spanning tree");
