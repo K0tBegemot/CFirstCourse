@@ -182,7 +182,6 @@ int main()
         return 0;
     }
     qsort(edges, edge, sizeof(edges), edgesCmp);
-    //heapSort(edges, edge, 2, 3);
     for (int i = 0; i < ver; i++)
     {
         parents[i] = i;
