@@ -10,6 +10,7 @@ struct edges
 	int length;
 };
 
+
 void swap(int **arr, int i, int j, int widthSize)
 {
     int a[3];
