@@ -3,7 +3,13 @@
 
 #define INT_MAX 2147483647
 
-//this is begin of heapsort's part
+struct edges
+{
+	int vertex1;
+	int vertex2;
+	int length;
+};
+
 void swap(int **arr, int i, int j, int widthSize)
 {
     int a[3];
@@ -20,6 +26,8 @@ void swap(int **arr, int i, int j, int widthSize)
         arr[j][o] = a[o];
     }
 }
+
+/*this is begin of heapsort's part
 
 void shiftDown(int **arr, int size, int index, int numberOfSortedElement, int widthSize)
 {
@@ -66,7 +74,14 @@ void heapSort(int **arr, int size, int numberOfSortedElement, int widthSize)
     }
 }
 
-//this is end of heapsort's part
+this is end of heapsort's part*/
+
+int edgesCmp( const void **a, const void **b)
+{
+	return ( (*(edges*)a).length - (*(edges*)b).length );
+}
+
+
 
 int findRoot(short int *parents, int vertex)
 {
@@ -102,10 +117,6 @@ void freeAll(short int *color, short int *parents, int **edges, int edge)
 {
     free(color);
     free(parents);
-    for (int i = 0; i < edge; i++)
-    {
-        free(edges[i]);
-    }
     free(edges);
 }
 
@@ -129,12 +140,7 @@ int main()
     }
     short int *parents = (short int *)malloc(sizeof(short int) * ver);
     short int *color = (short int *)malloc(sizeof(short int) * ver);
-    //short int *framesOfProcess = (short int *)malloc(sizeof(short int) * edge);
-    int **edges = (int **)malloc(sizeof(int *) * edge);
-    for (int i = 0; i < edge; i++)
-    {
-        edges[i] = (int *)malloc(sizeof(int) * 3);
-    }
+    edges *tree = (edges*)malloc(sizeof(edges) * edge);
     if (ver == 0 || (ver > 1 && edge == 0) || (edge < ver - 1))
     {
         fprintf(fout, "no spanning tree");
@@ -143,7 +149,7 @@ int main()
     }
     for (int i = 0; i < edge; i++)
     {
-        if (fscanf(fin, "%d%d%d", (edges[i] + 0), (edges[i] + 1), (edges[i] + 2)) == EOF)
+        if (fscanf(fin, "%d%d%d", &(edges[i].vertex1), &(edges[i].vertex2), &(edges[i].length) == EOF)
         {
             fprintf(fout, "bad number of lines");
             freeAll(color, parents, edges, edge);
@@ -151,7 +157,7 @@ int main()
         }
         else
         {
-            if ((edges[i][0] < 1 || edges[i][0] > ver) || (edges[i][1] < 1 || edges[i][1] > ver))
+            if ((edges[i].vertex1 < 1 || edges[i].vertex1 > ver) || (edges[i].vertex2 < 1 || edges[i].vertex2 > ver))
             {
                 fprintf(fout, "bad vertex");
                 freeAll(color, parents, edges, edge);
@@ -159,7 +165,7 @@ int main()
             }
             else
             {
-                if (edges[i][2] < 0 || edges[i][2] > INT_MAX)
+                if (edges[i].length < 0 || edges[i].length > INT_MAX)
                 {
                     fprintf(fout, "bad length");
                     freeAll(color, parents, edges, edge);
@@ -167,15 +173,16 @@ int main()
                 }
             }
         }
-        edges[i][0] -= 1;
-        edges[i][1] -= 1;
+        edges[i].vertex1 -= 1;
+        edges[i].vertex2 -= 1;
     }
     if (ver == 1)
     {
         freeAll(color, parents, edges, edge);
         return 0;
     }
-    heapSort(edges, edge, 2, 3);
+    qsort(edges, edge, sizeof(edges), edgesCmp);
+    //heapSort(edges, edge, 2, 3);
     for (int i = 0; i < ver; i++)
     {
         parents[i] = i;
@@ -184,32 +191,13 @@ int main()
     int positionInProcess = 1;
     for (int i = 0; i < edge; i++)
     {
-        if (findRoot(parents, edges[i][0]) != findRoot(parents, edges[i][1]))
+        if (findRoot(parents, edges[i].vertex1) != findRoot(parents, edges[i].vertex2))
         {
-            unionSubTree(parents, color, edges[i][0], edges[i][1]);
-            fprintf(fout, "%d %d\n", edges[i][0] + 1, edges[i][1] + 1);
+            unionSubTree(parents, color, edges[i].vertex1, edges[i].vertex2);
+            fprintf(fout, "%d %d\n", edges[i].vertex1 + 1, edges[i].vertex2 + 1);
             positionInProcess += 1;
-            /*
-            framesOfProcess[positionInProcess] = i;
-            */
         }
     }
-    /*
-    int root = parents[0];
-    for(int i=0;i<ver;i++)
-    {
-        if(root!=findRoot(parents, i))
-        {
-            fprintf(fout, "no spanning tree");
-            freeAll(color, parents, framesOfProcess, edges, edge);
-            return 0;
-        }
-    }
-    for(int i=0;i<positionInProcess;i++)
-    {
-
-    }
-    */
     if (positionInProcess != ver)
     {
         rewind(fout);
