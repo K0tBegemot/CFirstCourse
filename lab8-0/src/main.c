@@ -76,7 +76,7 @@ void heapSort(int **arr, int size, int numberOfSortedElement, int widthSize)
 
 this is end of heapsort's part*/
 
-int edgesCmp( const void **a, const void **b)
+int edgesCmp( const void *a, const void *b)
 {
 	return ( (*(edges*)a).length - (*(edges*)b).length );
 }
@@ -140,7 +140,7 @@ int main()
     }
     short int *parents = (short int *)malloc(sizeof(short int) * ver);
     short int *color = (short int *)malloc(sizeof(short int) * ver);
-    struct edges *tree = (edges*)malloc(sizeof(edges) * edge);
+    struct edges *tree = (struct edges*)malloc(sizeof(struct edges) * edge);
     if (ver == 0 || (ver > 1 && edge == 0) || (edge < ver - 1))
     {
         fprintf(fout, "no spanning tree");
