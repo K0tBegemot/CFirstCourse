@@ -98,16 +98,15 @@ void unionSubTree(short int *parents, short int *color, int vertex1, int vertex2
     }
 }
 
-void freeAll(short int *color, short int *parents, short int *framesOfProcess, int **edges, int edge)
+void freeAll(short int *color, short int *parents, int **edges, int edge)
 {
     free(color);
     free(parents);
-    free(framesOfProcess);
-    for(int i=0;i<edge;i++)
+    for (int i = 0; i < edge; i++)
     {
-    	free(edges[i]);
-	}
-	free(edges);
+        free(edges[i]);
+    }
+    free(edges);
 }
 
 int main()
@@ -115,9 +114,8 @@ int main()
     FILE *fin = fopen("in.txt", "r");
     FILE *fout = fopen("out.txt", "w");
     int ver, edge;
-    if(fscanf(fin, "%d\n%d\n", &ver, &edge)<2)
+    if (fscanf(fin, "%d\n%d\n", &ver, &edge) < 2)
     {
-        
     }
     if (ver < 0 || ver > 5000)
     {
@@ -131,7 +129,7 @@ int main()
     }
     short int *parents = (short int *)malloc(sizeof(short int) * ver);
     short int *color = (short int *)malloc(sizeof(short int) * ver);
-    short int *framesOfProcess = (short int *)malloc(sizeof(short int) * edge);
+    //short int *framesOfProcess = (short int *)malloc(sizeof(short int) * edge);
     int **edges = (int **)malloc(sizeof(int *) * edge);
     for (int i = 0; i < edge; i++)
     {
@@ -140,7 +138,7 @@ int main()
     if (ver == 0 || (ver > 1 && edge == 0) || (edge < ver - 1))
     {
         fprintf(fout, "no spanning tree");
-        freeAll(color, parents, framesOfProcess, edges, edge);
+        freeAll(color, parents, edges, edge);
         return 0;
     }
     for (int i = 0; i < edge; i++)
@@ -148,7 +146,7 @@ int main()
         if (fscanf(fin, "%d%d%d", (edges[i] + 0), (edges[i] + 1), (edges[i] + 2)) == EOF)
         {
             fprintf(fout, "bad number of lines");
-            freeAll(color, parents, framesOfProcess, edges, edge);
+            freeAll(color, parents, edges, edge);
             return 0;
         }
         else
@@ -156,7 +154,7 @@ int main()
             if ((edges[i][0] < 1 || edges[i][0] > ver) || (edges[i][1] < 1 || edges[i][1] > ver))
             {
                 fprintf(fout, "bad vertex");
-                freeAll(color, parents, framesOfProcess, edges, edge);
+                freeAll(color, parents, edges, edge);
                 return 0;
             }
             else
@@ -164,7 +162,7 @@ int main()
                 if (edges[i][2] < 0 || edges[i][2] > INT_MAX)
                 {
                     fprintf(fout, "bad length");
-                    freeAll(color, parents, framesOfProcess, edges, edge);
+                    freeAll(color, parents, edges, edge);
                     return 0;
                 }
             }
@@ -174,25 +172,29 @@ int main()
     }
     if (ver == 1)
     {
-        freeAll(color, parents, framesOfProcess, edges, edge);
+        freeAll(color, parents, edges, edge);
         return 0;
     }
     heapSort(edges, edge, 2, 3);
-    for(int i=0;i<ver;i++)
+    for (int i = 0; i < ver; i++)
     {
         parents[i] = i;
         color[i] = 0;
     }
-    int positionInProcess=0;
-    for(int i=0;i<edge;i++)
+    int positionInProcess = 0;
+    for (int i = 0; i < edge; i++)
     {
         if (findRoot(parents, edges[i][0]) != findRoot(parents, edges[i][1]))
         {
             unionSubTree(parents, color, edges[i][0], edges[i][1]);
-            framesOfProcess[positionInProcess] = i;
+            fprintf(fout, "%d %d\n", edges[i][0] + 1, edges[i][1] + 1);
             positionInProcess += 1;
+            /*
+            framesOfProcess[positionInProcess] = i;
+            */
         }
     }
+    /*
     int root = parents[0];
     for(int i=0;i<ver;i++)
     {
@@ -205,8 +207,14 @@ int main()
     }
     for(int i=0;i<positionInProcess;i++)
     {
-        fprintf(fout, "%d %d\n", edges[framesOfProcess[i]][0]+1, edges[framesOfProcess[i]][1]+1);
+
     }
-    freeAll(color, parents, framesOfProcess, edges, edge);
+    */
+    if (positionInProcess != edge)
+    {
+        rewind(fout);
+        fprintf(fout, "no spanning tree");
+    }
+    freeAll(color, parents, edges, edge);
     return 0;
 }
