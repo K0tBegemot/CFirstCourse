@@ -113,11 +113,11 @@ void unionSubTree(short int *parents, short int *color, int vertex1, int vertex2
     }
 }
 
-void freeAll(short int *color, short int *parents, int **edges, int edge)
+void freeAll(short int *color, short int *parents, struct edges* a, int edge)
 {
     free(color);
     free(parents);
-    free(edges);
+    free(a);
 }
 
 int main()
@@ -144,7 +144,7 @@ int main()
     if (ver == 0 || (ver > 1 && edge == 0) || (edge < ver - 1))
     {
         fprintf(fout, "no spanning tree");
-        freeAll(color, parents, edges, edge);
+        freeAll(color, parents, tree, edge);
         return 0;
     }
     for (int i = 0; i < edge; i++)
@@ -152,7 +152,7 @@ int main()
         if (fscanf(fin, "%d%d%d", &(edges[i].vertex1), &(edges[i].vertex2), &(edges[i].length) == EOF)
         {
             fprintf(fout, "bad number of lines");
-            freeAll(color, parents, edges, edge);
+            freeAll(color, parents, tree, edge);
             return 0;
         }
         else
@@ -160,7 +160,7 @@ int main()
             if ((edges[i].vertex1 < 1 || edges[i].vertex1 > ver) || (edges[i].vertex2 < 1 || edges[i].vertex2 > ver))
             {
                 fprintf(fout, "bad vertex");
-                freeAll(color, parents, edges, edge);
+                freeAll(color, parents, tree, edge);
                 return 0;
             }
             else
@@ -168,7 +168,7 @@ int main()
                 if (edges[i].length < 0 || edges[i].length > INT_MAX)
                 {
                     fprintf(fout, "bad length");
-                    freeAll(color, parents, edges, edge);
+                    freeAll(color, parents, tree, edge);
                     return 0;
                 }
             }
@@ -202,6 +202,6 @@ int main()
         rewind(fout);
         fprintf(fout, "no spanning tree");
     }
-    freeAll(color, parents, edges, edge);
+    freeAll(color, parents, tree, edge);
     return 0;
 }
