@@ -78,7 +78,7 @@ this is end of heapsort's part*/
 
 int edgesCmp( const void *a, const void *b)
 {
-	return ( (((edges*)a)->length) - (((edges*)b)->length) );
+	return ( (((struct edges*)a)->length) - (((struct edges*)b)->length) );
 }
 
 
