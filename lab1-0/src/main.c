@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void constructTables(char *a, int *table, char *tableW, long long int aSize, long long int *tableSize)
+void constructTable(char *a, int *table, char *tableW, long long int aSize, long long int *tableSize)
 {
     for (int i = 0; i < aSize - 2; i++)
     {
@@ -64,7 +64,7 @@ int main()
     }
     long long int aSize = strlen(a);
     long long int tableSize = 0;
-    constructTables(a, table, tableW, aSize, &tableSize);
+    constructTable(a, table, tableW, aSize, &tableSize);
     FILE *ptrfile2 = fopen("out.txt", "w");
     long long int gerb = 0;
     while (fgets(c, 97, ptrfile) != 0)
