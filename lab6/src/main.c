@@ -126,8 +126,9 @@ AVL *InsertElement(AVL *elem, int a, AVL *BitArray, int *BitArrayIndex)
         NewLeaf->RightKey = 0;
         NewLeaf->value = a;
         return NewLeaf;
-    }
-    if (a <= elem->value)
+    }else
+    {
+    	if (a <= elem->value)
     {
         elem->LeftKey = InsertElement(elem->LeftKey, a, BitArray, BitArrayIndex);
         RestorationOfCorrectHeight(elem);
@@ -140,6 +141,7 @@ AVL *InsertElement(AVL *elem, int a, AVL *BitArray, int *BitArrayIndex)
             RestorationOfCorrectHeight(elem);
         }
     }
+	}
     return Balance(elem);
 }
 
