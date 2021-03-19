@@ -53,7 +53,7 @@ void swap(char *b, int r, int aSize)
     }
 }
 
-void printOnePermutation(int *b, int aSize)
+void printOnePermutation(char *b, int aSize)
 {
     for (int ii = 0; ii < aSize; ii++)
     {
