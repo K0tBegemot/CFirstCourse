@@ -7,7 +7,7 @@ typedef struct AVLTree
     int height;
     struct AVLTree *L;
     struct AVLTree *R;
-}AVL;
+} AVL;
 
 int GetHeight(AVL *elem)
 {
@@ -106,29 +106,27 @@ AVL *InsertElement(AVL *tree, int a, AVL *BitArray, int *BitArrayIndex)
     if (!tree)
     {
         AVL *NewLeaf;
-        NewLeaf = BitArray+(*(BitArrayIndex));
-        *(BitArrayIndex)+=1;
+        NewLeaf = BitArray + (*(BitArrayIndex));
+        *(BitArrayIndex) += 1;
         NewLeaf->height = 1;
         NewLeaf->L = 0;
         NewLeaf->R = 0;
         NewLeaf->value = a;
         return NewLeaf;
-    }else
-    {
-    	if (a <= tree->value)
-    {
-        tree->L = InsertElement(tree->L, a, BitArray, BitArrayIndex);
-        RestoreCorrectHeight(tree);
     }
     else
     {
-        if (a > tree->value)
+        if (a <= tree->value)
+        {
+            tree->L = InsertElement(tree->L, a, BitArray, BitArrayIndex);
+            RestoreCorrectHeight(tree);
+        }
+        else
         {
             tree->R = InsertElement(tree->R, a, BitArray, BitArrayIndex);
             RestoreCorrectHeight(tree);
         }
     }
-	}
     return Balance(tree);
 }
 
@@ -139,14 +137,14 @@ int main()
     {
         printf("%s", "bad input");
     }
-    if(n==0)
+    if (n == 0)
     {
-    	printf("%d",0);
-    	return 0;
-	}
-    AVL *TreeHead=0;
-    AVL *BitArray=(AVL* )malloc(sizeof(AVL)*n);
-    int BitArrayIndex=0;
+        printf("%d", 0);
+        return 0;
+    }
+    AVL *TreeHead = 0;
+    AVL *BitArray = (AVL *)malloc(sizeof(AVL) * n);
+    int BitArrayIndex = 0;
     int tmp = 0;
     for (int i = 0; i < n; i++)
     {
