@@ -14,11 +14,11 @@ typedef struct TreeHead
     struct AVLTree *Top;
 } TH;
 
-TH *CreateTree(int n)
+TH *CreateTree()
 {
     TH *Head;
     Head = (TH *)malloc(sizeof(TH));
-    Head->Top = (AVL*)malloc(sizeof(AVL)*n);
+    Head->Top = 0;
     return Head;
 }
 
@@ -157,9 +157,8 @@ int main()
     	printf("%d",0);
     	return 0;
 	}
-    TH *NewTree = CreateTree(n);
-    AVL *BitArray=NewTree->Top;
-    NewTree->Top=0;
+    TH *NewTree = CreateTree();
+    AVL *BitArray=(AVL* )malloc(sizeof(AVL)*n);
     int BitArrayIndex=0;
     int tmp = 0;
     for (int i = 0; i < n; i++)
