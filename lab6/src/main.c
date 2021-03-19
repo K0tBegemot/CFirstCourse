@@ -152,6 +152,11 @@ int main()
     {
         printf("%s", "bad input");
     }
+    if(n==0)
+    {
+    	printf("%d",0);
+    	return 0;
+	}
     TH *NewTree = CreateTree(n);
     AVL *BitArray=NewTree->Top;
     NewTree->Top=0;
