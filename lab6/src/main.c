@@ -14,11 +14,11 @@ typedef struct TreeHead
     struct AVLTree *Top;
 } TH;
 
-TH *CreateTree()
+TH *CreateTree(int n)
 {
     TH *Head;
     Head = (TH *)malloc(sizeof(TH));
-    Head->Top = 0;
+    Head->Top = (AVL*)malloc(sizeof(AVL)*n);
     return Head;
 }
 
@@ -114,12 +114,13 @@ AVL *Balance(AVL *elem)
     return elem;
 }
 
-AVL *InsertElement(AVL *elem, int a)
+AVL *InsertElement(AVL *elem, int a, AVL *BitArray, int *BitArrayIndex)
 {
     if (!elem)
     {
         AVL *NewLeaf;
-        NewLeaf = (AVL *)malloc(sizeof(AVL));
+        NewLeaf = BitArray+(*(BitArrayIndex));
+        *(BitArrayIndex)+=1;
         NewLeaf->height = 1;
         NewLeaf->LeftKey = 0;
         NewLeaf->RightKey = 0;
@@ -128,31 +129,18 @@ AVL *InsertElement(AVL *elem, int a)
     }
     if (a <= elem->value)
     {
-        elem->LeftKey = InsertElement(elem->LeftKey, a);
+        elem->LeftKey = InsertElement(elem->LeftKey, a, BitArray, BitArrayIndex);
         RestorationOfCorrectHeight(elem);
     }
     else
     {
         if (a > elem->value)
         {
-            elem->RightKey = InsertElement(elem->RightKey, a);
+            elem->RightKey = InsertElement(elem->RightKey, a, BitArray, BitArrayIndex);
             RestorationOfCorrectHeight(elem);
         }
     }
     return Balance(elem);
-}
-
-void clear(AVL *elem)
-{
-    if (elem->RightKey)
-    {
-        clear(elem->RightKey);
-    }
-    if (elem->LeftKey)
-    {
-        clear(elem->LeftKey);
-    }
-    free(elem);
 }
 
 int main()
@@ -162,7 +150,10 @@ int main()
     {
         printf("%s", "bad input");
     }
-    TH *NewTree = CreateTree();
+    TH *NewTree = CreateTree(n);
+    AVL *BitArray=NewTree->Top;
+    NewTree->Top=0;
+    int BitArrayIndex=0;
     int tmp = 0;
     for (int i = 0; i < n; i++)
     {
@@ -170,13 +161,10 @@ int main()
         {
             printf("%s", "bad input");
         }
-        NewTree->Top = InsertElement(NewTree->Top, tmp);
+        NewTree->Top = InsertElement(NewTree->Top, tmp, BitArray, &BitArrayIndex);
     }
     printf("%d", GetHeight(NewTree->Top));
-    if (n > 0)
-    {
-        clear(NewTree->Top);
-    }
+    free(BitArray);
     free(NewTree);
     return 0;
 }
