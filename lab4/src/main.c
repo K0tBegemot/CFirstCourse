@@ -106,7 +106,7 @@ void error(char *a, int *b, tos *aa)
     errorfunc();
 }
 
-int checkForLice(int size_a, char *a, int *b, tos *aa)
+int checkForDoubleOperations(int size_a, char *a, int *b, tos *aa)
 {
     int counter = 0;
     for (int i = 0; i < size_a; i++)
@@ -124,7 +124,7 @@ int checkForLice(int size_a, char *a, int *b, tos *aa)
     return counter;
 }
 
-int choiceOfNextAction1(char *a, int *i, int aSize, int *b, int *indexOfB, int *wera, tos *aa)
+int chooseNextActionInExpression(char *a, int *i, int aSize, int *b, int *indexOfB, int *wera, tos *aa)
 {
     int counter = 2;
     if (a[*i] == '\n')
@@ -132,134 +132,134 @@ int choiceOfNextAction1(char *a, int *i, int aSize, int *b, int *indexOfB, int *
         counter = 1;
     }
     else
-    
-        if ((a[*i] - '0' >= 0) && (a[*i] - '0' <= 9))
-        {
-            int l = *i;
-            long long int r = 1;
-            int *vrmass = (int *)malloc(50 * sizeof(int));
-            int vrmassSize = 0;
-            while ((a[l] - '0' >= 0) && (a[l] - '0' <= 9) && (l < aSize - 1))
-            {
-                vrmass[vrmassSize] = (a[l] - '0');
-                l += 1;
-                vrmassSize += 1;
-            }
-            b[*indexOfB] = 0;
-            for (int op = vrmassSize - 1; op > -1; op--)
-            {
-                b[*indexOfB] += vrmass[op] * r;
-                r *= 10;
-            }
-            *i = l;
-            *indexOfB += 1;
-            *wera = 1;
-            free(vrmass);
-        }
-        else
 
-            switch (a[*i])
+        if ((a[*i] - '0' >= 0) && (a[*i] - '0' <= 9))
+    {
+        int l = *i;
+        long long int r = 1;
+        int *vrmass = (int *)malloc(50 * sizeof(int));
+        int vrmassSize = 0;
+        while ((a[l] - '0' >= 0) && (a[l] - '0' <= 9) && (l < aSize - 1))
+        {
+            vrmass[vrmassSize] = (a[l] - '0');
+            l += 1;
+            vrmassSize += 1;
+        }
+        b[*indexOfB] = 0;
+        for (int op = vrmassSize - 1; op > -1; op--)
+        {
+            b[*indexOfB] += vrmass[op] * r;
+            r *= 10;
+        }
+        *i = l;
+        *indexOfB += 1;
+        *wera = 1;
+        free(vrmass);
+    }
+    else
+
+        switch (a[*i])
+        {
+        case ')':
+        {
+            int opr = pop(aa);
+            while (opr != -5 && opr != -10)
             {
-            case ')':
-            {
-                int opr = pop(aa);
-                while (opr != -5 && opr != -10)
-                {
-                    b[*indexOfB] = opr;
-                    *indexOfB += 1;
-                    opr = pop(aa);
-                }
-                *wera = 1;
-                *i += 1;
-                if (opr == -10)
-                {
-                    error(a, b, aa);
-                    counter = 0;
-                }
-                break;
+                b[*indexOfB] = opr;
+                *indexOfB += 1;
+                opr = pop(aa);
             }
-            case '+':
-            {
-                if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
-                {
-                    b[*indexOfB] = pop(aa);
-                    *indexOfB += 1;
-                    push(aa, retindex('+'));
-                }
-                else
-                {
-                    push(aa, retindex('+'));
-                }
-                *wera = 0;
-                *i += 1;
-                break;
-            }
-            case '-':
-            {
-                if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
-                {
-                    b[*indexOfB] = pop(aa);
-                    *indexOfB += 1;
-                    push(aa, retindex('-'));
-                }
-                else
-                {
-                    push(aa, retindex('-'));
-                }
-                *wera = 0;
-                *i += 1;
-                break;
-            }
-            case '/':
-            {
-                if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
-                {
-                    b[*indexOfB] = pop(aa);
-                    *indexOfB += 1;
-                    push(aa, retindex('/'));
-                }
-                else
-                {
-                    push(aa, retindex('/'));
-                }
-                *wera = 0;
-                *i += 1;
-                break;
-            }
-            case '*':
-            {
-                if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
-                {
-                    b[*indexOfB] = pop(aa);
-                    *indexOfB += 1;
-                    push(aa, retindex('*'));
-                }
-                else
-                {
-                    push(aa, retindex('*'));
-                }
-                *wera = 0;
-                *i += 1;
-                break;
-            }
-            case '(':
-            {
-                push(aa, retindex('('));
-                *wera = 0;
-                *i += 1;
-                break;
-            }
-            default:
+            *wera = 1;
+            *i += 1;
+            if (opr == -10)
             {
                 error(a, b, aa);
                 counter = 0;
             }
+            break;
+        }
+        case '+':
+        {
+            if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
+            {
+                b[*indexOfB] = pop(aa);
+                *indexOfB += 1;
+                push(aa, retindex('+'));
             }
-    
+            else
+            {
+                push(aa, retindex('+'));
+            }
+            *wera = 0;
+            *i += 1;
+            break;
+        }
+        case '-':
+        {
+            if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
+            {
+                b[*indexOfB] = pop(aa);
+                *indexOfB += 1;
+                push(aa, retindex('-'));
+            }
+            else
+            {
+                push(aa, retindex('-'));
+            }
+            *wera = 0;
+            *i += 1;
+            break;
+        }
+        case '/':
+        {
+            if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
+            {
+                b[*indexOfB] = pop(aa);
+                *indexOfB += 1;
+                push(aa, retindex('/'));
+            }
+            else
+            {
+                push(aa, retindex('/'));
+            }
+            *wera = 0;
+            *i += 1;
+            break;
+        }
+        case '*':
+        {
+            if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
+            {
+                b[*indexOfB] = pop(aa);
+                *indexOfB += 1;
+                push(aa, retindex('*'));
+            }
+            else
+            {
+                push(aa, retindex('*'));
+            }
+            *wera = 0;
+            *i += 1;
+            break;
+        }
+        case '(':
+        {
+            push(aa, retindex('('));
+            *wera = 0;
+            *i += 1;
+            break;
+        }
+        default:
+        {
+            error(a, b, aa);
+            counter = 0;
+        }
+        }
+
     return counter;
 }
 
-int choiceOfNextAction2(int *b, int *i, tos *lol)
+int chooseNextActionInStack(int *b, int *i, tos *lol)
 {
     int counter = 0;
     if (b[*i] >= 0)
@@ -342,6 +342,8 @@ int main()
     FILE *ptrfile = fopen("in.txt", "r");
     if (fgets(a, 1100, ptrfile) == 0)
     {
+        errorfunc();
+        return 0;
     }
     fclose(ptrfile);
     int aSize = strlen(a);
@@ -356,7 +358,7 @@ int main()
     tos *aa;
     aa = (tos *)malloc(sizeof(tos));
     aa->top = 0;
-    if (checkForLice(aSize, a, b, aa))
+    if (checkForDoubleOperations(aSize, a, b, aa))
     {
         return 0;
     }
@@ -364,7 +366,7 @@ int main()
     int i = 0;
     while (i < aSize)
     {
-        switch (choiceOfNextAction1(a, &i, aSize, b, &indexOfB, &wera, aa))
+        switch (chooseNextActionInExpression(a, &i, aSize, b, &indexOfB, &wera, aa))
         {
         case 0:
         {
@@ -391,7 +393,7 @@ int main()
     lol->top = 0;
     for (int i = 0; i < indexOfB; ++i)
     {
-        if (choiceOfNextAction2(b, &i, lol))
+        if (chooseNextActionInStack(b, &i, lol))
         {
             return 0;
         }
