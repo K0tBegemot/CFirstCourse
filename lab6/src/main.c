@@ -152,10 +152,7 @@ void clear(AVL *elem)
     {
         clear(elem->LeftKey);
     }
-    if ((!(elem->RightKey)) && (!(elem->LeftKey)))
-    {
-        free(elem);
-    }
+    free(elem);
 }
 
 int main()
