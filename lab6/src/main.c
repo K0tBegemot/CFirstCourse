@@ -5,81 +5,68 @@ typedef struct AVLTree
 {
     int value;
     int height;
-    struct AVLTree *LeftKey;
-    struct AVLTree *RightKey;
-} AVL;
-
-typedef struct TreeHead
-{
-    struct AVLTree *Top;
-} TH;
-
-TH *CreateTree()
-{
-    TH *Head;
-    Head = (TH *)malloc(sizeof(TH));
-    Head->Top = 0;
-    return Head;
-}
+    struct AVLTree *L;
+    struct AVLTree *R;
+}AVL;
 
 int GetHeight(AVL *elem)
 {
     return (elem) ? elem->height : 0;
 }
 
-void RestorationOfCorrectHeight(AVL *elem)
+void RestoreCorrectHeight(AVL *elem)
 {
-    int RH = GetHeight(elem->RightKey);
-    int LH = GetHeight(elem->LeftKey);
+    int RH = GetHeight(elem->R);
+    int LH = GetHeight(elem->L);
     elem->height = ((RH > LH ? RH : LH) + 1);
 }
 
 int CalculateHeightDifference(AVL *elem)
 {
-    return (GetHeight(elem->LeftKey) - GetHeight(elem->RightKey));
+    return (GetHeight(elem->L) - GetHeight(elem->R));
 }
 
-AVL *SmallRightSpin(AVL *elem)
+AVL *RotateRightSmall(AVL *elem)
 {
     AVL *OldTop = elem;
-    elem = elem->LeftKey;
-    OldTop->LeftKey = elem->RightKey;
-    elem->RightKey = OldTop;
-    RestorationOfCorrectHeight(elem->RightKey);
-    RestorationOfCorrectHeight(elem);
+    elem = elem->L;
+    OldTop->L = elem->R;
+    elem->R = OldTop;
+    RestoreCorrectHeight(elem->R);
+    RestoreCorrectHeight(elem);
     return elem;
 }
 
-AVL *SmallLeftSpin(AVL *elem)
+AVL *RotateLeftSmall(AVL *elem)
 {
     AVL *OldTop = elem;
-    elem = elem->RightKey;
-    OldTop->RightKey = elem->LeftKey;
-    elem->LeftKey = OldTop;
-    RestorationOfCorrectHeight(elem->LeftKey);
-    RestorationOfCorrectHeight(elem);
+    elem = elem->R;
+    OldTop->R = elem->L;
+    elem->L = OldTop;
+    RestoreCorrectHeight(elem->L);
+    RestoreCorrectHeight(elem);
     return elem;
 }
 
-AVL *BigRightSpin(AVL *elem)
+AVL *RotateRightBig(AVL *elem)
 {
-    AVL *TMP1 = SmallLeftSpin(elem->LeftKey);
-    elem->LeftKey = TMP1;
-    AVL *TMP2 = SmallRightSpin(elem);
-    RestorationOfCorrectHeight(TMP2->RightKey);
-    RestorationOfCorrectHeight(TMP2->LeftKey);
-    RestorationOfCorrectHeight(TMP2);
+    AVL *TMP1 = RotateLeftSmall(elem->L);
+    elem->L = TMP1;
+    AVL *TMP2 = RotateRightSmall(elem);
+    RestoreCorrectHeight(TMP2->R);
+    RestoreCorrectHeight(TMP2->L);
+    RestoreCorrectHeight(TMP2);
     return TMP2;
 }
 
-AVL *BigLeftSpin(AVL *elem)
+AVL *RotateLeftBig(AVL *elem)
 {
-    AVL *TMP1 = SmallRightSpin(elem->RightKey);
-    elem->RightKey = TMP1;
-    AVL *TMP2 = SmallLeftSpin(elem);
-    RestorationOfCorrectHeight(TMP2->RightKey);
-    RestorationOfCorrectHeight(TMP2->LeftKey);
-    RestorationOfCorrectHeight(TMP2);
+    AVL *TMP1 = RotateRightSmall(elem->R);
+    elem->R = TMP1;
+    AVL *TMP2 = RotateLeftSmall(elem);
+    RestoreCorrectHeight(TMP2->R);
+    RestoreCorrectHeight(TMP2->L);
+    RestoreCorrectHeight(TMP2);
     return TMP2;
 }
 
@@ -88,61 +75,61 @@ AVL *Balance(AVL *elem)
     int HeightDifference = CalculateHeightDifference(elem);
     if (HeightDifference == 2)
     {
-        if (CalculateHeightDifference(elem->LeftKey) >= 0)
+        if (CalculateHeightDifference(elem->L) >= 0)
         {
-            return SmallRightSpin(elem);
+            return RotateRightSmall(elem);
         }
         else
         {
-            return BigRightSpin(elem);
+            return RotateRightBig(elem);
         }
     }
     else
     {
         if (HeightDifference == -2)
         {
-            if (CalculateHeightDifference(elem->RightKey) <= 0)
+            if (CalculateHeightDifference(elem->R) <= 0)
             {
-                return SmallLeftSpin(elem);
+                return RotateLeftSmall(elem);
             }
             else
             {
-                return BigLeftSpin(elem);
+                return RotateLeftBig(elem);
             }
         }
     }
     return elem;
 }
 
-AVL *InsertElement(AVL *elem, int a, AVL *BitArray, int *BitArrayIndex)
+AVL *InsertElement(AVL *tree, int a, AVL *BitArray, int *BitArrayIndex)
 {
-    if (!elem)
+    if (!tree)
     {
         AVL *NewLeaf;
         NewLeaf = BitArray+(*(BitArrayIndex));
         *(BitArrayIndex)+=1;
         NewLeaf->height = 1;
-        NewLeaf->LeftKey = 0;
-        NewLeaf->RightKey = 0;
+        NewLeaf->L = 0;
+        NewLeaf->R = 0;
         NewLeaf->value = a;
         return NewLeaf;
     }else
     {
-    	if (a <= elem->value)
+    	if (a <= tree->value)
     {
-        elem->LeftKey = InsertElement(elem->LeftKey, a, BitArray, BitArrayIndex);
-        RestorationOfCorrectHeight(elem);
+        tree->L = InsertElement(tree->L, a, BitArray, BitArrayIndex);
+        RestoreCorrectHeight(tree);
     }
     else
     {
-        if (a > elem->value)
+        if (a > tree->value)
         {
-            elem->RightKey = InsertElement(elem->RightKey, a, BitArray, BitArrayIndex);
-            RestorationOfCorrectHeight(elem);
+            tree->R = InsertElement(tree->R, a, BitArray, BitArrayIndex);
+            RestoreCorrectHeight(tree);
         }
     }
 	}
-    return Balance(elem);
+    return Balance(tree);
 }
 
 int main()
@@ -157,7 +144,7 @@ int main()
     	printf("%d",0);
     	return 0;
 	}
-    TH *NewTree = CreateTree();
+    AVL *TreeHead=0;
     AVL *BitArray=(AVL* )malloc(sizeof(AVL)*n);
     int BitArrayIndex=0;
     int tmp = 0;
@@ -167,10 +154,9 @@ int main()
         {
             printf("%s", "bad input");
         }
-        NewTree->Top = InsertElement(NewTree->Top, tmp, BitArray, &BitArrayIndex);
+        TreeHead = InsertElement(TreeHead, tmp, BitArray, &BitArrayIndex);
     }
-    printf("%d", GetHeight(NewTree->Top));
+    printf("%d", GetHeight(TreeHead));
     free(BitArray);
-    free(NewTree);
     return 0;
 }
