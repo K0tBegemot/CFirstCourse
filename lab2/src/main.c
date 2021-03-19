@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-int makeRearrangement(int *a, int size)
+int makeRearrangement(char *a, int size)
 {
     int counter = 0;
     int s = 0;
@@ -19,7 +19,8 @@ int makeRearrangement(int *a, int size)
     {
         return -1;
     }
-    int minn = a[s], minnIndex = s;
+    char minn = a[s];
+    int minnIndex = s;
     for (int i = s + 1; i < size; i++)
     {
         if (a[i] < minn && a[i] > a[s - 1])
@@ -28,14 +29,14 @@ int makeRearrangement(int *a, int size)
             minnIndex = i;
         }
     }
-    int u;
+    char u;
     u = a[s - 1];
     a[s - 1] = minn;
     a[minnIndex] = u;
     return s;
 }
 
-void makeRightOrderOfTheElementsInThePermutationAfterTheEnlargedElement(int *b, int r, int aSize)
+void swap(char *b, int r, int aSize)
 {
     //bubbleSortElementsInThePermutationAfterTheEnlargedElement
     for (int i = 0; i < r; i++)
@@ -44,7 +45,7 @@ void makeRightOrderOfTheElementsInThePermutationAfterTheEnlargedElement(int *b, 
         {
             if (b[ii] > b[ii + 1])
             {
-                int c = b[ii];
+                char c = b[ii];
                 b[ii] = b[ii + 1];
                 b[ii + 1] = c;
             }
@@ -56,7 +57,7 @@ void printOnePermutation(int *b, int aSize)
 {
     for (int ii = 0; ii < aSize; ii++)
     {
-        printf("%d", b[ii]);
+        printf("%d", b[ii]-'0');
     }
     printf("\n");
 }
@@ -64,7 +65,7 @@ void printOnePermutation(int *b, int aSize)
 int main()
 {
     char a[100];
-    int b[100], cou[10], count;
+    int count1[10], size;
     FILE *ptrfile = fopen("in.txt", "r");
     if (fgets(a, 100, ptrfile) == 0)
     {
@@ -72,7 +73,7 @@ int main()
         fclose(ptrfile);
         return 0;
     }
-    if (fscanf(ptrfile, "%d", &count) == 0)
+    if (fscanf(ptrfile, "%d", &size) == 0)
     {
         printf("%s", "bad input");
         fclose(ptrfile);
@@ -81,15 +82,14 @@ int main()
     int aSize = strlen(a) - 1;
     for (int i = 0; i < 10; i++)
     {
-        cou[i] = 0;
+        count1[i] = 0;
     }
     for (int i = 0; i < aSize; i++)
     {
-        if ((a[i] - '0' >= 0) && (a[i] - '0' <= 9))
+        if ((a[i]>='0') && (a[i]<='9'))
         {
-            b[i] = a[i] - '0';
-            cou[b[i]] += 1;
-            if (cou[b[i]] > 1)
+            count1[a[i] - '0'] += 1;
+            if (count1[a[i] - '0'] > 1)
             {
                 printf("%s", "bad input");
                 return 0;
@@ -101,15 +101,15 @@ int main()
             return 0;
         }
     }
-    for (int i = 0; i < count; i++)
+    for (int i = 0; i < size; i++)
     {
-        int r = makeRearrangement(b, aSize);
+        int r = makeRearrangement(a, aSize);
         if (r == -1)
         {
             return 0;
         }
-        makeRightOrderOfTheElementsInThePermutationAfterTheEnlargedElement(b, r, aSize);
-        printOnePermutation(b, aSize);
+        swap(a, r, aSize);
+        printOnePermutation(a, aSize);
     }
     fclose(ptrfile);
     return 0;
