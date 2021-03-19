@@ -53,15 +53,18 @@ void heapSort(int *arr, int size)
 int main()
 {
     int size;
-    char deleter;
-    if (scanf("%d%c", &size, &deleter) == 0)
+    if (scanf("%d", &size) == 0)
     {
+        printf("error");
+        return 0;
     }
     int *array = (int *)malloc(sizeof(int) * size);
     for (int i = 0; i < size; i++)
     {
-        if (scanf("%d%c", array + i, &deleter) == 0)
+        if (scanf("%d", array + i) == 0)
         {
+            printf("error");
+            return 0;
         }
     }
     heapSort(array, size);
