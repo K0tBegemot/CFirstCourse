@@ -2,180 +2,210 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef long long int lli;
+
+void choiceOfTheNextAction(char *number, lli *indx, lli *tochka, int *numeral)
+{
+    if (number[*indx] == '.')
+    {
+        *tochka = 1;
+        *numeral = 0;
+    }
+    else
+    {
+        if ('0' <= number[*indx] && number[*indx] <= '9')
+        {
+            *numeral = number[*indx] - '0';
+        }
+        else
+        {
+            if (number[*indx] - 'A' >= 0 && number[*indx] - 'F' <= 0)
+            {
+                *numeral = number[*indx] - 'A' + 10;
+            }
+            else
+            {
+                if (number[*indx] - 'a' >= 0 && number[*indx] - 'f' <= 0)
+                {
+                    *numeral = number[*indx] - 'a' + 10;
+                }
+                else
+                {
+                    *numeral = (-1);
+                }
+            }
+        }
+    }
+}
+
+void error(FILE *ptrfile)
+{
+    printf("%s", "bad input");
+    fclose(ptrfile);
+}
+
+int choiceOfTheNextActionFromTochka(char *number, lli *tochka, lli *part1, lli *part2, lli *treq, lli *step, int numeral, lli *counterOfPointer, lli *indx, int a, FILE *ptrfile)
+{
+    int counter = 0;
+    if (*tochka == 0)
+    {
+        *part1 = numeral + (*part1) * a;
+    }
+    else
+    {
+        if (*tochka == 1)
+        {
+            *counterOfPointer += 1;
+            if (*indx == 0)
+            {
+                error(ptrfile);
+                counter = 1;
+            }
+            else
+            {
+                if (number[*indx + 1] == 0)
+                {
+                    error(ptrfile);
+                    counter = 1;
+                }
+            }
+            *tochka = 2;
+        }
+        else
+        {
+            if (*tochka == 2)
+            {
+                *treq += 1;
+                *part2 = (*part2) * a + numeral;
+                *step *= a;
+            }
+        }
+    }
+    return counter;
+}
+
+void makeNumber(lli *part1Size, char *part1End, char *part2End, lli *part1, lli *part2, int *b2, lli *step)
+{
+    for (long long int i = 0; i < *part1Size; (*part1 /= *b2), i++)
+    {
+        int symbol = *part1 % *b2;
+        char symb;
+        if (symbol <= 9)
+        {
+            symb = (char)('0' + (symbol));
+        }
+        else
+        {
+            symb = (char)('a' + (symbol) - 10);
+        }
+        part1End[i] = symb;
+    }
+    for (long long int i = 0; i < 15; i++)
+    {
+        int symbol = ((*part2) * (*b2)) / (*step);
+        char symb;
+        if (symbol <= 9)
+        {
+            symb = (char)('0' + (symbol));
+        }
+        else
+        {
+            symb = (char)('a' + (symbol) - 10);
+        }
+        part2End[i] = symb;
+        *part2 = (*part2) * (*b2) - (symbol) * (*step);
+    }
+}
+
+void printNumber(lli *part1Size, char *part1End, char *part2End, lli *tochka, lli *copyPart2)
+{
+    for (long long int i = *part1Size - 1; i > -1; i--)
+    {
+        printf("%c", part1End[i]);
+    }
+    if (*tochka == 2 && *copyPart2 != 0)
+    {
+        printf("%c", '.');
+        for (long long int i = 0; i < 12; i++)
+        {
+            if (part2End[i] != '-')
+            {
+                printf("%c", part2End[i]);
+            }
+        }
+    }
+}
+
 int main()
 {
-	long long int indx=0, tochka=0, treq=0, part1=0, part2=0, step=1, part1_size=0, p1=0;
-	int a, b;
-	char X[14], j;
-	FILE* ptrfile = fopen("in.txt", "r");
-	if (fscanf(ptrfile, "%d%d%c", &a, &b, &j) != 3)
-	{
-	    printf("%s","bad input");
-	    fclose(ptrfile);
-		return 0;
-	}
-	if (fgets(X,14,ptrfile)==0)
-	{
-	    printf("%s","bad input");
-	    fclose(ptrfile);
-		return 0;
-	}
-	
-	if (a < 2 || a > 16 || b < 2 || b > 16)
-	{
-	    printf("%s", "bad input\n");
-	    fclose(ptrfile);
-		return 0;
-	}
-	int xSize = strlen(X);
-	for (indx=0; indx <xSize; indx++)
-	{
-	    if(X[indx] != '\n')
-	    {
-	        int numeral = -1;
-		if(X[indx] == '.')
-		{
-			tochka=1;
-			numeral=0;
-		}else
-		{
-			if('0' <= X[indx] && X[indx] <= '9')
-			{
-				numeral = X[indx] - '0';
-			}else
-			{
-				if(X[indx] - 'A' >= 0 && X[indx] - 'F' <= 0)
-				{
-					numeral = X[indx] - 'A' + 10;
-				}else
-				{
-					if(X[indx] - 'a' >= 0 && X[indx] - 'f' <= 0)
-					{
-						numeral = X[indx] - 'a' + 10;
-					}else
-					{
-						numeral=(-1);
-					}
-				}
-			}
-		}
-		if (numeral != -1)
-		{
-		    if(numeral < 0 || numeral > a-1)
-		    {
-		        printf("%s", "bad input");
-		        fclose(ptrfile);
-			    return 0;
-		    }
-		    if(tochka == 0)
-		    {
-		        part1 = numeral + part1 * a;
-		    }else
-		    {
-		        if(tochka == 1)
-		        {
-		            p1+=1;
-		            if(indx == 0)
-		            {
-		                printf("%s", "bad input");
-		                fclose(ptrfile);
-			            return 0;
-		            }else
-		            {
-		                if(X[indx+1] == 0)
-		                {
-		                    printf("%s", "bad input");
-		                    fclose(ptrfile);
-			                return 0;
-		                }
-		            }
-		            tochka = 2;
-				    continue;
-		        }else
-		        {
-		            if(tochka == 2)
-		            {
-		               treq += 1;
-		               part2 = part2 * a + numeral;
-				       step *= a; 
-		            }
-		        }
-		    }
-			
-		}
-		else
-		{
-			printf("%s", "bad input");
-			fclose(ptrfile);
-			return 0;
-		}
-	    }
-	}
-	if(p1>1)
-	{
-	    printf("%s", "bad input");
-	    fclose(ptrfile);
-		return 0;
-	}
-	long long int copy_part1=part1, copy_part2=part2;
-	if(part1 == 0 && part2 == 0 && tochka == 2)
-	{
-		printf("%s","bad input");
-		return 0;
-	}
-	while (copy_part1 != 0)
-	{
-		copy_part1 /= b;
-		part1_size += 1;
-	}
-	if(indx > 0 && part1_size == 0)
-	{
-	    part1_size=1;
-	}
-	long long int symbol, symb;
-	char part1_end[part1_size], part2_end[15];
-	for (long long int i=0; i<part1_size; (part1/=b),i++)
-	{
-		symbol = part1 % b;
-		if (symbol <= 9)
-		{
-			symb = (char)((int)'0' + (int)symbol);
-		}
-		else
-		{
-			symb = (char)((int)'a' + (int)symbol - 10);
-		}
-		part1_end[i] = symb;
-	}
-	for(long long int i=0; i<15; i++)
-	{
-			symbol = (part2*b)/step;
-	    if (symbol <= 9)
-		{
-			symb = (char)((int)'0' + (int)symbol);
-		}
-		else
-		{
-			symb = (char)((int)'a' + (int)symbol - 10);
-		}
-		part2_end[i] = symb;
-		part2 = part2*b - symbol*step;
-	}
-	for(long long int i = part1_size-1; i>-1; i--)
-	{
-	    printf("%c", part1_end[i]);
-	}
-	if(tochka == 2 && copy_part2 != 0)
-	{
-		printf("%c", '.');
-		for(long long int i=0; i<12; i++)
-		{
-			if(part2_end[i] != '-')
-			{
-				printf("%c", part2_end[i]);
-			}
-		}
-	}
-	fclose(ptrfile);
-	return 0;
+    lli indx = 0, tochka = 0, treq = 0, part1 = 0, part2 = 0, step = 1, part1Size = 0, counterOfPointer = 0;
+    int b1, b2;
+    char number[14], j;
+    FILE *ptrfile = fopen("in.txt", "r");
+    if (fscanf(ptrfile, "%d%d%c", &b1, &b2, &j) != 3)
+    {
+        error(ptrfile);
+        return 0;
+    }
+    if (fgets(number, 14, ptrfile) == 0)
+    {
+        error(ptrfile);
+        return 0;
+    }
+    if (b1 < 2 || b1 > 16 || b2 < 2 || b2 > 16)
+    {
+        error(ptrfile);
+        return 0;
+    }
+    int numberSize = strlen(number);
+    for (indx = 0; indx < numberSize; indx++)
+    {
+        if (number[indx] != '\n')
+        {
+            int numeral = -1;
+            choiceOfTheNextAction(number, &indx, &tochka, &numeral);
+            if (numeral != -1)
+            {
+                if (numeral < 0 || numeral > b1 - 1)
+                {
+                    error(ptrfile);
+                    return 0;
+                }
+                if (choiceOfTheNextActionFromTochka(number, &tochka, &part1, &part2, &treq, &step, numeral, &counterOfPointer, &indx, b1, ptrfile))
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                error(ptrfile);
+                return 0;
+            }
+        }
+    }
+    if (counterOfPointer > 1)
+    {
+        error(ptrfile);
+        return 0;
+    }
+    lli copyPart1 = part1, copyPart2 = part2;
+    if (part1 == 0 && part2 == 0 && tochka == 2)
+    {
+        error(ptrfile);
+        return 0;
+    }
+    while (copyPart1 != 0)
+    {
+        copyPart1 /= b2;
+        part1Size += 1;
+    }
+    if (indx > 0 && part1Size == 0)
+    {
+        part1Size = 1;
+    }
+    char part1End[part1Size], part2End[15];
+    makeNumber(&part1Size, part1End, part2End, &part1, &part2, &b2, &step);
+    printNumber(&part1Size, part1End, part2End, &tochka, &copyPart2);
+    fclose(ptrfile);
+    return 0;
 }
