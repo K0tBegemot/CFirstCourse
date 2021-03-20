@@ -2,145 +2,114 @@
 #include <stdio.h>
 #include <string.h>
 
+void constructTable(char *a, int *table, char *tableW, long long int aSize, long long int *tableSize)
+{
+    for (int i = 0; i < aSize - 2; i++)
+    {
+        long long int counter = 0;
+        for (int ii = 0; ii < *tableSize; ii++)
+        {
+            if (a[i] == tableW[ii])
+            {
+                table[ii] = aSize - i - 2;
+                counter = 1;
+                break;
+            }
+        }
+        if (counter == 0)
+        {
+            tableW[*tableSize] = a[i];
+            table[*tableSize] = aSize - i - 2;
+            *tableSize += 1;
+        }
+    }
+}
+
+void changeTable(char *c, int cSize, int tableSize, long long int *location, char *tableW, int *table, long long int *gerb, int aSize)
+{
+    int q = 0;
+    for (int i = 0; i < tableSize; i++)
+    {
+        if (tableW[i] == c[*location])
+        {
+            *location += table[i];
+            q = 1;
+            if (*location >= cSize)
+            {
+                *gerb += cSize;
+            }
+            break;
+        }
+    }
+    if (q != 1)
+    {
+        *location += aSize - 1;
+        if (*location >= cSize)
+        {
+            *gerb += cSize;
+        }
+    }
+}
+
 int main()
 {
     char a[18], c[97];
     int table[16];
-    char table_w[16];
-    FILE* ptrfile = fopen("in.txt", "r");
-    if(fgets(a, 18, ptrfile) == 0)
+    char tableW[16];
+    FILE *ptrfile = fopen("in.txt", "r");
+    if (fgets(a, 18, ptrfile) == 0)
     {
-    	fclose(ptrfile);
-    	return 0;
-	}
-	long long int a_size = strlen(a);
-    long long int table_size = 0;
-    for (int i = 0; i < a_size-2; i++)
-    {
-         long long int counter = 0;
-         for (int ii = 0; ii < table_size; ii++)
-         {
-                if (a[i] == table_w[ii])
-                {
-                    table[ii] = a_size - i - 2;
-                    counter = 1;
-                    break;
-                }
-         }
-         if (counter == 0)
-         {
-                table_w[table_size] = a[i];
-                table[table_size] = a_size - i - 2;
-                table_size += 1;
-         }
+        fclose(ptrfile);
+        return 0;
     }
-    FILE* ptrfile2 = fopen("out.txt", "w");
+    long long int aSize = strlen(a);
+    long long int tableSize = 0;
+    constructTable(a, table, tableW, aSize, &tableSize);
+    FILE *ptrfile2 = fopen("out.txt", "w");
     long long int gerb = 0;
-    while(fgets(c, 97, ptrfile) != 0)
+    while (fgets(c, 97, ptrfile) != 0)
     {
-    	int size_c = strlen(c);
-    	if(size_c == 0)
-    	{
-    		break;
-		}else
-		{
-		    long long int location = a_size - 2;
-            while (location < size_c)
+        int cSize = strlen(c);
+        if (cSize == 0)
+        {
+            break;
+        }
+        else
+        {
+            long long int location = aSize - 2;
+            while (location < cSize)
             {
-    	        fprintf(ptrfile2, "%lld%s", location + 1 + gerb, " ");
-                if (c[location] == a[a_size - 2])
+                fprintf(ptrfile2, "%lld%s", location + 1 + gerb, " ");
+                if (c[location] == a[aSize - 2])
                 {
-                    long long int location_copy = location - 1, popp=1;
-                    for (int i = a_size - 3; i > -1; i--)
+                    long long int locationCopy = location - 1, popp = 1;
+                    for (int i = aSize - 3; i > -1; i--)
                     {
-            	        fprintf(ptrfile2, "%lld%s", location_copy + 1 + gerb, " ");
-                        if (c[location_copy] == a[i])
+                        fprintf(ptrfile2, "%lld%s", locationCopy + 1 + gerb, " ");
+                        if (c[locationCopy] == a[i])
                         {
                             popp += 1;
-                            location_copy -= 1;
+                            locationCopy -= 1;
                         }
                         else
                         {
-                            int l = 0;
-                            for (int ii = 0; ii < table_size; ii++)
-                            {
-                                if (table_w[ii] == a[a_size - 2])
-                                {
-                                    location += table[ii];
-                                    if(location >= size_c)
-                                    {
-                                        gerb += size_c;	
-							        }
-                                    l = 1;
-                                    break;
-                                }
-                            }
-                            if (l != 1)
-                            {
-                                location += a_size-1;
-                                if(location >= size_c)
-                                {
-                        	        gerb += size_c;
-						        }
-                            }
+                            changeTable(c, cSize, tableSize, &location, tableW, table, &gerb, aSize);
                             break;
                         }
                     }
-                    if (popp == a_size-1)
+                    if (popp == aSize - 1)
                     {
-                        int olp = 0;
-                        for (int i = 0; i < table_size; i++)
-                        {
-                            if(table_w[i] == a[a_size - 2])
-                            {
-                    	        olp = 1;
-                                location += table[i];
-                                if(location >= size_c)
-                                {
-                        	        gerb += size_c;
-						        }
-                                break;
-					        }
-                        }
-                        if (olp != 1)
-                        {
-                            location += a_size-1;
-                            if(location >= size_c)
-                            {
-                            	gerb += size_c;
-				        	}
-                        }
+                        changeTable(c, cSize, tableSize, &location, tableW, table, &gerb, aSize);
                     }
                 }
                 else
                 {
-                    int q = 0;
-                    for (int i = 0; i < table_size; i++)
-                    {
-                        if (table_w[i] == c[location])
-                        {
-                            location += table[i];
-                            q = 1;
-                            if(location >= size_c)
-                            {
-                    	        gerb += size_c;
-					        }
-                        break;
-                        }   
-                    }
-                    if (q != 1)
-                    {
-                        location += a_size-1;
-                        if(location >= size_c)
-                        {
-                        	gerb += size_c;
-				     	}
-                    }
+                    changeTable(c, cSize, tableSize, &location, tableW, table, &gerb, aSize);
                 }
             }
-		}
-	}
-	fclose(ptrfile);
-	fclose(ptrfile2);
+        }
+    }
+    fclose(ptrfile);
+    fclose(ptrfile2);
     return 0;
 }
