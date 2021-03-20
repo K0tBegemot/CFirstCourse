@@ -5,12 +5,12 @@
 typedef struct Stack
 {
     int data;
-    struct Stack* next;
+    struct Stack *next;
 } st;
 
-typedef struct Top_of_stack
+typedef struct TopOfStack
 {
-    st* top;
+    st *top;
 } tos;
 
 void errorfunc()
@@ -44,9 +44,9 @@ int retindex(char symbol)
     return k;
 }
 
-void makenull(tos* a)
+void makenull(tos *a)
 {
-    st* b;
+    st *b;
     while (a->top)
     {
         b = a->top;
@@ -56,7 +56,7 @@ void makenull(tos* a)
     free(a);
 }
 
-int top(tos* a)
+int top(tos *a)
 {
     if (a->top)
     {
@@ -68,10 +68,10 @@ int top(tos* a)
     }
 }
 
-int pop(tos* a)
+int pop(tos *a)
 {
-    st* b;
-	b = a->top;
+    st *b;
+    b = a->top;
     if (b == 0)
     {
         return -10;
@@ -82,9 +82,9 @@ int pop(tos* a)
     return c;
 }
 
-void push(tos* a, int b)
+void push(tos *a, int b)
 {
-    st* c = (st*)malloc(sizeof(st));
+    st *c = (st *)malloc(sizeof(st));
     if (c)
     {
         c->data = b;
@@ -93,289 +93,309 @@ void push(tos* a, int b)
     }
 }
 
-int empty(tos* a)
+int empty(tos *a)
 {
     return (a->top == 0);
 }
 
-int main()
+void error(char *a, int *b, tos *aa)
 {
-    char* a = (char*)malloc(1100 * sizeof(char));
-    FILE* ptrfile=fopen("in.txt", "r");
-    if (fgets(a, 1100, ptrfile) == 0)
-    {
-    	
-    }
-    fclose(ptrfile);
-    int size_a = strlen(a);
-    if (size_a == 1 || size_a == 0)
-    {
-    	free(a);
-        errorfunc();
-        return 0;
-    }
-    int* b = (int*)malloc(size_a * sizeof(int));
-    int index_of_b = 0;
-    tos* aa;
-	aa = (tos*)malloc(sizeof(tos));
-    aa->top = 0;
+    free(a);
+    free(b);
+    makenull(aa);
+    errorfunc();
+}
+
+int checkForDoubleOperations(int size_a, char *a, int *b, tos *aa)
+{
+    int counter = 0;
     for (int i = 0; i < size_a; i++)
     {
-        if (a[i] == '+' || a[i] == '-' || a[i] == '*' || a[i] == '/')
+        if (a[i] == '+' || a[i] == '-' || a[i] == '*' || a[i] == '/' || a[i] == '(')
         {
-            if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/'||a[i+1]==')')
+            if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/' || a[i + 1] == ')')
             {
-            	free(a);
-            	free(b);
-            	makenull(aa);
-                errorfunc();
-                return 0;
-            }
-        }
-        if (a[i] == '(')
-        {
-            if (a[i + 1] == '+' || a[i + 1] == '-' || a[i + 1] == '*' || a[i + 1] == '/'||a[i+1]==')')
-            {
-            	free(a);
-            	free(b);
-            	makenull(aa);
-                errorfunc();
-                return 0;
+                error(a, b, aa);
+                counter = 1;
+                break;
             }
         }
     }
-    int wera = 0;
-    int i = 0;
-    while (i < size_a)
+    return counter;
+}
+
+int chooseNextActionInExpression(char *a, int *i, int aSize, int *b, int *indexOfB, int *wera, tos *aa)
+{
+    int counter = 2;
+    if (a[*i] == '\n')
     {
-        if (a[i] == '\n')
+        counter = 1;
+    }
+    else
+
+        if ((a[*i] - '0' >= 0) && (a[*i] - '0' <= 9))
+    {
+        int l = *i;
+        long long int r = 1;
+        int *vrmass = (int *)malloc(50 * sizeof(int));
+        int vrmassSize = 0;
+        while ((a[l] - '0' >= 0) && (a[l] - '0' <= 9) && (l < aSize - 1))
         {
+            vrmass[vrmassSize] = (a[l] - '0');
+            l += 1;
+            vrmassSize += 1;
+        }
+        b[*indexOfB] = 0;
+        for (int op = vrmassSize - 1; op > -1; op--)
+        {
+            b[*indexOfB] += vrmass[op] * r;
+            r *= 10;
+        }
+        *i = l;
+        *indexOfB += 1;
+        *wera = 1;
+        free(vrmass);
+    }
+    else
+
+        switch (a[*i])
+        {
+        case ')':
+        {
+            int opr = pop(aa);
+            while (opr != -5 && opr != -10)
+            {
+                b[*indexOfB] = opr;
+                *indexOfB += 1;
+                opr = pop(aa);
+            }
+            *wera = 1;
+            *i += 1;
+            if (opr == -10)
+            {
+                error(a, b, aa);
+                counter = 0;
+            }
             break;
         }
-        if ((a[i] - '0' >= 0) && (a[i] - '0' <= 9))
+        case '+':
         {
-            int l = i;
-            long long int r = 1;
-            int* vrmass = (int*)malloc(50 * sizeof(int));
-            int vrmass_size = 0;
-            while ((a[l] - '0' >= 0) && (a[l] - '0' <= 9)&&(l<size_a-1))
+            if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
             {
-                //printf("%d%s%d%c", a[l] - '0',"su",l,'\n');
-                vrmass[vrmass_size] = (a[l]-'0');
-                l += 1;
-                vrmass_size += 1;
-            }
-            b[index_of_b] = 0;
-            for (int op = vrmass_size - 1; op > -1; op--)
-            {
-                b[index_of_b] += vrmass[op] * r;
-                r *= 10;
-            }
-            i = l;
-            index_of_b += 1;
-            wera = 1;
-            free(vrmass);
-            continue;
-        }
-        else
-        {
-            if (a[i] == ')')
-            {
-                int opr = pop(aa);
-                while (opr != -5 && opr != -10)
-                {
-                    b[index_of_b] = opr;
-                    index_of_b += 1;
-                    opr = pop(aa);
-                }
-                if (opr == -10 )
-                {
-                	free(a);
-            	    free(b);
-            	    makenull(aa);
-                    errorfunc();
-                    return 0;
-                }
-                wera = 1;
-                i += 1;
-                continue;
+                b[*indexOfB] = pop(aa);
+                *indexOfB += 1;
+                push(aa, retindex('+'));
             }
             else
             {
-                if (a[i] == '+')
+                push(aa, retindex('+'));
+            }
+            *wera = 0;
+            *i += 1;
+            break;
+        }
+        case '-':
+        {
+            if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
+            {
+                b[*indexOfB] = pop(aa);
+                *indexOfB += 1;
+                push(aa, retindex('-'));
+            }
+            else
+            {
+                push(aa, retindex('-'));
+            }
+            *wera = 0;
+            *i += 1;
+            break;
+        }
+        case '/':
+        {
+            if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
+            {
+                b[*indexOfB] = pop(aa);
+                *indexOfB += 1;
+                push(aa, retindex('/'));
+            }
+            else
+            {
+                push(aa, retindex('/'));
+            }
+            *wera = 0;
+            *i += 1;
+            break;
+        }
+        case '*':
+        {
+            if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
+            {
+                b[*indexOfB] = pop(aa);
+                *indexOfB += 1;
+                push(aa, retindex('*'));
+            }
+            else
+            {
+                push(aa, retindex('*'));
+            }
+            *wera = 0;
+            *i += 1;
+            break;
+        }
+        case '(':
+        {
+            push(aa, retindex('('));
+            *wera = 0;
+            *i += 1;
+            break;
+        }
+        default:
+        {
+            error(a, b, aa);
+            counter = 0;
+        }
+        }
+
+    return counter;
+}
+
+int chooseNextActionInStack(int *b, int *i, tos *lol)
+{
+    int counter = 0;
+    if (b[*i] >= 0)
+    {
+        push(lol, b[*i]);
+    }
+    else
+    {
+        int chislo_1 = pop(lol);
+        int chislo_2 = pop(lol);
+        if (chislo_1 == -10 || chislo_2 == -10)
+        {
+            makenull(lol);
+            free(b);
+            errorfunc();
+            counter = 1;
+        }
+        else
+            switch (b[*i])
+            {
+            case -1:
+            {
+                push(lol, chislo_2 + chislo_1);
+                break;
+            }
+            case -2:
+            {
+                push(lol, chislo_2 - chislo_1);
+                break;
+            }
+            case -4:
+            {
+                push(lol, chislo_2 * chislo_1);
+                break;
+            }
+            case -3:
+            {
+                if (chislo_1 == 0)
                 {
-                    if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
-                    {
-                        b[index_of_b] = pop(aa);
-                        index_of_b += 1;
-                        push(aa, retindex('+'));
-                    }
-                    else
-                    {
-                        push(aa, retindex('+'));
-                    }
-                    wera = 0;
-                    i += 1;
-                    continue;
+                    free(b);
+                    makenull(lol);
+                    printf("%s", "division by zero");
+                    counter = 1;
                 }
                 else
                 {
-                    if (a[i] == '-')
-                    {
-                        if (empty(aa) == 0 && top(aa) < 0 && top(aa) > -5)
-                        {
-                            b[index_of_b] = pop(aa);
-                            index_of_b += 1;
-                            push(aa, retindex('-'));
-                        }
-                        else
-                        {
-                            push(aa, retindex('-'));
-                        }
-                        wera = 0;
-                        i += 1;
-                        continue;
-                    }
-                    else
-                    {
-                        if (a[i] == '/')
-                        {
-                            if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
-                            {
-                                b[index_of_b] = pop(aa);
-                                index_of_b += 1;
-                                push(aa, retindex('/'));
-                            }
-                            else
-                            {
-                                push(aa, retindex('/'));
-                            }
-                            wera = 0;
-                            i += 1;
-                            continue;
-                        }
-                        else
-                        {
-                            if (a[i] == '*')
-                            {
-                                if (empty(aa) == 0 && top(aa) < -2 && top(aa) > -5)
-                                {
-                                    b[index_of_b] = pop(aa);
-                                    index_of_b += 1;
-                                    push(aa, retindex('*'));
-                                }
-                                else
-                                {
-                                    push(aa, retindex('*'));
-                                }
-                                wera = 0;
-                                i += 1;
-                                continue;
-                            }
-                            else
-                            {
-                                if (a[i] == '(')
-                                {
-                                    push(aa, retindex('('));
-                                }
-                                else
-                                {
-                                	free(a);
-                                 	free(b);
-                                 	makenull(aa);
-                                    errorfunc();
-                                    return 0;
-                                }
-                                wera = 0;
-                                i += 1;
-                                continue;
-                            }
-                        }
-                    }
+                    push(lol, (chislo_2 / chislo_1));
                 }
+                break;
             }
+            }
+    }
+    return counter;
+}
+
+int makeAANotEmpty(char *a, int *b, tos *aa, int *wera, int *indexOfB)
+{
+    int counter = 0;
+    while (empty(aa) == 0)
+    {
+        int q = pop(aa);
+        if (*wera == 1)
+        {
+            b[*indexOfB] = q;
+            *indexOfB += 1;
+        }
+        else
+        {
+            error(a, b, aa);
+            counter = 1;
+            break;
+        }
+    }
+    return counter;
+}
+
+int main()
+{
+    char *a = (char *)malloc(1100 * sizeof(char));
+    FILE *ptrfile = fopen("in.txt", "r");
+    if (fgets(a, 1100, ptrfile) == 0)
+    {
+        errorfunc();
+        return 0;
+    }
+    fclose(ptrfile);
+    int aSize = strlen(a);
+    if (aSize == 1 || aSize == 0)
+    {
+        free(a);
+        errorfunc();
+        return 0;
+    }
+    int *b = (int *)malloc(aSize * sizeof(int));
+    int indexOfB = 0;
+    tos *aa;
+    aa = (tos *)malloc(sizeof(tos));
+    aa->top = 0;
+    if (checkForDoubleOperations(aSize, a, b, aa))
+    {
+        return 0;
+    }
+    int wera = 0;
+    int i = 0;
+    while (i < aSize)
+    {
+        switch (chooseNextActionInExpression(a, &i, aSize, b, &indexOfB, &wera, aa))
+        {
+        case 0:
+        {
+            return 0;
+        }
+        case 1:
+        {
+            i = aSize;
+            break;
+        }
         }
     }
     if (empty(aa) == 0)
     {
-        while (empty(aa) == 0)
+        if (makeAANotEmpty(a, b, aa, &wera, &indexOfB))
         {
-            int q = pop(aa);
-            if (wera == 1)
-            {
-                b[index_of_b] = q;
-                index_of_b += 1;
-            }
-            else
-            {
-            	free(a);
-            	free(b);
-            	makenull(aa);
-                errorfunc();
-                return 0;
-            }
+            return 0;
         }
     }
     free(a);
     makenull(aa);
-    tos* lol;
-	lol = (tos*)malloc(sizeof(tos));
+    tos *lol;
+    lol = (tos *)malloc(sizeof(tos));
     lol->top = 0;
-    for (int i = 0; i < index_of_b; i++)
+    for (int i = 0; i < indexOfB; ++i)
     {
-        if (b[i] >= 0)
+        if (chooseNextActionInStack(b, &i, lol))
         {
-            push(lol, b[i]);
-        }
-        else
-        {
-            int chislo_1 = pop(lol);
-            int chislo_2 = pop(lol);
-            if (chislo_1 == -10 || chislo_2 == -10)
-            {
-                makenull(lol);
-                free(b);
-                errorfunc();
-                return 0;
-            }
-            else
-            {
-                if (b[i] == -1)
-                {
-                    push(lol, chislo_2 + chislo_1);
-                }
-                else
-                {
-                    if (b[i] == -2)
-                    {
-                        push(lol, chislo_2 - chislo_1);
-                    }
-                    else
-                    {
-                        if (b[i] == -4)
-                        {
-                            push(lol, chislo_2 * chislo_1);
-                        }
-                        else
-                        {
-                            if (b[i] == -3)
-                            {
-                                if (chislo_1 == 0)
-                                {
-                                	free(b);
-                                	makenull(lol);
-                                    printf("%s","division by zero");
-                                    return 0;
-                                }
-                                else
-                                {
-                                    push(lol, (chislo_2 / chislo_1));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            return 0;
         }
     }
     free(b);
