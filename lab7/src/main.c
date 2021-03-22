@@ -25,11 +25,11 @@ struct BitSet *CreateBitSet(int length, int width, int type)
     switch (type)
     {
     case 0:
-        created->bitset = (char *)calloc((size / 8 + (size % 8 ? 1 : 0)), sizeof(char));
+        created->bitset = (char *)calloc((size / 8 + ((size % 8) ? 1 : 0)), sizeof(char));
         break;
     case 1:
         summ = ((width - 1) * width / 2);
-        created->bitset = (char *)calloc(((size - summ) / 8 + ((size - summ) % 8 ? 1 : 0)), sizeof(char));
+        created->bitset = (char *)calloc(((size - summ) / 8 + (((size - summ) % 8) ? 1 : 0)), sizeof(char));
         break;
     default:
         //printf("Invalid type field. Bitset not created");
