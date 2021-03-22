@@ -44,6 +44,7 @@ struct BitSet *CreateBitSet(int length, int width, int type)
 
 int WriteBit(struct BitSet *created, int x, int y, int bit)
 {
+    int returnValue=0;
     switch (created->type)
     {
     case 0:
@@ -68,7 +69,7 @@ int WriteBit(struct BitSet *created, int x, int y, int bit)
                 *tVar = (*tVar ^ (1 << (8 - (shift % 8) - 1)));
             }
         }
-        return 1;
+        returnValue = 1;
         break;
     case 1:
 
@@ -77,27 +78,29 @@ int WriteBit(struct BitSet *created, int x, int y, int bit)
         printf("Invalid type field. Bad BitSet. Bit not writed");
         return 0;
     }
+    return returnValue;
 }
 
 int ReadBit(struct BitSet *created, int x, int y)
 {
+    int returnValue = 2;
     switch (created->type)
     {
     case 0:
         if (x + 1 > created->width || y + 1 > created->length)
         {
             printf("Invalid coordinate fields. Bit not readed");
-            return 0;
+            return 2;
         }
         int shift = (created->length) * (x) + y;
         char *tVar = (created->bitset) + (shift) / 8;
         if ((*tVar & (1 << (8 - (shift % 8) - 1))) != 0)
         {
-            return 1;
+            returnValue = 1;
         }
         else
         {
-            return 0;
+            returnValue = 0;
         }
         break;
     case 1:
@@ -105,8 +108,9 @@ int ReadBit(struct BitSet *created, int x, int y)
         break;
     default:
         printf("Invalid type field. Bad BitSet. Bit not readed");
-        return 0;
+        return 2;
     }
+    return returnValue;
 }
 
 int TopologicSort(struct BitSet *a, int *colorArray, int *finishStack, int *finishStackInd, int *numberOfBlackTops, int whiteTop, int n)
