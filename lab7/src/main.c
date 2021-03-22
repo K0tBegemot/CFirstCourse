@@ -188,6 +188,10 @@ int main()
         }
         WriteBit(a, f - 1, s - 1, 1);
     }
+    if (counter != m)
+    {
+        exceptions = 1;
+    }
     if (n >= 0 && m >= 0)
     {
         if (n > 2000)
