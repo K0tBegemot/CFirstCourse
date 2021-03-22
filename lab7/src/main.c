@@ -255,6 +255,6 @@ int main()
     }
     for (int i = n - 1; i > -1; i--)
     {
-        printf("%d", finishStack[i]);
+        printf("%d ", finishStack[i]);
     }
 }
