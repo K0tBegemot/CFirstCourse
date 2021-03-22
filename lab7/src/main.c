@@ -139,25 +139,20 @@ int TopologicSort(struct BitSet *a, int *colorArray, int *finishStack, int *fini
             }
         }
     }
-    int counter=0;
     for (int i = n - 1; i > -1; i--)
     {
-        if ((ReadBit(a, whiteTop, i) == 1) && (i != whiteTop))
+        if (ReadBit(a, whiteTop, i) == 1)
         {
-        	counter+=1;
             if (TopologicSort(a, colorArray, finishStack, finishStackInd, numberOfBlackTops, i, n))
             {
                 return 1;
             }
         }
     }
-    if(counter!=0)
-    {
-    	colorArray[whiteTop] = 2;
-    	*numberOfBlackTops += 1;
-    	finishStack[*finishStackInd] = whiteTop + 1;
-    	*finishStackInd += 1;
-	}
+    colorArray[whiteTop] = 2;
+    *numberOfBlackTops += 1;
+    finishStack[*finishStackInd] = whiteTop + 1;
+    *finishStackInd += 1;
     return 0;
 }
 
@@ -177,6 +172,7 @@ int main()
         return 0;
     }
     int *colorArray = (int *)calloc(n, sizeof(int));
+    int *existOfEdge = (int *)calloc(n, sizeof(int));
     int f, s;
     int exceptions = 0, counter = 0;
     struct BitSet *a = CreateBitSet(n, n, 0);
@@ -186,6 +182,7 @@ int main()
         {
             break;
         }
+        existOfEdge[f-1]=1;
         counter += 1;
         if ((f < 1 || f > n) || (s < 1 || s > n))
         {
@@ -278,8 +275,9 @@ int main()
         int numberOfBlackTops = 0, whiteTop = 0;
         for (int i = 0; i < n; i++)
         {
-            if (colorArray[i] == 0)
+            if ((colorArray[i] == 0)&&(existOfEdge[i]==1))
             {
+            	existOfEdge[i]=0;
                 whiteTop = i;
                 break;
             }
