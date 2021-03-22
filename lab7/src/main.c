@@ -160,15 +160,15 @@ int main()
         fprintf(fout, "bad number of lines");
         return 0;
     }
-    struct BitSet *a = CreateBitSet(n, n, 0);
     if (fscanf(fin, "%d", &m) == EOF)
     {
-        fprintf(fout, "bad number of lines");
+        fprintf(fout, "bad number of liness");
         return 0;
     }
     int *colorArray = (int *)calloc(n, sizeof(int));
     int f, s;
     int exceptions = 0, counter = 0;
+    struct BitSet *a = CreateBitSet(n, n, 0);
     for (int i = 0; i < m; i++)
     {
         if (fscanf(fin, "%d%d", &f, &s) == EOF)
