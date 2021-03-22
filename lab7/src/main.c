@@ -44,7 +44,7 @@ struct BitSet *CreateBitSet(int length, int width, int type)
 
 int WriteBit(struct BitSet *created, int x, int y, int bit)
 {
-    int returnValue=0;
+    int returnValue = 0;
     switch (created->type)
     {
     case 0:
@@ -133,7 +133,7 @@ int TopologicSort(struct BitSet *a, int *colorArray, int *finishStack, int *fini
             }
         }
     }
-    for (int i = n-1; i >-1; i--)
+    for (int i = n - 1; i > -1; i--)
     {
         if ((ReadBit(a, whiteTop, i) == 1) && (i != whiteTop))
         {
@@ -152,71 +152,64 @@ int TopologicSort(struct BitSet *a, int *colorArray, int *finishStack, int *fini
 
 int main()
 {
+    FILE *fin = fopen("in.txt", "r");
+    FILE *fout = fopen("out.txt", "w");
     int n, m;
-    if (scanf("%d", &n) == 0)
+    if (fscanf(fin, "%d", &n) == EOF)
     {
-        printf("bad number of vertices");
+        fprintf(fout, "bad number of vertices");
         return 0;
     }
     struct BitSet *a = CreateBitSet(n, n, 0);
-    if (scanf("%d", &m) == 0)
+    if (fscanf(fin, "%d", &m) == EOF)
     {
-        printf("bad number of lines");
+        fprintf(fout, "bad number of lines");
         return 0;
     }
     int *colorArray = (int *)calloc(n, sizeof(int));
     int f, s;
     int exceptions = 0, counter = 0;
-
     for (int i = 0; i < m; i++)
     {
-        if (scanf("%d%d", &f, &s) < 2)
+        if (fscanf(fin, "%d%d", &f, &s) == EOF)
         {
             break;
         }
         counter += 1;
-        if (f == s)
+        if ((f < 1 || f > n) || (s < 1 || s > n))
         {
-            exceptions = 1;
-            break;
-        }
-        else
-        {
-            if ((f < 1 || f > n) || (s < 1 || s > n))
-            {
-                exceptions = 2;
-            }
+            exceptions = 2;
         }
         WriteBit(a, f - 1, s - 1, 1);
     }
-    if (counter < m)
+    if (counter !=m)
     {
         exceptions = 1;
     }
     if (n < 0 || n > 2000)
     {
-        printf("bad number of vertices");
+        fprintf(fout, "bad number of vertices");
         return 0;
     }
     else
     {
-        if (m < 0 || m > (n * (n - 1)) / 2)
+        if (exceptions == 1)
         {
-            printf("bad number of edges");
+            fprintf(fout, "bad number of lines");
             return 0;
         }
         else
         {
-            if (exceptions == 1)
+            if (m < 0 || m > (n * (n - 1)) / 2)
             {
-                printf("bad number of lines");
+                fprintf(fout, "bad number of edges");
                 return 0;
             }
             else
             {
                 if (exceptions == 2)
                 {
-                    printf("bad vertex");
+                    fprintf(fout, "bad vertex");
                     return 0;
                 }
             }
@@ -248,13 +241,13 @@ int main()
         }
         if (TopologicSort(a, colorArray, finishStack, &finishStackInd, &numberOfBlackTops, whiteTop, n))
         {
-            printf("impossible to sort");
+            fprintf(fout, "impossible to sort");
             return 0;
         }
         numberOfWhiteTops -= numberOfBlackTops;
     }
     for (int i = n - 1; i > -1; i--)
     {
-        printf("%d ", finishStack[i]);
+        fprintf(fout, "%d ", finishStack[i]);
     }
 }
