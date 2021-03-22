@@ -139,20 +139,25 @@ int TopologicSort(struct BitSet *a, int *colorArray, int *finishStack, int *fini
             }
         }
     }
+    int counter=0;
     for (int i = n - 1; i > -1; i--)
     {
         if ((ReadBit(a, whiteTop, i) == 1) && (i != whiteTop))
         {
+        	counter+=1;
             if (TopologicSort(a, colorArray, finishStack, finishStackInd, numberOfBlackTops, i, n))
             {
                 return 1;
             }
         }
     }
-    colorArray[whiteTop] = 2;
-    *numberOfBlackTops += 1;
-    finishStack[*finishStackInd] = whiteTop + 1;
-    *finishStackInd += 1;
+    if(counter!=0)
+    {
+    	colorArray[whiteTop] = 2;
+    	*numberOfBlackTops += 1;
+    	finishStack[*finishStackInd] = whiteTop + 1;
+    	*finishStackInd += 1;
+	}
     return 0;
 }
 
