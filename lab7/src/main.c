@@ -186,16 +186,16 @@ int main()
     {
         exceptions = 1;
     }
-    if (n < 0 || n > 2000)
+    if (exceptions == 1)
     {
-        fprintf(fout, "bad number of vertices");
+        fprintf(fout, "bad number of lines");
         return 0;
     }
     else
     {
-        if (exceptions == 1)
+        if (n < 0 || n > 2000)
         {
-            fprintf(fout, "bad number of lines");
+            fprintf(fout, "bad number of vertices");
             return 0;
         }
         else
