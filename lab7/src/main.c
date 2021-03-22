@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//struct BitFlaggg
+//struct BitFlag
 
 struct BitSet
 {
@@ -32,7 +32,7 @@ struct BitSet *CreateBitSet(int length, int width, int type)
         created->bitset = (char *)calloc(((size - summ) / 8 + ((size - summ) % 8 ? 1 : 0)), sizeof(char));
         break;
     default:
-        printf("Invalid type field. Bitset not created");
+        //printf("Invalid type field. Bitset not created");
         free(created);
         return 0;
     }
@@ -52,7 +52,7 @@ int WriteBit(struct BitSet *created, int x, int y, int bit)
         case 0:
             if (x + 1 > created->width || y + 1 > created->length)
             {
-                printf("Invalid coordinate fields. Bit not writed");
+                //printf("Invalid coordinate fields. Bit not writed");
                 return 0;
             }
             int shift = (created->length) * (x) + y;
@@ -77,7 +77,7 @@ int WriteBit(struct BitSet *created, int x, int y, int bit)
 
             break;
         default:
-            printf("Invalid type field. Bad BitSet. Bit not writed");
+            //printf("Invalid type field. Bad BitSet. Bit not writed");
             return 0;
         }
     }
@@ -94,7 +94,7 @@ int ReadBit(struct BitSet *created, int x, int y)
         case 0:
             if (x + 1 > created->width || y + 1 > created->length)
             {
-                printf("Invalid coordinate fields. Bit not readed");
+                //printf("Invalid coordinate fields. Bit not readed");
                 return 2;
             }
             int shift = (created->length) * (x) + y;
@@ -112,7 +112,7 @@ int ReadBit(struct BitSet *created, int x, int y)
 
             break;
         default:
-            printf("Invalid type field. Bad BitSet. Bit not readed");
+            //printf("Invalid type field. Bad BitSet. Bit not readed");
             return 2;
         }
     }
@@ -182,8 +182,12 @@ int main()
         {
             break;
         }
+        counter+=1;
         existOfEdge[f-1]=1;
-        counter += 1;
+        if(existOfEdge[s-1]==0)
+        {
+        	existOfEdge[s-1]=2;
+		}
         if ((f < 1 || f > n) || (s < 1 || s > n))
         {
             exceptions = 2;
@@ -267,8 +271,16 @@ int main()
 		printf("\n");
 	}
 	*/
-    int numberOfWhiteTops = n;
-    int *finishStack = malloc(sizeof(int) * n);
+    int numberOfWhiteTops = 0;
+    for(int i=0;i<n;i++)
+    {
+    	if(existOfEdge[i]>0)
+    	{
+    		numberOfWhiteTops+=1;
+		}
+	}
+	int numberOfWhiteTops1= numberOfWhiteTops;
+    int *finishStack = malloc(sizeof(int) * numberOfWhiteTops);
     int finishStackInd = 0;
     while (numberOfWhiteTops > 0)
     {
@@ -289,8 +301,12 @@ int main()
         }
         numberOfWhiteTops -= numberOfBlackTops;
     }
-    for (int i = n - 1; i > -1; i--)
+    for (int i = numberOfWhiteTops1-1; i > -1; i--)
     {
         fprintf(fout, "%d ", finishStack[i]);
     }
+    free(colorArray);
+    free(existOfEdge);
+    free(finishStack);
+    free(a->bitset);
 }
