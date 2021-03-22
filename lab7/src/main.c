@@ -188,6 +188,35 @@ int main()
         }
         WriteBit(a, f - 1, s - 1, 1);
     }
+    if (n >= 0 && m >= 0)
+    {
+        if (n > 2000)
+        {
+            fprintf(fout, "bad number of vertices");
+            return 0;
+        }
+        if (m < 0 || m > (n * (n - 1)) / 2)
+        {
+            fprintf(fout, "bad number of edges");
+            return 0;
+        }
+        if (exceptions == 1)
+        {
+            fprintf(fout, "bad number of lines");
+            return 0;
+        }
+        if (exceptions == 2)
+        {
+            fprintf(fout, "bad vertex");
+            return 0;
+        }
+    }else
+    {
+        fprintf(fout, "bad number of lines");
+        return 0;
+    }
+
+    /*
     if (counter != m)
     {
         exceptions = 1;
@@ -221,6 +250,7 @@ int main()
             }
         }
     }
+    */
     /*
     for(int i=0;i<n;i++)
     {
