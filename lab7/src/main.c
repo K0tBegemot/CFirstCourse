@@ -15,7 +15,7 @@ struct BitSet *CreateBitSet(int length, int width, int type)
 {
     if (length == 0 || width == 0)
     {
-        printf("Invalid length or value field. Bitset not created");
+        //printf("Invalid length or value field. Bitset not created");
         return 0;
     }
     struct BitSet *created = (struct BitSet *)malloc(sizeof(struct BitSet));
@@ -45,38 +45,41 @@ struct BitSet *CreateBitSet(int length, int width, int type)
 int WriteBit(struct BitSet *created, int x, int y, int bit)
 {
     int returnValue = 0;
-    switch (created->type)
+    if (created != 0)
     {
-    case 0:
-        if (x + 1 > created->width || y + 1 > created->length)
+        switch (created->type)
         {
-            printf("Invalid coordinate fields. Bit not writed");
+        case 0:
+            if (x + 1 > created->width || y + 1 > created->length)
+            {
+                printf("Invalid coordinate fields. Bit not writed");
+                return 0;
+            }
+            int shift = (created->length) * (x) + y;
+            char *tVar = (created->bitset) + (shift) / 8;
+            if ((*tVar & (1 << (8 - (shift % 8) - 1))) != 0)
+            {
+                if (bit == 0)
+                {
+                    *tVar = (*tVar ^ (1 << (8 - (shift % 8) - 1)));
+                }
+            }
+            else
+            {
+                if (bit == 1)
+                {
+                    *tVar = (*tVar ^ (1 << (8 - (shift % 8) - 1)));
+                }
+            }
+            returnValue = 1;
+            break;
+        case 1:
+
+            break;
+        default:
+            printf("Invalid type field. Bad BitSet. Bit not writed");
             return 0;
         }
-        int shift = (created->length) * (x) + y;
-        char *tVar = (created->bitset) + (shift) / 8;
-        if ((*tVar & (1 << (8 - (shift % 8) - 1))) != 0)
-        {
-            if (bit == 0)
-            {
-                *tVar = (*tVar ^ (1 << (8 - (shift % 8) - 1)));
-            }
-        }
-        else
-        {
-            if (bit == 1)
-            {
-                *tVar = (*tVar ^ (1 << (8 - (shift % 8) - 1)));
-            }
-        }
-        returnValue = 1;
-        break;
-    case 1:
-
-        break;
-    default:
-        printf("Invalid type field. Bad BitSet. Bit not writed");
-        return 0;
     }
     return returnValue;
 }
@@ -84,31 +87,34 @@ int WriteBit(struct BitSet *created, int x, int y, int bit)
 int ReadBit(struct BitSet *created, int x, int y)
 {
     int returnValue = 2;
-    switch (created->type)
+    if (created != 0)
     {
-    case 0:
-        if (x + 1 > created->width || y + 1 > created->length)
+        switch (created->type)
         {
-            printf("Invalid coordinate fields. Bit not readed");
+        case 0:
+            if (x + 1 > created->width || y + 1 > created->length)
+            {
+                printf("Invalid coordinate fields. Bit not readed");
+                return 2;
+            }
+            int shift = (created->length) * (x) + y;
+            char *tVar = (created->bitset) + (shift) / 8;
+            if ((*tVar & (1 << (8 - (shift % 8) - 1))) != 0)
+            {
+                returnValue = 1;
+            }
+            else
+            {
+                returnValue = 0;
+            }
+            break;
+        case 1:
+
+            break;
+        default:
+            printf("Invalid type field. Bad BitSet. Bit not readed");
             return 2;
         }
-        int shift = (created->length) * (x) + y;
-        char *tVar = (created->bitset) + (shift) / 8;
-        if ((*tVar & (1 << (8 - (shift % 8) - 1))) != 0)
-        {
-            returnValue = 1;
-        }
-        else
-        {
-            returnValue = 0;
-        }
-        break;
-    case 1:
-
-        break;
-    default:
-        printf("Invalid type field. Bad BitSet. Bit not readed");
-        return 2;
     }
     return returnValue;
 }
@@ -162,7 +168,7 @@ int main()
     }
     if (fscanf(fin, "%d", &m) == EOF)
     {
-        fprintf(fout, "bad number of liness");
+        fprintf(fout, "bad number of lines");
         return 0;
     }
     int *colorArray = (int *)calloc(n, sizeof(int));
@@ -182,7 +188,7 @@ int main()
         }
         WriteBit(a, f - 1, s - 1, 1);
     }
-    if (counter !=m)
+    if (counter != m)
     {
         exceptions = 1;
     }
