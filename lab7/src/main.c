@@ -157,7 +157,7 @@ int main()
     int n, m;
     if (fscanf(fin, "%d", &n) == EOF)
     {
-        fprintf(fout, "bad number of verticess");
+        fprintf(fout, "bad number of lines");
         return 0;
     }
     struct BitSet *a = CreateBitSet(n, n, 0);
