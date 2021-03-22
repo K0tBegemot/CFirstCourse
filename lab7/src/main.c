@@ -133,7 +133,7 @@ int TopologicSort(struct BitSet *a, int *colorArray, int *finishStack, int *fini
             }
         }
     }
-    for (int i = 0; i < n; i++)
+    for (int i = n-1; i >-1; i--)
     {
         if ((ReadBit(a, whiteTop, i) == 1) && (i != whiteTop))
         {
