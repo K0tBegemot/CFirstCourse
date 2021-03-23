@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//struct BitFlag
-
 struct BitSet
 {
     char *bitset;
@@ -50,7 +48,7 @@ int WriteBit(struct BitSet *created, int x, int y, int bit)
         switch (created->type)
         {
         case 0:
-            if (x + 1 > created->width || y + 1 > created->length || x<0 || y<0)
+            if (x + 1 > created->width || y + 1 > created->length || x < 0 || y < 0)
             {
                 //printf("Invalid coordinate fields. Bit not writed");
                 return 0;
@@ -92,7 +90,7 @@ int ReadBit(struct BitSet *created, int x, int y)
         switch (created->type)
         {
         case 0:
-            if (x + 1 > created->width || y + 1 > created->length || x<0 || y<0)
+            if (x + 1 > created->width || y + 1 > created->length || x < 0 || y < 0)
             {
                 //printf("Invalid coordinate fields. Bit not readed");
                 return 2;
@@ -156,6 +154,32 @@ int TopologicSort(struct BitSet *a, int *colorArray, int *finishStack, int *fini
     return 0;
 }
 
+void FreeAll(FILE *fin, FILE *fout, int *colorArray, int *existOfEdge, int *finishStack, struct BitSet *a)
+{
+    fclose(fin);
+    fclose(fout);
+    if (colorArray)
+    {
+        free(colorArray);
+    }
+    if (existOfEdge)
+    {
+        free(existOfEdge);
+    }
+    if (finishStack)
+    {
+        free(finishStack);
+    }
+    if (a)
+    {
+        if (a->bitset)
+        {
+            free(a->bitset);
+        }
+        free(a);
+    }
+}
+
 int main()
 {
     FILE *fin = fopen("in.txt", "r");
@@ -164,15 +188,13 @@ int main()
     if (fscanf(fin, "%d", &n) == EOF)
     {
         fprintf(fout, "bad number of lines");
-        fclose(fin);
-        fclose(fout);
+        FreeAll(fin,fout,0,0,0,0);
         return 0;
     }
     if (fscanf(fin, "%d", &m) == EOF)
     {
         fprintf(fout, "bad number of lines");
-        fclose(fin);
-        fclose(fout);
+        FreeAll(fin,fout,0,0,0,0);
         return 0;
     }
     int *colorArray = (int *)calloc(n, sizeof(int));
@@ -187,20 +209,15 @@ int main()
             break;
         }
         counter += 1;
-        /*
-        if(existOfEdge[s-1]==0)
-        {
-        	existOfEdge[s-1]=2;
-		}
-        */
         if ((f < 1 || f > n) || (s < 1 || s > n))
         {
             exceptions = 2;
-        }else
+        }
+        else
         {
-        	existOfEdge[f - 1] = 1;
-        	WriteBit(a, f - 1, s - 1, 1);
-		}
+            existOfEdge[f - 1] = 1;
+            WriteBit(a, f - 1, s - 1, 1);
+        }
     }
     if (counter != m)
     {
@@ -211,130 +228,35 @@ int main()
         if (n > 2000)
         {
             fprintf(fout, "bad number of vertices");
-            free(colorArray);
-            free(existOfEdge);
-            if (a)
-            {
-                free(a->bitset);
-                free(a);
-            }
-            fclose(fin);
-            fclose(fout);
+            FreeAll(fin,fout,colorArray,existOfEdge,0,a);
             return 0;
         }
         if (m < 0 || m > (n * (n - 1)) / 2)
         {
             fprintf(fout, "bad number of edges");
-            free(colorArray);
-            free(existOfEdge);
-            if (a)
-            {
-                free(a->bitset);
-                free(a);
-            }
-            fclose(fin);
-            fclose(fout);
+            FreeAll(fin,fout,colorArray,existOfEdge,0,a);
             return 0;
         }
         if (exceptions == 1)
         {
             fprintf(fout, "bad number of lines");
-            free(colorArray);
-            free(existOfEdge);
-            if (a)
-            {
-                free(a->bitset);
-                free(a);
-            }
-            fclose(fin);
-            fclose(fout);
+            FreeAll(fin,fout,colorArray,existOfEdge,0,a);
             return 0;
         }
         if (exceptions == 2)
         {
             fprintf(fout, "bad vertex");
-            free(colorArray);
-            free(existOfEdge);
-            if (a)
-            {
-                free(a->bitset);
-                free(a);
-            }
-            fclose(fin);
-            fclose(fout);
+            FreeAll(fin,fout,colorArray,existOfEdge,0,a);
             return 0;
         }
     }
     else
     {
         fprintf(fout, "bad number of lines");
-        free(colorArray);
-        free(existOfEdge);
-        if (a)
-        {
-            free(a->bitset);
-            free(a);
-        }
-        fclose(fin);
-        fclose(fout);
+        FreeAll(fin,fout,colorArray,existOfEdge,0,a);
         return 0;
     }
-
-    /*
-    if (counter != m)
-    {
-        exceptions = 1;
-    }
-    if (exceptions == 1)
-    {
-        fprintf(fout, "bad number of lines");
-        return 0;
-    }
-    else
-    {
-        if (n < 0 || n > 2000)
-        {
-            fprintf(fout, "bad number of vertices");
-            return 0;
-        }
-        else
-        {
-            if (m < 0 || m > (n * (n - 1)) / 2)
-            {
-                fprintf(fout, "bad number of edges");
-                return 0;
-            }
-            else
-            {
-                if (exceptions == 2)
-                {
-                    fprintf(fout, "bad vertex");
-                    return 0;
-                }
-            }
-        }
-    }
-    */
-    /*
-    for(int i=0;i<n;i++)
-    {
-    	for(int ii=0;ii<n;ii++)
-    	{
-    		printf("%d ", ReadBit(a,i,ii));
-		}
-		printf("\n");
-	}
-	*/
     int numberOfWhiteTops = n;
-    /*
-    for(int i=0;i<n;i++)
-    {
-    	if(existOfEdge[i]>0)
-    	{
-    		numberOfWhiteTops+=1;
-		}
-	}
-    */
     int *finishStack = malloc(sizeof(int) * n);
     int finishStackInd = 0;
     while (numberOfWhiteTops > 0)
@@ -352,16 +274,7 @@ int main()
         if (TopologicSort(a, colorArray, finishStack, &finishStackInd, &numberOfBlackTops, whiteTop, n))
         {
             fprintf(fout, "impossible to sort");
-            free(colorArray);
-            free(existOfEdge);
-            free(finishStack);
-            if (a)
-            {
-                free(a->bitset);
-                free(a);
-            }
-            fclose(fin);
-            fclose(fout);
+            FreeAll(fin,fout,colorArray,existOfEdge,finishStack,a);
             return 0;
         }
         numberOfWhiteTops -= numberOfBlackTops;
@@ -370,14 +283,6 @@ int main()
     {
         fprintf(fout, "%d ", finishStack[i]);
     }
-    free(colorArray);
-    free(existOfEdge);
-    free(finishStack);
-    if (a)
-    {
-        free(a->bitset);
-        free(a);
-    }
-    fclose(fin);
-    fclose(fout);
+    FreeAll(fin,fout,colorArray,existOfEdge,finishStack,a);
+    return 0;
 }
