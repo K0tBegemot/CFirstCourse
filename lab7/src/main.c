@@ -241,7 +241,6 @@ int main()
             fprintf(fout, "bad vertex");
             free(colorArray);
     free(existOfEdge);
-    free(finishStack);
     free(a->bitset);
     fclose(fin);
     fclose(fout);
