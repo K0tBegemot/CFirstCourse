@@ -290,7 +290,7 @@ int main()
         int numberOfBlackTops = 0, whiteTop = 0;
         for (int i = 0; i < n; i++)
         {
-            if ((colorArray[i] == 0))//&&(existOfEdge[i]==1)
+            if (colorArray[i] == 0)
             {
             	existOfEdge[i]=0;
                 whiteTop = i;
