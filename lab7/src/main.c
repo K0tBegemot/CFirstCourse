@@ -212,6 +212,7 @@ int main()
             free(colorArray);
     free(existOfEdge);
     free(a->bitset);
+    free(a);
     fclose(fin);
     fclose(fout);
             return 0;
@@ -222,6 +223,7 @@ int main()
             free(colorArray);
     free(existOfEdge);
     free(a->bitset);
+    free(a);
     fclose(fin);
     fclose(fout);
             return 0;
@@ -232,6 +234,7 @@ int main()
             free(colorArray);
     free(existOfEdge);
     free(a->bitset);
+    free(a);
     fclose(fin);
     fclose(fout);
             return 0;
@@ -242,6 +245,7 @@ int main()
             free(colorArray);
     free(existOfEdge);
     free(a->bitset);
+    free(a);
     fclose(fin);
     fclose(fout);
             return 0;
@@ -252,6 +256,7 @@ int main()
         free(colorArray);
     free(existOfEdge);
     free(a->bitset);
+    free(a);
     fclose(fin);
     fclose(fout);
         return 0;
@@ -333,6 +338,7 @@ int main()
     free(existOfEdge);
     free(finishStack);
     free(a->bitset);
+    free(a);
     fclose(fin);
     fclose(fout);
             return 0;
@@ -347,6 +353,7 @@ int main()
     free(existOfEdge);
     free(finishStack);
     free(a->bitset);
+    free(a);
     fclose(fin);
     fclose(fout);
 }
