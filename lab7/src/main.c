@@ -50,7 +50,7 @@ int WriteBit(struct BitSet *created, int x, int y, int bit)
         switch (created->type)
         {
         case 0:
-            if (x + 1 > created->width || y + 1 > created->length)
+            if (x + 1 > created->width || y + 1 > created->length || x<0 || y<0)
             {
                 //printf("Invalid coordinate fields. Bit not writed");
                 return 0;
@@ -92,7 +92,7 @@ int ReadBit(struct BitSet *created, int x, int y)
         switch (created->type)
         {
         case 0:
-            if (x + 1 > created->width || y + 1 > created->length)
+            if (x + 1 > created->width || y + 1 > created->length || x<0 || y<0)
             {
                 //printf("Invalid coordinate fields. Bit not readed");
                 return 2;
@@ -187,7 +187,6 @@ int main()
             break;
         }
         counter += 1;
-        existOfEdge[f - 1] = 1;
         /*
         if(existOfEdge[s-1]==0)
         {
@@ -197,8 +196,11 @@ int main()
         if ((f < 1 || f > n) || (s < 1 || s > n))
         {
             exceptions = 2;
-        }
-        WriteBit(a, f - 1, s - 1, 1);
+        }else
+        {
+        	existOfEdge[f - 1] = 1;
+        	WriteBit(a, f - 1, s - 1, 1);
+		}
     }
     if (counter != m)
     {
