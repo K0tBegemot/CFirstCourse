@@ -211,8 +211,11 @@ int main()
             fprintf(fout, "bad number of vertices");
             free(colorArray);
     free(existOfEdge);
-    free(a->bitset);
-    free(a);
+    if(a)
+    {
+        free(a->bitset);
+        free(a);
+    }
     fclose(fin);
     fclose(fout);
             return 0;
@@ -222,8 +225,11 @@ int main()
             fprintf(fout, "bad number of edges");
             free(colorArray);
     free(existOfEdge);
-    free(a->bitset);
+    if(a)
+    {
+        free(a->bitset);
     free(a);
+    }
     fclose(fin);
     fclose(fout);
             return 0;
@@ -233,8 +239,11 @@ int main()
             fprintf(fout, "bad number of lines");
             free(colorArray);
     free(existOfEdge);
-    free(a->bitset);
+    if(a)
+    {
+        free(a->bitset);
     free(a);
+    }
     fclose(fin);
     fclose(fout);
             return 0;
@@ -244,8 +253,11 @@ int main()
             fprintf(fout, "bad vertex");
             free(colorArray);
     free(existOfEdge);
-    free(a->bitset);
+    if(a)
+    {
+        free(a->bitset);
     free(a);
+    }
     fclose(fin);
     fclose(fout);
             return 0;
@@ -255,8 +267,11 @@ int main()
         fprintf(fout, "bad number of lines");
         free(colorArray);
     free(existOfEdge);
-    free(a->bitset);
+    if(a)
+    {
+        free(a->bitset);
     free(a);
+    }
     fclose(fin);
     fclose(fout);
         return 0;
@@ -337,8 +352,11 @@ int main()
             free(colorArray);
     free(existOfEdge);
     free(finishStack);
-    free(a->bitset);
+    if(a)
+    {
+        free(a->bitset);
     free(a);
+    }
     fclose(fin);
     fclose(fout);
             return 0;
@@ -352,8 +370,11 @@ int main()
     free(colorArray);
     free(existOfEdge);
     free(finishStack);
-    free(a->bitset);
+    if(a)
+    {
+        free(a->bitset);
     free(a);
+    }
     fclose(fin);
     fclose(fout);
 }
