@@ -25,11 +25,11 @@ struct BitSet *CreateBitSet(int length, int width, int type)
     switch (type)
     {
     case 0:
-        created->bitset = (char *)calloc((size / 8 + ((size % 8) ? 1 : 0)), sizeof(char));
+        created->bitset = (char *)calloc((size / 8 + (size % 8 ? 1 : 0)), sizeof(char));
         break;
     case 1:
         summ = ((width - 1) * width / 2);
-        created->bitset = (char *)calloc(((size - summ) / 8 + (((size - summ) % 8) ? 1 : 0)), sizeof(char));
+        created->bitset = (char *)calloc(((size - summ) / 8 + ((size - summ) % 8 ? 1 : 0)), sizeof(char));
         break;
     default:
         //printf("Invalid type field. Bitset not created");
@@ -164,15 +164,11 @@ int main()
     if (fscanf(fin, "%d", &n) == EOF)
     {
         fprintf(fout, "bad number of lines");
-        fclose(fin);
-        fclose(fout);
         return 0;
     }
     if (fscanf(fin, "%d", &m) == EOF)
     {
         fprintf(fout, "bad number of lines");
-        fclose(fin);
-        fclose(fout);
         return 0;
     }
     int *colorArray = (int *)calloc(n, sizeof(int));
@@ -188,10 +184,12 @@ int main()
         }
         counter+=1;
         existOfEdge[f-1]=1;
+        /*
         if(existOfEdge[s-1]==0)
         {
         	existOfEdge[s-1]=2;
 		}
+        */
         if ((f < 1 || f > n) || (s < 1 || s > n))
         {
             exceptions = 2;
@@ -207,46 +205,26 @@ int main()
         if (n > 2000)
         {
             fprintf(fout, "bad number of vertices");
-            fclose(fin);
-            fclose(fout);
-            free(colorArray);
-            free(existOfEdge);
             return 0;
         }
         if (m < 0 || m > (n * (n - 1)) / 2)
         {
             fprintf(fout, "bad number of edges");
-            fclose(fin);
-            fclose(fout);
-            free(colorArray);
-            free(existOfEdge);
             return 0;
         }
         if (exceptions == 1)
         {
             fprintf(fout, "bad number of lines");
-            fclose(fin);
-            fclose(fout);
-            free(colorArray);
-            free(existOfEdge);
             return 0;
         }
         if (exceptions == 2)
         {
             fprintf(fout, "bad vertex");
-            fclose(fin);
-            fclose(fout);
-            free(colorArray);
-            free(existOfEdge);
             return 0;
         }
     }else
     {
         fprintf(fout, "bad number of lines");
-        fclose(fin);
-        fclose(fout);
-        free(colorArray);
-        free(existOfEdge);
         return 0;
     }
 
@@ -295,7 +273,8 @@ int main()
 		printf("\n");
 	}
 	*/
-    int numberOfWhiteTops = 0;
+    int numberOfWhiteTops = n;
+    /*
     for(int i=0;i<n;i++)
     {
     	if(existOfEdge[i]>0)
@@ -303,15 +282,15 @@ int main()
     		numberOfWhiteTops+=1;
 		}
 	}
-	int numberOfWhiteTops1= numberOfWhiteTops;
-    int *finishStack = malloc(sizeof(int) * numberOfWhiteTops);
+    */
+    int *finishStack = malloc(sizeof(int) * n);
     int finishStackInd = 0;
     while (numberOfWhiteTops > 0)
     {
         int numberOfBlackTops = 0, whiteTop = 0;
         for (int i = 0; i < n; i++)
         {
-            if ((colorArray[i] == 0)&&(existOfEdge[i]==1))
+            if ((colorArray[i] == 0))//&&(existOfEdge[i]==1)
             {
             	existOfEdge[i]=0;
                 whiteTop = i;
@@ -321,16 +300,11 @@ int main()
         if (TopologicSort(a, colorArray, finishStack, &finishStackInd, &numberOfBlackTops, whiteTop, n))
         {
             fprintf(fout, "impossible to sort");
-            fclose(fin);
-            fclose(fout);
-            free(colorArray);
-            free(existOfEdge);
-            free(finishStack);
             return 0;
         }
         numberOfWhiteTops -= numberOfBlackTops;
     }
-    for (int i = numberOfWhiteTops1-1; i > -1; i--)
+    for (int i = n-1; i > -1; i--)
     {
         fprintf(fout, "%d ", finishStack[i]);
     }
