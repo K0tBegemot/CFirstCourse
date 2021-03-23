@@ -164,11 +164,15 @@ int main()
     if (fscanf(fin, "%d", &n) == EOF)
     {
         fprintf(fout, "bad number of lines");
+    fclose(fin);
+    fclose(fout);
         return 0;
     }
     if (fscanf(fin, "%d", &m) == EOF)
     {
         fprintf(fout, "bad number of lines");
+    fclose(fin);
+    fclose(fout);
         return 0;
     }
     int *colorArray = (int *)calloc(n, sizeof(int));
@@ -205,26 +209,52 @@ int main()
         if (n > 2000)
         {
             fprintf(fout, "bad number of vertices");
+            free(colorArray);
+    free(existOfEdge);
+    free(a->bitset);
+    fclose(fin);
+    fclose(fout);
             return 0;
         }
         if (m < 0 || m > (n * (n - 1)) / 2)
         {
             fprintf(fout, "bad number of edges");
+            free(colorArray);
+    free(existOfEdge);
+    free(a->bitset);
+    fclose(fin);
+    fclose(fout);
             return 0;
         }
         if (exceptions == 1)
         {
             fprintf(fout, "bad number of lines");
+            free(colorArray);
+    free(existOfEdge);
+    free(a->bitset);
+    fclose(fin);
+    fclose(fout);
             return 0;
         }
         if (exceptions == 2)
         {
             fprintf(fout, "bad vertex");
+            free(colorArray);
+    free(existOfEdge);
+    free(finishStack);
+    free(a->bitset);
+    fclose(fin);
+    fclose(fout);
             return 0;
         }
     }else
     {
         fprintf(fout, "bad number of lines");
+        free(colorArray);
+    free(existOfEdge);
+    free(a->bitset);
+    fclose(fin);
+    fclose(fout);
         return 0;
     }
 
@@ -300,6 +330,12 @@ int main()
         if (TopologicSort(a, colorArray, finishStack, &finishStackInd, &numberOfBlackTops, whiteTop, n))
         {
             fprintf(fout, "impossible to sort");
+            free(colorArray);
+    free(existOfEdge);
+    free(finishStack);
+    free(a->bitset);
+    fclose(fin);
+    fclose(fout);
             return 0;
         }
         numberOfWhiteTops -= numberOfBlackTops;
