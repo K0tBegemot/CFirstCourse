@@ -182,7 +182,6 @@ void CrusalMinimumSpanningTree(Graph *a)
             //printf("%d ", (b->cc->color)[i]);
             if (((a->cc->color)[i]) != (color0))
             {
-                free(sortedEdge);
                 FreeGraph(a);
                 a = 0;
                 break;
@@ -194,6 +193,7 @@ void CrusalMinimumSpanningTree(Graph *a)
         FreeGraph(a);
         a=0;
     }
+    free(sortedEdge);
 }
 
 int main()
