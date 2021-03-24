@@ -173,7 +173,6 @@ void CrusalMinimumSpanningTree(Graph *a)
                 MergeConnectedComponent(a, set1, set2);
             }
         }
-        a->edges = counter;
         int color0 = (a->cc->color)[0];
         //printf("%d ", color0);
         for (int i = 0; i < a->vertices; i++)
@@ -188,6 +187,7 @@ void CrusalMinimumSpanningTree(Graph *a)
             }
         }
         free(sortedEdge);
+        a->edges = counter;
     }
     else
     {
