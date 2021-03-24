@@ -83,7 +83,6 @@ void MergeConnectedComponent(Graph *a, int set1, int set2)
     assert((a->cc->color)[set1] == set1);
     assert((a->cc->color)[set2] == set2);
         (a->cc->color)[set1] = set2;
-        (a->cc->rank)[set2] += (a->cc->rank)[set1];
     //int var1=0, var2=0;
     for(int i=0;i<a->vertices;i++)
     {
@@ -120,7 +119,6 @@ void FreeGraph(Graph *a)
     if (a)
     {
         free(a->cc->color);
-        free(a->cc->rank);
         free(a->edge);
         free(a);
     }
