@@ -152,7 +152,7 @@ void FreeFILE(FILE *fin, FILE *fout)
     }
 }
 
-Graph *CrusalMinimumSpanningTree(Graph *a)
+void CrusalMinimumSpanningTree(Graph *a)
 {
     if (a->vertices)
     {
@@ -263,14 +263,14 @@ int main()
         FreeFILE(fin, fout);
         return 0;
     }
-    Graph *b = CrusalMinimumSpanningTree(a);
-    if (b)
+    CrusalMinimumSpanningTree(a);
+    if (a)
     {
-        for (int i = 0; i < (b->edges); i++)
+        for (int i = 0; i < (a->edges); i++)
         {
             int q, w;
-            q = ((b->edge + i)->vertice1);
-            w = ((b->edge + i)->vertice2);
+            q = ((a->edge + i)->vertice1);
+            w = ((a->edge + i)->vertice2);
             if (q < w)
             {
                 fprintf(fout, "%d %d\n", q + 1, w + 1);
@@ -285,12 +285,10 @@ int main()
     {
         fprintf(fout, "no spanning tree");
         FreeGraph(a);
-        FreeGraph(b);
         FreeFILE(fin, fout);
         return 0;
     }
     FreeGraph(a);
-        FreeGraph(b);
         FreeFILE(fin, fout);
     return 0;
 }
