@@ -187,13 +187,13 @@ void CrusalMinimumSpanningTree(Graph *a)
                 break;
             }
         }
+        free(sortedEdge);
     }
     else
     {
         FreeGraph(a);
         a=0;
     }
-    free(sortedEdge);
 }
 
 int main()
