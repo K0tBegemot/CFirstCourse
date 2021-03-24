@@ -320,7 +320,12 @@ int main()
     int n, m;
     FILE *fin = fopen("in.txt", "r");
     FILE *fout = fopen("out.txt", "w");
-    fscanf(fin, "%d%d", &n, &m);
+    if(fscanf(fin, "%d%d", &n, &m)<2)
+    {
+    	fprintf(fout, "bad input");
+    	FreeFILE(fin,fout);
+    	return 0;
+	}
     Graph *a = CreateGraph(n, m, 0, 0);
     CreateConnectedComponents(a);
     int ver1, ver2, len, counter = 0, error = 0;
