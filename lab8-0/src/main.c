@@ -1,207 +1,406 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
 
 #define INT_MAX 2147483647
-
-struct edges
+/*
+typedef struct BitSet
 {
-	int vertex1;
-	int vertex2;
-	int length;
-};
+    char *bitset;
+    int length;
+    int width;
+    int type; // 0 - symmetrical; 1 - unsymmetrical;
+}BitSet;
 
-
-void swap(int **arr, int i, int j, int widthSize)
+BitSet *CreateBitSet(int length, int width, int type)
 {
-    int a[3];
-    for (int o = 0; o < widthSize; o++)
+    if (length == 0 || width == 0)
     {
-        a[o] = arr[i][o];
+        //printf("Invalid length or value field. Bitset not created");
+        return 0;
     }
-    for (int o = 0; o < widthSize; o++)
+    struct BitSet *created = (struct BitSet *)malloc(sizeof(struct BitSet));
+    created->bitset = 0;
+    int size = length * width;
+    int summ;
+    switch (type)
     {
-        arr[i][o] = arr[j][o];
+    case 0:
+        created->bitset = (char *)calloc((size / 8 + ((size % 8) ? 1 : 0)), sizeof(char));
+        break;
+    case 1:
+        summ = ((width - 1) * width / 2);
+        created->bitset = (char *)calloc(((size - summ) / 8 + (((size - summ) % 8) ? 1 : 0)), sizeof(char));
+        break;
+    default:
+        //printf("Invalid type field. Bitset not created");
+        free(created);
+        return 0;
     }
-    for (int o = 0; o < widthSize; o++)
-    {
-        arr[j][o] = a[o];
-    }
+    created->length = length;
+    created->width = width;
+    created->type = type;
+    return created;
 }
 
-/*this is heapsort's part
-void shiftDown(int **arr, int size, int index, int numberOfSortedElement, int widthSize)
+int WriteBit(BitSet *created, int x, int y, int bit)
 {
-    int largest = index;
-    int l = 2 * index + 1;
-    int r = 2 * index + 2;
-    if (l < (size) && arr[l][numberOfSortedElement] > arr[largest][numberOfSortedElement])
+    int returnValue = 0;
+    if (created != 0)
     {
-        largest = l;
-    }
-    if (r < (size) && arr[r][numberOfSortedElement] > arr[largest][numberOfSortedElement])
-    {
-        largest = r;
-    }
-    if (largest != index)
-    {
-        swap(arr, largest, index, widthSize);
-        shiftDown(arr, size, largest, numberOfSortedElement, widthSize);
-    }
-}
-
-void printArr(int **arr, int size, int widthSize)
-{
-    for (int i = 0; i < size; i++)
-    {
-        for (int ii = 0; ii < widthSize; ii++)
+        switch (created->type)
         {
-            printf("%d ", arr[i][0]);
-        }
-        printf("\n");
-    }
-}
+        case 0:
+            if (x + 1 > created->width || y + 1 > created->length || x < 0 || y < 0)
+            {
+                //printf("Invalid coordinate fields. Bit not writed");
+                return 0;
+            }
+            int shift = (created->length) * (x) + y;
+            char *tVar = (created->bitset) + (shift) / 8;
+            if ((*tVar & (1 << (8 - (shift % 8) - 1))) != 0)
+            {
+                if (bit == 0)
+                {
+                    *tVar = (*tVar ^ (1 << (8 - (shift % 8) - 1)));
+                }
+            }
+            else
+            {
+                if (bit == 1)
+                {
+                    *tVar = (*tVar ^ (1 << (8 - (shift % 8) - 1)));
+                }
+            }
+            returnValue = 1;
+            break;
+        case 1:
 
-void heapSort(int **arr, int size, int numberOfSortedElement, int widthSize)
-{
-    for (int i = size / 2 - 1; i >= 0; i--)
-    {
-        shiftDown(arr, size, i, numberOfSortedElement, widthSize);
-    }
-    for (int i = size - 1; i >= 0; i--)
-    {
-        swap(arr, 0, i, widthSize);
-        shiftDown(arr, i, 0, numberOfSortedElement, widthSize);
-    }
-}
-
-this is end of heapsort's part*/
-
-int edgesCmp( const void *a, const void *b)
-{
-	return ( (((struct edges*)a)->length) - (((struct edges*)b)->length) );
-}
-
-
-
-int findRoot(short int *parents, int vertex)
-{
-    if (vertex == parents[vertex])
-    {
-        return vertex;
-    }
-    return parents[vertex] = findRoot(parents, parents[vertex]);
-}
-
-void unionSubTree(short int *parents, short int *color, int vertex1, int vertex2)
-{
-    vertex1 = parents[vertex1];
-    vertex2 = parents[vertex2];
-    if (vertex1 != vertex2)
-    {
-        if (color[vertex1] < color[vertex2])
-        {
-            int o;
-            o = vertex1;
-            vertex1 = vertex2;
-            vertex2 = o;
-        }
-        parents[vertex2] = vertex1;
-        if (color[vertex1] == color[vertex2])
-        {
-            color[vertex1] += 1;
+            break;
+        default:
+            //printf("Invalid type field. Bad BitSet. Bit not writed");
+            return 0;
         }
     }
+    return returnValue;
 }
 
-void freeAll(short int *color, short int *parents, struct edges* a, int edge)
+int ReadBit(BitSet *created, int x, int y)
 {
-    free(color);
-    free(parents);
-    free(a);
+    int returnValue = 2;
+    if (created != 0)
+    {
+        switch (created->type)
+        {
+        case 0:
+            if (x + 1 > created->width || y + 1 > created->length || x < 0 || y < 0)
+            {
+                //printf("Invalid coordinate fields. Bit not readed");
+                return 2;
+            }
+            int shift = (created->length) * (x) + y;
+            char *tVar = (created->bitset) + (shift) / 8;
+            if ((*tVar & (1 << (8 - (shift % 8) - 1))) != 0)
+            {
+                returnValue = 1;
+            }
+            else
+            {
+                returnValue = 0;
+            }
+            break;
+        case 1:
+
+            break;
+        default:
+            //printf("Invalid type field. Bad BitSet. Bit not readed");
+            return 2;
+        }
+    }
+    return returnValue;
+}
+
+int CheckForFullness(BitSet *a)
+{
+	int size = (a->length) * (a->width);
+	int charSize;
+	if(a->type)
+	{
+		int summ = (((a->width) - 1) * (a->width) / 2);
+		charSize = ((size - summ) / 8 + (((size - summ) % 8) ? 1 : 0));
+		
+	}else
+	{
+		charSize = (size / 8 + ((size % 8) ? 1 : 0));
+	}
+	for(int i=0;i<charSize;i++)
+	{
+		if((a->bitset)[i]!=255)
+		{
+			return 1;
+		}
+	}
+	return 0;
+}
+*/
+
+typedef struct Edges
+{
+    int vertice1;
+    int vertice2;
+    int length;
+} Edges;
+
+typedef struct ConnectedComponents
+{
+    int *color;
+    int *rank;
+} ConnectedComponents;
+
+typedef struct Graph
+{
+    int vertices;
+    int edges;
+    int edgesPointer;
+    Edges *edge;
+    ConnectedComponents *cc;
+} Graph;
+
+Graph *CreateGraph(int n, int m, Edges *b, ConnectedComponents *c)
+{
+    Graph *a = (Graph *)malloc(sizeof(Graph));
+    a->vertices = n;
+    a->edgesPointer = 0;
+    a->edges = m;
+    if (b)
+    {
+        a->edge = b;
+    }
+    else
+    {
+        a->edge = (Edges *)malloc(sizeof(Edges) * m);
+    }
+    if (c)
+    {
+        a->cc = c;
+    }
+    else
+    {
+        a->cc = 0;
+    }
+    return a;
+}
+
+void PushToEdges(Graph *a, int vertice1, int vertice2, int length)
+{
+    (a->edge + a->edgesPointer)->vertice1 = vertice1;
+    (a->edge + a->edgesPointer)->vertice2 = vertice2;
+    (a->edge + a->edgesPointer)->length = length;
+    a->edgesPointer += 1;
+}
+
+void CreateConnectedComponents(Graph *a)
+{
+    a->cc = (ConnectedComponents *)malloc(sizeof(ConnectedComponents));
+    a->cc->color = (int *)malloc(sizeof(int) * (a->vertices));
+    for (int i = 0; i < a->vertices; i++)
+    {
+        (a->cc->color)[i] = i;
+    }
+    a->cc->rank = (int *)calloc(a->vertices, sizeof(int));
+}
+
+int FindConnectedComponent(Graph *a, int vertice)
+{
+    if (vertice == (a->cc->color)[vertice])
+    {
+        return vertice;
+    }
+    (a->cc->color)[vertice] = FindConnectedComponent(a, (a->cc->color)[vertice]);
+    return (a->cc->color)[vertice];
+}
+
+void MergeConnectedComponent(Graph *a, int set1, int set2)
+{
+    assert((a->cc->color)[set1] == set1);
+    assert((a->cc->color)[set2] == set2);
+    if ((a->cc->rank)[set1] > (a->cc->rank)[set2])
+    {
+        (a->cc->color)[set2] = set1;
+        (a->cc->rank)[set1] += (a->cc->rank)[set2];
+    }
+    else
+    {
+        (a->cc->color)[set1] = set2;
+        (a->cc->rank)[set2] += (a->cc->rank)[set1];
+    }
+    if ((a->cc->rank)[set1] == (a->cc->rank)[set2])
+    {
+        (a->cc->rank)[set2] += 1;
+    }
+}
+
+int Comparator(const void *edge1, const void *edge2)
+{
+	return ((((Edges*)edge1)->length) - (((Edges*)edge2)->length));
+}
+
+void SortEdge(Graph *a, Edges *sortedEdge)
+{
+	for(int i=0;i<a->edgesPointer;i++)
+	{
+		((sortedEdge+i)->length)=(a->edge + i)->length;
+		((sortedEdge+i)->vertice1)=(a->edge + i)->vertice1;
+		((sortedEdge+i)->vertice2)=(a->edge + i)->vertice2;
+	}
+	qsort(sortedEdge, a->edgesPointer, sizeof(Edges), Comparator);
+}
+
+void FreeGraph(Graph *a)
+{
+	if(a)
+	{
+		free(a->cc->color);
+	free(a->cc->rank);
+	free(a->edge);
+	free(a);
+	}
+}
+
+void FreeFILE(FILE *fin, FILE *fout)
+{
+	if(fin)
+	{
+		fclose(fin);
+	}
+	if(fout)
+	{
+		fclose(fout);
+	}
+}
+
+Graph *CrusalMinimumSpanningTree(Graph *a)
+{
+    Edges *sortedEdge = (Edges *)malloc(sizeof(Edges) * (a->edges));
+    SortEdge(a, sortedEdge);
+    Graph *b = CreateGraph(a->vertices, a->edges, 0, 0);
+    CreateConnectedComponents(b);
+    int counter = 0;
+    for (int i = 0; i < a->edges; i++)
+    {
+        int set1 = FindConnectedComponent(b, (sortedEdge + i)->vertice1);
+        int set2 = FindConnectedComponent(b, (sortedEdge + i)->vertice2);
+        if (set1 != set2)
+        {
+            PushToEdges(b, (sortedEdge + i)->vertice1, (sortedEdge + i)->vertice2, (sortedEdge + i)->length);
+            counter += 1;
+            MergeConnectedComponent(b, set1, set2);
+        }
+    }
+    b->edges = counter;
+    int color0=(b->cc->color)[0];
+    //printf("%d ", b->vertices);
+    for(int i=0;i<b->vertices;i++)
+    {
+    	//printf("bad");
+    	//printf("%d ", (b->cc->color)[i]);
+    	if(((b->cc->color)[i])!=(color0))
+    	{
+    		free(sortedEdge);
+    		FreeGraph(b);
+    		b=0;
+    		break;
+		}
+	}
+    return b;
 }
 
 int main()
 {
+    int n, m;
     FILE *fin = fopen("in.txt", "r");
     FILE *fout = fopen("out.txt", "w");
-    int ver, edge;
-    if (fscanf(fin, "%d\n%d\n", &ver, &edge) < 2)
+    fscanf(fin, "%d%d", &n, &m);
+    Graph *a = CreateGraph(n, m, 0, 0);
+    CreateConnectedComponents(a);
+    int ver1, ver2, len, counter = 0, error = 0;
+    for (int i = 0; i < m; i++)
     {
+        if (fscanf(fin, "%d%d%d", &ver1, &ver2, &len) == EOF)
+        {
+            break;
+        }
+        if (ver1 < 1 || ver1 > n || ver2 < 1 || ver2 > n)
+        {
+            error = 1;
+        }
+        if (len < 0 || len > INT_MAX)
+        {
+            error = 2;
+        }
+        counter += 1;
+        PushToEdges(a, ver1 - 1, ver2 - 1, len);
     }
-    if (ver < 0 || ver > 5000)
+    if (n < 0 || n > 5000)
     {
         fprintf(fout, "bad number of vertices");
+        FreeGraph(a);
+        FreeFILE(fin,fout);
         return 0;
     }
-    if ((edge < 0) || (edge > ((ver + 1) * ver) / 2))
+    if (m < 0 || m > ((n * (n - 1)) / 2))
     {
         fprintf(fout, "bad number of edges");
+        FreeGraph(a);
+        FreeFILE(fin,fout);
         return 0;
     }
-    short int *parents = (short int *)malloc(sizeof(short int) * ver);
-    short int *color = (short int *)malloc(sizeof(short int) * ver);
-    struct edges *tree = (struct edges*)malloc(sizeof(struct edges) * edge);
-    if (ver == 0 || (ver > 1 && edge == 0) || (edge < ver - 1))
+    if (counter != m)
     {
-        fprintf(fout, "no spanning tree");
-        freeAll(color, parents, tree, edge);
+        fprintf(fout, "bad number of lines");
+        FreeGraph(a);
+        FreeFILE(fin,fout);
         return 0;
     }
-    for (int i = 0; i < edge; i++)
+    if (error == 1)
     {
-        if (fscanf(fin, "%d%d%d", &(edges[i].vertex1), &(edges[i].vertex2), &(edges[i].length) == EOF)
+        fprintf(fout, "bad vertex");
+        FreeGraph(a);
+        FreeFILE(fin,fout);
+        return 0;
+    }
+    if (error == 2)
+    {
+        fprintf(fout, "bad length");
+        FreeGraph(a);
+        FreeFILE(fin,fout);
+        return 0;
+    }
+    Graph *b = CrusalMinimumSpanningTree(a);
+    if (b)
+    {
+        int q, w;
+        for (int i = 0; i < (b->edges); i++)
         {
-            fprintf(fout, "bad number of lines");
-            freeAll(color, parents, tree, edge);
-            return 0;
-        }
-        else
-        {
-            if ((edges[i].vertex1 < 1 || edges[i].vertex1 > ver) || (edges[i].vertex2 < 1 || edges[i].vertex2 > ver))
+            q = ((b->edge + i)->vertice1);
+            w = ((b->edge + i)->vertice2);
+            if (q < w)
             {
-                fprintf(fout, "bad vertex");
-                freeAll(color, parents, tree, edge);
-                return 0;
+                fprintf(fout, "%d %d\n", q+1, w+1);
             }
             else
             {
-                if (edges[i].length < 0 || edges[i].length > INT_MAX)
-                {
-                    fprintf(fout, "bad length");
-                    freeAll(color, parents, tree, edge);
-                    return 0;
-                }
+                fprintf(fout, "%d %d\n", w+1, q+1);
             }
         }
-        edges[i].vertex1 -= 1;
-        edges[i].vertex2 -= 1;
     }
-    if (ver == 1)
+    else
     {
-        freeAll(color, parents, edges, edge);
+        fprintf(fout, "no spanning tree");
+        FreeGraph(a);
+        FreeGraph(b);
+        FreeFILE(fin,fout);
         return 0;
     }
-    qsort(edges, edge, sizeof(edges), edgesCmp);
-    for (int i = 0; i < ver; i++)
-    {
-        parents[i] = i;
-        color[i] = 0;
-    }
-    int positionInProcess = 1;
-    for (int i = 0; i < edge; i++)
-    {
-        if (findRoot(parents, edges[i].vertex1) != findRoot(parents, edges[i].vertex2))
-        {
-            unionSubTree(parents, color, edges[i].vertex1, edges[i].vertex2);
-            fprintf(fout, "%d %d\n", edges[i].vertex1 + 1, edges[i].vertex2 + 1);
-            positionInProcess += 1;
-        }
-    }
-    if (positionInProcess != ver)
-    {
-        rewind(fout);
-        fprintf(fout, "no spanning tree");
-    }
-    freeAll(color, parents, tree, edge);
     return 0;
 }
