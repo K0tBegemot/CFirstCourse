@@ -194,7 +194,6 @@ void CrusalMinimumSpanningTree(Graph *a)
         FreeGraph(a);
         a=0;
     }
-    return a;
 }
 
 int main()
