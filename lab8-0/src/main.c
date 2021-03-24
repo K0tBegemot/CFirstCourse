@@ -14,7 +14,6 @@ typedef struct Edges
 typedef struct ConnectedComponents
 {
     int *color;
-    int *rank;
 } ConnectedComponents;
 
 typedef struct Graph
@@ -67,7 +66,6 @@ void CreateConnectedComponents(Graph *a)
     {
         (a->cc->color)[i] = i;
     }
-    a->cc->rank = (int *)calloc(a->vertices, sizeof(int));
 }
 
 int FindConnectedComponent(Graph *a, int vertice)
@@ -84,26 +82,14 @@ void MergeConnectedComponent(Graph *a, int set1, int set2)
 {
     assert((a->cc->color)[set1] == set1);
     assert((a->cc->color)[set2] == set2);
-    if ((a->cc->rank)[set1] > (a->cc->rank)[set2])
-    {
-        (a->cc->color)[set2] = set1;
-        (a->cc->rank)[set1] += (a->cc->rank)[set2];
-    }
-    else
-    {
         (a->cc->color)[set1] = set2;
         (a->cc->rank)[set2] += (a->cc->rank)[set1];
-    }
     //int var1=0, var2=0;
     for(int i=0;i<a->vertices;i++)
     {
     	FindConnectedComponent(a,i);
 	}
 	//var2+=var1;
-    if (((a->cc->rank)[set1] == (a->cc->rank)[set2])&&((a->cc->rank)[set2]==0))
-    {
-        (a->cc->rank)[set2] += 1;
-    }
     /*
     for(int i=0;i<a->vertices;i++)
     {
