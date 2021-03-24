@@ -266,9 +266,9 @@ int main()
     Graph *b = CrusalMinimumSpanningTree(a);
     if (b)
     {
-        int q, w;
         for (int i = 0; i < (b->edges); i++)
         {
+            int q, w;
             q = ((b->edge + i)->vertice1);
             w = ((b->edge + i)->vertice2);
             if (q < w)
@@ -289,5 +289,8 @@ int main()
         FreeFILE(fin, fout);
         return 0;
     }
+    FreeGraph(a);
+        FreeGraph(b);
+        FreeFILE(fin, fout);
     return 0;
 }
