@@ -94,9 +94,10 @@ void MergeConnectedComponent(Graph *a, int set1, int set2)
         (a->cc->color)[set1] = set2;
         (a->cc->rank)[set2] += (a->cc->rank)[set1];
     }
+    int var;
     for(int i=0;i<a->vertices;i++)
     {
-    	int var= FindConnectedComponent(a,i);
+    	var= FindConnectedComponent(a,i);
     	var=0;
 	}
     if (((a->cc->rank)[set1] == (a->cc->rank)[set2])&&((a->cc->rank)[set2]==0))
