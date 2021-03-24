@@ -185,7 +185,10 @@ void CrusalMinimumSpanningTree(Graph *a)
             }
         }
         free(sortedEdge);
-        a->edges = counter;
+        if(a)
+        {
+            a->edges = counter;
+        }
     }
     else
     {
