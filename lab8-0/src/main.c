@@ -14,6 +14,7 @@ typedef struct Edges
 typedef struct ConnectedComponents
 {
     int *color;
+    int *rank;
 } ConnectedComponents;
 
 typedef struct Graph
@@ -66,6 +67,7 @@ void CreateConnectedComponents(Graph *a)
     {
         (a->cc->color)[i] = i;
     }
+    a->cc->rank = (int *)calloc(a->vertices, sizeof(int));
 }
 
 int FindConnectedComponent(Graph *a, int vertice)
@@ -82,13 +84,26 @@ void MergeConnectedComponent(Graph *a, int set1, int set2)
 {
     assert((a->cc->color)[set1] == set1);
     assert((a->cc->color)[set2] == set2);
+    if ((a->cc->rank)[set1] > (a->cc->rank)[set2])
+    {
+        (a->cc->color)[set2] = set1;
+        (a->cc->rank)[set1] += (a->cc->rank)[set2];
+    }
+    else
+    {
         (a->cc->color)[set1] = set2;
+        (a->cc->rank)[set2] += (a->cc->rank)[set1];
+    }
     //int var1=0, var2=0;
     for(int i=0;i<a->vertices;i++)
     {
     	FindConnectedComponent(a,i);
 	}
 	//var2+=var1;
+    if (((a->cc->rank)[set1] == (a->cc->rank)[set2])&&((a->cc->rank)[set2]==0))
+    {
+        (a->cc->rank)[set2] += 1;
+    }
     /*
     for(int i=0;i<a->vertices;i++)
     {
@@ -119,6 +134,7 @@ void FreeGraph(Graph *a)
     if (a)
     {
         free(a->cc->color);
+        free(a->cc->rank);
         free(a->edge);
         free(a);
     }
@@ -138,47 +154,47 @@ void FreeFILE(FILE *fin, FILE *fout)
 
 Graph *CrusalMinimumSpanningTree(Graph *a)
 {
-    Edges *sortedEdge = (Edges *)malloc(sizeof(Edges) * (a->edges));
-    SortEdge(a, sortedEdge);
-    Graph *b = CreateGraph(a->vertices, a->edges, 0, 0);
-    CreateConnectedComponents(b);
     if (a->vertices)
     {
+    Edges *sortedEdge = (Edges *)malloc(sizeof(Edges) * (a->edges));
+    SortEdge(a, sortedEdge);
+    free(a->edge);
+    a->edge=(Edges*)malloc(sizeof(Edges) * m);
+    a->edgesPointer=0;
         int counter = 0;
         for (int i = 0; i < a->edges; i++)
         {
-            int set1 = FindConnectedComponent(b, (sortedEdge + i)->vertice1);
-            int set2 = FindConnectedComponent(b, (sortedEdge + i)->vertice2);
+            int set1 = FindConnectedComponent(a, (sortedEdge + i)->vertice1);
+            int set2 = FindConnectedComponent(a, (sortedEdge + i)->vertice2);
             if (set1 != set2)
             {
-                PushToEdges(b, (sortedEdge + i)->vertice1, (sortedEdge + i)->vertice2, (sortedEdge + i)->length);
+                PushToEdges(a, (sortedEdge + i)->vertice1, (sortedEdge + i)->vertice2, (sortedEdge + i)->length);
                 counter += 1;
-                MergeConnectedComponent(b, set1, set2);
+                MergeConnectedComponent(a, set1, set2);
             }
         }
-        b->edges = counter;
-        int color0 = (b->cc->color)[0];
+        a->edges = counter;
+        int color0 = (a->cc->color)[0];
         //printf("%d ", color0);
-        for (int i = 0; i < b->vertices; i++)
+        for (int i = 0; i < a->vertices; i++)
         {
             //printf("bad");
             //printf("%d ", (b->cc->color)[i]);
-            if (((b->cc->color)[i]) != (color0))
+            if (((a->cc->color)[i]) != (color0))
             {
                 free(sortedEdge);
-                FreeGraph(b);
-                b = 0;
+                FreeGraph(a);
+                a = 0;
                 break;
             }
         }
     }
     else
     {
-        free(sortedEdge);
-        FreeGraph(b);
-        b = 0;
+        FreeGraph(a);
+        a=0;
     }
-    return b;
+    return a;
 }
 
 int main()
