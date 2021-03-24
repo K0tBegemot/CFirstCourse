@@ -158,8 +158,6 @@ void CrusalMinimumSpanningTree(Graph *a)
     {
     Edges *sortedEdge = (Edges *)malloc(sizeof(Edges) * (a->edges));
     SortEdge(a, sortedEdge);
-    free(a->edge);
-    a->edge=(Edges*)malloc(sizeof(Edges) * a->edges);
     a->edgesPointer=0;
         int counter = 0;
         for (int i = 0; i < a->edges; i++)
@@ -283,7 +281,6 @@ int main()
     else
     {
         fprintf(fout, "no spanning tree");
-        FreeGraph(a);
         FreeFILE(fin, fout);
         return 0;
     }
