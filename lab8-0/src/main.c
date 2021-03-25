@@ -61,6 +61,7 @@ ConnectedComponents* CreateConnectedComponents(int vertices)
     }
     c->rank = (short int *)calloc(vertices, sizeof(short int));
     c->vertices=vertices;
+    return c;
 }
 
 int FindConnectedComponent(ConnectedComponents *c, int vertice)
