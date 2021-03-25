@@ -34,7 +34,11 @@ Graph *CreateGraph(int n, int m, Edges *b)
     {
         a->edge = (Edges *)malloc(sizeof(Edges) * m);
     }
-    a->color=(int*)malloc(sizeof(int)*m);
+    a->color=(int*)malloc(sizeof(int)*n);
+    for(int i=0;i<n;i++)
+    {
+        (a->color)[i]=i;
+    }
     return a;
 }
 
