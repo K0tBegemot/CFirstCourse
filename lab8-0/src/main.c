@@ -171,9 +171,7 @@ Graph *CrusalMinimumSpanningTree(Graph *a)
         {
             if (((c->color)[i]) != (color0))
             {
-                free(sortedEdge);
                 FreeGraph(b);
-                FreeCC(c);
                 b = 0;
                 break;
             }
@@ -181,9 +179,7 @@ Graph *CrusalMinimumSpanningTree(Graph *a)
     }
     else
     {
-        free(sortedEdge);
         FreeGraph(b);
-        FreeCC(c);
         b = 0;
     }
     free(sortedEdge);
