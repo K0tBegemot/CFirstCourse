@@ -62,12 +62,12 @@ void PushToEdges(Graph *a, int vertice1, int vertice2, int length)
 void CreateConnectedComponents(Graph *a)
 {
     a->cc = (ConnectedComponents *)malloc(sizeof(ConnectedComponents));
-    a->cc->color = (int *)malloc(sizeof(int) * (a->vertices));
+    a->cc->color = (short int *)malloc(sizeof(short int) * (a->vertices));
     for (int i = 0; i < a->vertices; i++)
     {
         (a->cc->color)[i] = i;
     }
-    a->cc->rank = (int *)calloc(a->vertices, sizeof(int));
+    a->cc->rank = (short int *)calloc(a->vertices, sizeof(short int));
 }
 
 int FindConnectedComponent(Graph *a, int vertice)
