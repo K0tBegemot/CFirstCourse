@@ -11,21 +11,16 @@ typedef struct Edges
     int length;
 } Edges;
 
-typedef struct ConnectedComponents
-{
-    int *color;
-} ConnectedComponents;
-
 typedef struct Graph
 {
     int vertices;
     int edges;
     int edgesPointer;
     Edges *edge;
-    ConnectedComponents *cc;
+    int *color;
 } Graph;
 
-Graph *CreateGraph(int n, int m, Edges *b, ConnectedComponents *c)
+Graph *CreateGraph(int n, int m, Edges *b)
 {
     Graph *a = (Graph *)malloc(sizeof(Graph));
     a->vertices = n;
@@ -39,14 +34,7 @@ Graph *CreateGraph(int n, int m, Edges *b, ConnectedComponents *c)
     {
         a->edge = (Edges *)malloc(sizeof(Edges) * m);
     }
-    if (c)
-    {
-        a->cc = c;
-    }
-    else
-    {
-        a->cc = 0;
-    }
+    a->color=(int*)malloc(sizeof(int)*m);
     return a;
 }
 
@@ -58,31 +46,21 @@ void PushToEdges(Graph *a, int vertice1, int vertice2, int length)
     a->edgesPointer += 1;
 }
 
-void CreateConnectedComponents(Graph *a)
-{
-    a->cc = (ConnectedComponents *)malloc(sizeof(ConnectedComponents));
-    a->cc->color = (int *)malloc(sizeof(int) * (a->vertices));
-    for (int i = 0; i < a->vertices; i++)
-    {
-        (a->cc->color)[i] = i;
-    }
-}
-
 int FindConnectedComponent(Graph *a, int vertice)
 {
-    if (vertice == (a->cc->color)[vertice])
+    if (vertice == (a->color)[vertice])
     {
         return vertice;
     }
-    (a->cc->color)[vertice] = FindConnectedComponent(a, (a->cc->color)[vertice]);
-    return (a->cc->color)[vertice];
+    (a->color)[vertice] = FindConnectedComponent(a, (a->color)[vertice]);
+    return (a->color)[vertice];
 }
 
 void MergeConnectedComponent(Graph *a, int set1, int set2)
 {
-    assert((a->cc->color)[set1] == set1);
-    assert((a->cc->color)[set2] == set2);
-        (a->cc->color)[set1] = set2;
+    assert((a->color)[set1] == set1);
+    assert((a->color)[set2] == set2);
+        (a->color)[set1] = set2;
     //int var1=0, var2=0;
     for(int i=0;i<a->vertices;i++)
     {
@@ -118,8 +96,7 @@ void FreeGraph(Graph *a)
 {
     if (a)
     {
-        free(a->cc->color);
-        free(a->cc);
+        free(a->color);
         free(a->edge);
         free(a);
     }
@@ -157,13 +134,13 @@ int CrusalMinimumSpanningTree(Graph *a)
                 MergeConnectedComponent(a, set1, set2);
             }
         }
-        int color0 = (a->cc->color)[0];
+        int color0 = (a->color)[0];
         //printf("%d ", color0);
         for (int i = 0; i < a->vertices; i++)
         {
             //printf("bad");
             //printf("%d ", (b->cc->color)[i]);
-            if (((a->cc->color)[i]) != (color0))
+            if (((a->color)[i]) != (color0))
             {
                 FreeGraph(a);
                 a = 0;
@@ -197,8 +174,7 @@ int main()
         FreeFILE(fin, fout);
         return 0;
     }
-    Graph *a = CreateGraph(n, m, 0, 0);
-    CreateConnectedComponents(a);
+    Graph *a = CreateGraph(n, m, 0);
     int ver1, ver2, len, counter = 0, error = 0;
     for (int i = 0; i < m; i++)
     {
