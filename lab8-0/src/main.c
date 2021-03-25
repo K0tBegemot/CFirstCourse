@@ -153,8 +153,9 @@ void FreeFILE(FILE *fin, FILE *fout)
     }
 }
 
-void CrusalMinimumSpanningTree(Graph *a)
+int CrusalMinimumSpanningTree(Graph *a)
 {
+    int returnValue=0;
     if (a->vertices)
     {
     Edges *sortedEdge = (Edges *)malloc(sizeof(Edges) * (a->edges));
@@ -182,6 +183,7 @@ void CrusalMinimumSpanningTree(Graph *a)
             {
                 FreeGraph(a);
                 a = 0;
+                returnValue=1;
                 break;
             }
         }
@@ -195,7 +197,9 @@ void CrusalMinimumSpanningTree(Graph *a)
     {
         FreeGraph(a);
         a=0;
+        returnValue=1;
     }
+    return returnValue;
 }
 
 int main()
@@ -264,8 +268,13 @@ int main()
         FreeFILE(fin, fout);
         return 0;
     }
-    CrusalMinimumSpanningTree(a);
-    if (a)
+    if (CrusalMinimumSpanningTree(a))
+    {
+        fprintf(fout, "no spanning tree");
+        FreeFILE(fin, fout);
+        return 0;
+    }
+    else
     {
         for (int i = 0; i < (a->edges); i++)
         {
@@ -281,12 +290,6 @@ int main()
                 fprintf(fout, "%d %d\n", w + 1, q + 1);
             }
         }
-    }
-    else
-    {
-        fprintf(fout, "no spanning tree");
-        FreeFILE(fin, fout);
-        return 0;
     }
     FreeGraph(a);
         FreeFILE(fin, fout);
