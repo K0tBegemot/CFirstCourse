@@ -13,7 +13,7 @@ typedef struct Edges
 
 typedef struct ConnectedComponents
 {
-    int vertices;
+	int vertices;
     short int *color;
     short int *rank;
 } ConnectedComponents;
@@ -22,6 +22,7 @@ typedef struct Graph
 {
     short int vertices;
     int edges;
+    int edgesPointer;
     Edges *edge;
 } Graph;
 
@@ -29,6 +30,7 @@ Graph *CreateGraph(int n, int m, Edges *b)
 {
     Graph *a = (Graph *)malloc(sizeof(Graph));
     a->vertices = n;
+    a->edgesPointer = 0;
     a->edges = m;
     if (b)
     {
@@ -49,7 +51,7 @@ void PushToEdges(Graph *a, int vertice1, int vertice2, int length)
     a->edgesPointer += 1;
 }
 
-ConnectedComponents *CreateConnectedComponents(int vertices)
+ConnectedComponents* CreateConnectedComponents(int vertices)
 {
     ConnectedComponents *c = (ConnectedComponents *)malloc(sizeof(ConnectedComponents));
     c->color = (short int *)malloc(sizeof(short int) * (vertices));
@@ -58,7 +60,7 @@ ConnectedComponents *CreateConnectedComponents(int vertices)
         (c->color)[i] = i;
     }
     c->rank = (short int *)calloc(vertices, sizeof(short int));
-    c->vertices = vertices;
+    c->vertices=vertices;
 }
 
 int FindConnectedComponent(ConnectedComponents *c, int vertice)
@@ -85,11 +87,11 @@ void MergeConnectedComponent(ConnectedComponents *c, int set1, int set2)
         (c->color)[set1] = set2;
         (c->rank)[set2] += (c->rank)[set1];
     }
-    for (int i = 0; i < c->vertices; i++)
+    for(int i=0;i<c->vertices;i++)
     {
-        FindConnectedComponent(c, i);
-    }
-    if (((c->rank)[set1] == (c->rank)[set2]) && ((c->rank)[set2] == 0))
+    	FindConnectedComponent(c,i);
+	}
+    if (((c->rank)[set1] == (c->rank)[set2])&&((c->rank)[set2]==0))
     {
         (c->rank)[set2] += 1;
     }
@@ -122,11 +124,11 @@ void FreeGraph(Graph *a)
 
 void FreeCC(ConnectedComponents *c)
 {
-    if (c)
-    {
-        free(c->color);
-        free(c->rank);
-    }
+	if(c)
+	{
+		free(c->color);
+		free(c->rank);
+	}
 }
 
 void FreeFILE(FILE *fin, FILE *fout)
@@ -146,7 +148,7 @@ Graph *CrusalMinimumSpanningTree(Graph *a)
     Edges *sortedEdge = (Edges *)malloc(sizeof(Edges) * (a->edges));
     SortEdge(a, sortedEdge);
     Graph *b = CreateGraph(a->vertices, a->edges, 0);
-    ConnectedComponents *c = CreateConnectedComponents(a->vertices);
+    ConnectedComponents *c=CreateConnectedComponents(a->vertices);
     if (a->vertices)
     {
         int counter = 0;
