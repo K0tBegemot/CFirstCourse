@@ -129,6 +129,7 @@ void FreeCC(ConnectedComponents *c)
 	{
 		free(c->color);
 		free(c->rank);
+        free(c);
 	}
 }
 
