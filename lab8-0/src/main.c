@@ -135,6 +135,7 @@ void FreeGraph(Graph *a)
     {
         free(a->cc->color);
         free(a->cc->rank);
+        free(a->cc);
         free(a->edge);
         free(a);
     }
