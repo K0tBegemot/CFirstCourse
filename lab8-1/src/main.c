@@ -283,7 +283,10 @@ Graph *PrimMinimumSpanningTree(Graph *a)
                     }
                 }
             }
+
         }
+        FreeBitSet(color);
+        free(arrOfEdges);
     }
     else
     {
