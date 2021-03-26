@@ -358,7 +358,7 @@ int main()
 			printf("\n");
 		}
 		*/
-        WriteLength(a, ver1 - 1, ver2 - 1, len);
+        WriteLength(a, (int)(ver1) - 1, (int)(ver2) - 1, (int)(len));
         /*
         for(int i=0;i<n;i++)
         {
