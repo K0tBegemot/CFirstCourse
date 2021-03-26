@@ -344,6 +344,7 @@ int main()
         }
         if ((int)(len) < 0 || len > INT_MAX)
         {
+        	printf("%d", len > INT_MAX);
             error = 2;
             break;
         }
@@ -370,13 +371,6 @@ int main()
 		}
 		*/
     }
-    if (counter != (unsigned int)m)
-    {
-        fprintf(fout, "bad number of lines");
-        FreeGraph(a);
-        FreeFILE(fin, fout);
-        return 0;
-    }
     if (error == 1)
     {
         fprintf(fout, "bad vertex");
@@ -387,6 +381,13 @@ int main()
     if (error == 2)
     {
         fprintf(fout, "bad length");
+        FreeGraph(a);
+        FreeFILE(fin, fout);
+        return 0;
+    }
+    if (counter != (unsigned int)m)
+    {
+        fprintf(fout, "bad number of lines");
         FreeGraph(a);
         FreeFILE(fin, fout);
         return 0;
