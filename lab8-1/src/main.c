@@ -331,7 +331,7 @@ int main()
     }
     Graph *a = CreateGraph(n, m, 0);
     unsigned long long int ver1, ver2, len, counter = 0, error = 0;
-    for (unsigned int i = 0; i < m; i++)
+    for (unsigned int i = 0; i < (unsigned int)m; i++)
     {
         if (fscanf(fin, "%llu%llu%llu", &ver1, &ver2, &len) == EOF)
         {
