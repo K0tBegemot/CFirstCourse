@@ -4,12 +4,12 @@
 
 #define INT_MAX 2147483647
 
-typedef struct Edges
+typedef struct Graph
 {
-    short int vertice1;
-    short int vertice2;
-    int length;
-} Edges;
+    short int vertices;
+    short int edges;
+    int *adjacencyList;
+} Graph;
 
 typedef struct BitSet
 {
@@ -18,6 +18,64 @@ typedef struct BitSet
     int width;
     int type; // 0 - symmetrical; 1 - unsymmetrical;
 } BitSet;
+
+typedef struct Edges
+{
+    short int vertice1;
+    short int vertice2;
+    int length;
+} Edges;
+
+Graph *CreateGraph(int n, int m, int *adjacencyList)
+{
+    Graph *a = (Graph *)malloc(sizeof(Graph));
+    a->vertices = n;
+    a->edges = m;
+    if (adjacencyList)
+    {
+        a->adjacencyList = adjacencyList;
+    }
+    else
+    {
+        a->adjacencyList = (int *)calloc(((n * n) - (n * (n - 1)) / 2), sizeof(int));
+    }
+    return a;
+}
+
+void WriteLength(Graph *a, int vertice1, int vertice2, int length)
+{
+    if (vertice1 > vertice2)
+    {
+        int var;
+        var = vertice1;
+        vertice1 = vertice2;
+        vertice2 = var;
+    }
+    int summ = (vertice1 * (vertice1 + 1)) / 2;
+    (a->adjacencyList)[vertice1 * (a->vertices) + vertice2 - summ] = length;
+}
+
+int ReadLength(Graph *a, int vertice1, int vertice2)
+{
+    if (vertice1 > vertice2)
+    {
+        int var;
+        var = vertice1;
+        vertice1 = vertice2;
+        vertice2 = var;
+    }
+    int summ = (vertice1 * (vertice1 + 1)) / 2;
+    return (a->adjacencyList)[vertice1 * (a->vertices) + vertice2 - summ];
+}
+
+void FreeGraph(Graph *a)
+{
+    if (a)
+    {
+        free(a->adjacencyList);
+        free(a);
+    }
+}
 
 BitSet *CreateBitSet(int length, int width, int type)
 {
@@ -133,62 +191,10 @@ int ReadBit(BitSet *created, int x, int y)
     return returnValue;
 }
 
-typedef struct Graph
+void FreeBitSet(BitSet *a)
 {
-    short int vertices;
-    short int edges;
-    int *adjacencyList;
-} Graph;
-
-Graph *CreateGraph(int n, int m, int *adjacencyList)
-{
-    Graph *a = (Graph *)malloc(sizeof(Graph));
-    a->vertices = n;
-    a->edges = m;
-    if (adjacencyList)
-    {
-        a->adjacencyList = adjacencyList;
-    }
-    else
-    {
-        a->adjacencyList = (int *)calloc(((n * n) - (n * (n - 1)) / 2), sizeof(int));
-    }
-    return a;
-}
-
-void WriteLength(Graph *a, int vertice1, int vertice2, int length)
-{
-    if (vertice1 > vertice2)
-    {
-        int var;
-        var = vertice1;
-        vertice1 = vertice2;
-        vertice2 = var;
-    }
-    int summ = (vertice1 * (vertice1 + 1)) / 2;
-    (a->adjacencyList)[vertice1 * (a->vertices) + vertice2 - summ] = length;
-}
-
-int ReadLength(Graph *a, int vertice1, int vertice2)
-{
-    if (vertice1 > vertice2)
-    {
-        int var;
-        var = vertice1;
-        vertice1 = vertice2;
-        vertice2 = var;
-    }
-    int summ = (vertice1 * (vertice1 + 1)) / 2;
-    return (a->adjacencyList)[vertice1 * (a->vertices) + vertice2 - summ];
-}
-
-void FreeGraph(Graph *a)
-{
-    if (a)
-    {
-        free(a->adjacencyList);
-        free(a);
-    }
+    free(a->bitset);
+    free(a);
 }
 
 void FreeFILE(FILE *fin, FILE *fout)
@@ -201,12 +207,6 @@ void FreeFILE(FILE *fin, FILE *fout)
     {
         fclose(fout);
     }
-}
-
-void FreeBitSet(BitSet *a)
-{
-    free(a->bitset);
-    free(a);
 }
 
 void WriteToEdge(Edges *a, int counter, int vertex1, int vertex2, int length)
@@ -317,25 +317,25 @@ int main()
         return 0;
     }
     Graph *a = CreateGraph(n, m, 0);
-    unsigned long long int ver1, ver2, len, counter = 0, error = 0;
-    for (unsigned int i = 0; i < (unsigned int)m; i++)
+    int ver1, ver2, len, counter = 0, error = 0;
+    for (int i = 0; i < m; i++)
     {
-        if (fscanf(fin, "%llu%llu%llu", &ver1, &ver2, &len) == EOF)
+        if (fscanf(fin, "%d%d%d", &ver1, &ver2, &len) == EOF)
         {
             break;
         }
-        if (ver1 < 1 || ver1 > (unsigned int)n || ver2 < 1 || ver2 > (unsigned int)n)
+        if (ver1 < 1 || ver1 > n || ver2 < 1 || ver2 > n)
         {
             error = 1;
             break;
         }
-        if ((int)(len) < 0 || len > INT_MAX)
+        if (len < 0 || len > INT_MAX)
         {
             error = 2;
             break;
         }
         counter += 1;
-        WriteLength(a, (int)(ver1)-1, (int)(ver2)-1, (int)(len));
+        WriteLength(a, ver1-1, ver2-1, len);
     }
     if (error == 1)
     {
@@ -351,7 +351,7 @@ int main()
         FreeFILE(fin, fout);
         return 0;
     }
-    if (counter != (unsigned int)m)
+    if (counter != m)
     {
         fprintf(fout, "bad number of lines");
         FreeGraph(a);
