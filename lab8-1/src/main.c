@@ -344,7 +344,6 @@ int main()
         }
         if ((int)(len) < 0 || len > INT_MAX)
         {
-        	printf("%d", len > INT_MAX);
             error = 2;
             break;
         }
