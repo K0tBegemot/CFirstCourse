@@ -238,16 +238,15 @@ Graph *PrimMinimumSpanningTree(Graph *a)
         while (counter2 < (a->vertices))
         {
             int min = INT_MAX;
-            int nextVertex = 0, prevVertex = 0, ii = -1; // bit = 0; // counter3=0;
+            int nextVertex = 0, prevVertex = 0, ii = -1;
             for (int i = 0; i < counter1; i++)
             {
-                if (((arrOfEdges + i)->length) <= (min) && ((arrOfEdges + i)->length > 0) && (ReadBit(color, 0, (arrOfEdges + i)->vertice2) == 0)) //|| ReadBit(color, 0, (arrOfEdges + i)->vertice1) == 0
+                if (((arrOfEdges + i)->length) <= (min) && ((arrOfEdges + i)->length > 0) && (ReadBit(color, 0, (arrOfEdges + i)->vertice2) == 0))
                 {
                     min = ((arrOfEdges + i)->length);
                     prevVertex = ((arrOfEdges + i)->vertice1);
                     nextVertex = ((arrOfEdges + i)->vertice2);
                     ii = i;
-                    //bit = ReadBit(color, 0, (arrOfEdges + i)->vertice2);
                 }
             }
             if ((ii == -1) && (counter2 < (a->vertices)))
@@ -262,21 +261,8 @@ Graph *PrimMinimumSpanningTree(Graph *a)
                 WriteLength(b, prevVertex, nextVertex, min);
                 WriteToEdge(arrOfEdges, ii, 0, 0, 0);
                 int rightVertex;
-                /*
-            if (bit == 0)
-            {
-            */
                 WriteBit(color, 0, nextVertex, 1);
                 rightVertex = nextVertex;
-                /*
-            }
-            else
-            {
-
-                WriteBit(color, 0, prevVertex, 1);
-                rightVertex = prevVertex;
-            }
-            */
                 counter2 += 1;
                 for (int i = rightVertex; i < (a->vertices); i++)
                 {
@@ -301,6 +287,7 @@ Graph *PrimMinimumSpanningTree(Graph *a)
     }
     else
     {
+        FreeGraph(b);
         b = 0;
     }
     return b;
@@ -348,27 +335,7 @@ int main()
             break;
         }
         counter += 1;
-        /*
-        for(int i=0;i<n;i++)
-        {
-        	for(int ii=i;ii<n;ii++)
-        	{
-        		printf("%d ", ReadLength(a, i, ii));
-			}
-			printf("\n");
-		}
-		*/
-        WriteLength(a, (int)(ver1) - 1, (int)(ver2) - 1, (int)(len));
-        /*
-        for(int i=0;i<n;i++)
-        {
-        	for(int ii=i;ii<n;ii++)
-        	{
-        		printf("%d ", ReadLength(a, i, ii));
-			}
-			printf("\n");
-		}
-		*/
+        WriteLength(a, (int)(ver1)-1, (int)(ver2)-1, (int)(len));
     }
     if (error == 1)
     {
