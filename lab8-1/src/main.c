@@ -330,10 +330,10 @@ int main()
         return 0;
     }
     Graph *a = CreateGraph(n, m, 0);
-    unsigned int ver1, ver2, len, counter = 0, error = 0;
+    long int ver1, ver2, len, counter = 0, error = 0;
     for (int i = 0; i < m; i++)
     {
-        if (fscanf(fin, "%ud%ud%ud", &ver1, &ver2, &len) == EOF)
+        if (fscanf(fin, "%ld%ld%ld", &ver1, &ver2, &len) == EOF)
         {
             break;
         }
