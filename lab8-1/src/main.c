@@ -330,10 +330,10 @@ int main()
         return 0;
     }
     Graph *a = CreateGraph(n, m, 0);
-    long int ver1, ver2, len, counter = 0, error = 0;
-    for (int i = 0; i < m; i++)
+    unsigned long long int ver1, ver2, len, counter = 0, error = 0;
+    for (unsigned int i = 0; i < m; i++)
     {
-        if (fscanf(fin, "%ld%ld%ld", &ver1, &ver2, &len) == EOF)
+        if (fscanf(fin, "%ulld%ulld%ulld", &ver1, &ver2, &len) == EOF)
         {
             break;
         }
@@ -342,7 +342,7 @@ int main()
             error = 1;
             break;
         }
-        if (len < 0 || len > INT_MAX)
+        if ((int)(len) < 0 || len > INT_MAX)
         {
             error = 2;
             break;
