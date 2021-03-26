@@ -248,10 +248,7 @@ Graph*PrimMinimumSpanningTree(Graph *a)
                 nextVertex = ((arrOfEdges + i)->vertice2);
                 ii = i;
                 //bit = ReadBit(color, 0, (arrOfEdges + i)->vertice2);
-            }else
-            {
-            	WriteToEdge(arrOfEdges, i, 0, 0, 0);
-			}
+            }
         }
         if ((ii == -1) && (counter2 < (a->vertices)))
         {
