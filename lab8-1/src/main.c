@@ -241,7 +241,7 @@ Graph*PrimMinimumSpanningTree(Graph *a)
         int nextVertex = 0, prevVertex = 0, ii = -1;// bit = 0; // counter3=0;
         for (int i = 0; i < counter1; i++)
         {
-            if (((arrOfEdges + i)->length) < (min) && ((arrOfEdges + i)->length > 0) && (ReadBit(color, 0, (arrOfEdges + i)->vertice2) == 0 ))//|| ReadBit(color, 0, (arrOfEdges + i)->vertice1) == 0
+            if (((arrOfEdges + i)->length) <= (min) && ((arrOfEdges + i)->length > 0) && (ReadBit(color, 0, (arrOfEdges + i)->vertice2) == 0 ))//|| ReadBit(color, 0, (arrOfEdges + i)->vertice1) == 0
             {
                 min = ((arrOfEdges + i)->length);
                 prevVertex = ((arrOfEdges + i)->vertice1);
