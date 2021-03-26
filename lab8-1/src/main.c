@@ -337,7 +337,7 @@ int main()
         {
             break;
         }
-        if (ver1 < 1 || ver1 > n || ver2 < 1 || ver2 > n)
+        if (ver1 < 1 || ver1 > (unsigned int)n || ver2 < 1 || ver2 > (unsigned int)n)
         {
             error = 1;
             break;
@@ -370,7 +370,7 @@ int main()
 		}
 		*/
     }
-    if (counter != m)
+    if (counter != (unsigned int)m)
     {
         fprintf(fout, "bad number of lines");
         FreeGraph(a);
