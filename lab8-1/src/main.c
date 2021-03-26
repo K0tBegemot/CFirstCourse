@@ -216,53 +216,53 @@ void WriteToEdge(Edges *a, int counter, int vertex1, int vertex2, int length)
     (a + counter)->length = length;
 }
 
-Graph*PrimMinimumSpanningTree(Graph *a)
+Graph *PrimMinimumSpanningTree(Graph *a)
 {
-	Graph *b = CreateGraph(a->vertices, a->edges, 0);
-	if(a->vertices)
-	{
-    BitSet *color = CreateBitSet(a->vertices, 1, 0);
-    Edges *arrOfEdges = (Edges *)malloc(sizeof(Edges) * (a->edges));
-    int counter1 = 0, counter2 = 0;
-    for (int i = 0; i < (a->vertices); i++)
+    Graph *b = CreateGraph(a->vertices, a->edges, 0);
+    if (a->vertices)
     {
-        int var = ReadLength(a, 0, i);
-        if (var)
+        BitSet *color = CreateBitSet(a->vertices, 1, 0);
+        Edges *arrOfEdges = (Edges *)malloc(sizeof(Edges) * (a->edges));
+        int counter1 = 0, counter2 = 0;
+        for (int i = 0; i < (a->vertices); i++)
         {
-            WriteToEdge(arrOfEdges, counter1, 0, i, var);
-            counter1 += 1;
-        }
-    }
-    WriteBit(color, 0, 0, 1);
-    counter2 += 1;
-    while (counter2 < (a->vertices))
-    {
-        int min = INT_MAX;
-        int nextVertex = 0, prevVertex = 0, ii = -1;// bit = 0; // counter3=0;
-        for (int i = 0; i < counter1; i++)
-        {
-            if (((arrOfEdges + i)->length) <= (min) && ((arrOfEdges + i)->length > 0) && (ReadBit(color, 0, (arrOfEdges + i)->vertice2) == 0 ))//|| ReadBit(color, 0, (arrOfEdges + i)->vertice1) == 0
+            int var = ReadLength(a, 0, i);
+            if (var)
             {
-                min = ((arrOfEdges + i)->length);
-                prevVertex = ((arrOfEdges + i)->vertice1);
-                nextVertex = ((arrOfEdges + i)->vertice2);
-                ii = i;
-                //bit = ReadBit(color, 0, (arrOfEdges + i)->vertice2);
+                WriteToEdge(arrOfEdges, counter1, 0, i, var);
+                counter1 += 1;
             }
         }
-        if ((ii == -1) && (counter2 < (a->vertices)))
+        WriteBit(color, 0, 0, 1);
+        counter2 += 1;
+        while (counter2 < (a->vertices))
         {
-            FreeGraph(b);
-            FreeBitSet(color);
-            free(arrOfEdges);
-            return 0;
-        }
-        if (ii != -1)
-        {
-            WriteLength(b, prevVertex, nextVertex, min);
-            WriteToEdge(arrOfEdges, ii, 0, 0, 0);
-            int rightVertex;
-            /*
+            int min = INT_MAX;
+            int nextVertex = 0, prevVertex = 0, ii = -1; // bit = 0; // counter3=0;
+            for (int i = 0; i < counter1; i++)
+            {
+                if (((arrOfEdges + i)->length) <= (min) && ((arrOfEdges + i)->length > 0) && (ReadBit(color, 0, (arrOfEdges + i)->vertice2) == 0)) //|| ReadBit(color, 0, (arrOfEdges + i)->vertice1) == 0
+                {
+                    min = ((arrOfEdges + i)->length);
+                    prevVertex = ((arrOfEdges + i)->vertice1);
+                    nextVertex = ((arrOfEdges + i)->vertice2);
+                    ii = i;
+                    //bit = ReadBit(color, 0, (arrOfEdges + i)->vertice2);
+                }
+            }
+            if ((ii == -1) && (counter2 < (a->vertices)))
+            {
+                FreeGraph(b);
+                FreeBitSet(color);
+                free(arrOfEdges);
+                return 0;
+            }
+            if (ii != -1)
+            {
+                WriteLength(b, prevVertex, nextVertex, min);
+                WriteToEdge(arrOfEdges, ii, 0, 0, 0);
+                int rightVertex;
+                /*
             if (bit == 0)
             {
             */
@@ -272,36 +272,37 @@ Graph*PrimMinimumSpanningTree(Graph *a)
             }
             else
             {
-            
+
                 WriteBit(color, 0, prevVertex, 1);
                 rightVertex = prevVertex;
             }
             */
-            counter2 += 1;
-            for (int i = rightVertex; i < (a->vertices); i++)
-            {
-                int var = ReadLength(a, rightVertex, i);
-                if (var && ReadBit(color, 0, i)==0)
+                counter2 += 1;
+                for (int i = rightVertex; i < (a->vertices); i++)
                 {
-                    WriteToEdge(arrOfEdges, counter1, rightVertex, i, var);
-                    counter1 += 1;
+                    int var = ReadLength(a, rightVertex, i);
+                    if (var && ReadBit(color, 0, i) == 0)
+                    {
+                        WriteToEdge(arrOfEdges, counter1, rightVertex, i, var);
+                        counter1 += 1;
+                    }
+                }
+                for (int i = 0; i < rightVertex + 1; i++)
+                {
+                    int var = ReadLength(a, i, rightVertex);
+                    if (var && ReadBit(color, 0, i) == 0)
+                    {
+                        WriteToEdge(arrOfEdges, counter1, rightVertex, i, var);
+                        counter1 += 1;
+                    }
                 }
             }
-            for(int i=0;i<rightVertex+1;i++)
-            {
-            	int var = ReadLength(a, i , rightVertex);
-                if (var && ReadBit(color, 0, i)==0)
-                {
-                    WriteToEdge(arrOfEdges, counter1, rightVertex, i, var);
-                    counter1 += 1;
-                }
-			}
         }
     }
-}else
-{
-	b=0;
-}
+    else
+    {
+        b = 0;
+    }
     return b;
 }
 
@@ -329,7 +330,7 @@ int main()
         return 0;
     }
     Graph *a = CreateGraph(n, m, 0);
-    int ver1, ver2, len, counter = 0, error = 0;
+    unsigned int ver1, ver2, len, counter = 0, error = 0;
     for (int i = 0; i < m; i++)
     {
         if (fscanf(fin, "%d%d%d", &ver1, &ver2, &len) == EOF)
@@ -339,10 +340,12 @@ int main()
         if (ver1 < 1 || ver1 > n || ver2 < 1 || ver2 > n)
         {
             error = 1;
+            break;
         }
         if (len < 0 || len > INT_MAX)
         {
             error = 2;
+            break;
         }
         counter += 1;
         /*
@@ -391,16 +394,16 @@ int main()
     Graph *b = PrimMinimumSpanningTree(a);
     if (b)
     {
-        for(int i=0;i<(b->vertices);i++)
+        for (int i = 0; i < (b->vertices); i++)
         {
-        for (int ii = i; ii < (b->vertices); ii++)
-        {
-            if (ReadLength(b, i, ii))
+            for (int ii = i; ii < (b->vertices); ii++)
             {
-                fprintf(fout, "%d %d\n", i+1, ii+1);
+                if (ReadLength(b, i, ii))
+                {
+                    fprintf(fout, "%d %d\n", i + 1, ii + 1);
+                }
             }
         }
-    	}
     }
     else
     {
