@@ -333,7 +333,7 @@ int main()
     unsigned int ver1, ver2, len, counter = 0, error = 0;
     for (int i = 0; i < m; i++)
     {
-        if (fscanf(fin, "%d%d%d", &ver1, &ver2, &len) == EOF)
+        if (fscanf(fin, "%ud%ud%ud", &ver1, &ver2, &len) == EOF)
         {
             break;
         }
