@@ -137,10 +137,10 @@ void FreeFILE(FILE *fin, FILE *fout)
     }
 }
 
-int IsOneComponent(ConnectedComponents *c, int vertices)
+int IsOneComponent(ConnectedComponents *c)
 {
     int color0 = (c->color)[0];
-    for (int i = 0; i < vertices; i++)
+    for (int i = 0; i < c->vertices; i++)
     {
         if ((c->color[i]) != (color0))
         {
@@ -171,7 +171,7 @@ Graph *KruskalMinimumSpanningTree(Graph *a)
             }
         }
         b->edges = newNumberOfEdges;
-        if (IsOneComponent(c, b->vertices))
+        if (IsOneComponent(c))
         {
             FreeGraph(b);
             b = 0;
