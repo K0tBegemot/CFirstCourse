@@ -1,123 +1,87 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct BitSet
+typedef struct BitSet
 {
     char *bitset;
     int length;
     int width;
     int type; // 0 - symmetrical; 1 - unsymmetrical;
-};
+} BitSet;
 
-struct BitSet *CreateBitSet(int length, int width, int type)
+BitSet *CreateBitSet(int length, int width, int type)
 {
     if (length == 0 || width == 0)
     {
         //printf("Invalid length or value field. Bitset not created");
         return 0;
     }
-    struct BitSet *created = (struct BitSet *)malloc(sizeof(struct BitSet));
+    BitSet *created = (struct BitSet *)malloc(sizeof(struct BitSet));
     created->bitset = 0;
     int size = length * width;
-    int summ;
-    switch (type)
-    {
-    case 0:
-        created->bitset = (char *)calloc((size / 8 + ((size % 8) ? 1 : 0)), sizeof(char));
-        break;
-    case 1:
-        summ = ((width - 1) * width / 2);
-        created->bitset = (char *)calloc(((size - summ) / 8 + (((size - summ) % 8) ? 1 : 0)), sizeof(char));
-        break;
-    default:
-        //printf("Invalid type field. Bitset not created");
-        free(created);
-        return 0;
-    }
+    created->bitset = (char *)calloc((size / 8 + ((size % 8) ? 1 : 0)), sizeof(char));
     created->length = length;
     created->width = width;
     created->type = type;
     return created;
 }
 
-int WriteBit(struct BitSet *created, int x, int y, int bit)
+int WriteBit(BitSet *created, int x, int y, int bit)
 {
     int returnValue = 0;
     if (created != 0)
     {
-        switch (created->type)
+        if (x + 1 > created->width || y + 1 > created->length || x < 0 || y < 0)
         {
-        case 0:
-            if (x + 1 > created->width || y + 1 > created->length || x < 0 || y < 0)
-            {
-                //printf("Invalid coordinate fields. Bit not writed");
-                return 0;
-            }
-            int shift = (created->length) * (x) + y;
-            char *tVar = (created->bitset) + (shift) / 8;
-            if ((*tVar & (1 << (8 - (shift % 8) - 1))) != 0)
-            {
-                if (bit == 0)
-                {
-                    *tVar = (*tVar ^ (1 << (8 - (shift % 8) - 1)));
-                }
-            }
-            else
-            {
-                if (bit == 1)
-                {
-                    *tVar = (*tVar ^ (1 << (8 - (shift % 8) - 1)));
-                }
-            }
-            returnValue = 1;
-            break;
-        case 1:
-
-            break;
-        default:
-            //printf("Invalid type field. Bad BitSet. Bit not writed");
+            //printf("Invalid coordinate fields. Bit not writed");
             return 0;
         }
+        int shift = (created->length) * (x) + y;
+        char *tVar = (created->bitset) + (shift) / 8;
+        if ((*tVar & (1 << (8 - (shift % 8) - 1))) != 0)
+        {
+            if (bit == 0)
+            {
+                *tVar = (*tVar ^ (1 << (8 - (shift % 8) - 1)));
+            }
+        }
+        else
+        {
+            if (bit == 1)
+            {
+                *tVar = (*tVar ^ (1 << (8 - (shift % 8) - 1)));
+            }
+        }
+        returnValue = 1;
     }
     return returnValue;
 }
 
-int ReadBit(struct BitSet *created, int x, int y)
+int ReadBit(BitSet *created, int x, int y)
 {
     int returnValue = 2;
     if (created != 0)
     {
-        switch (created->type)
+        if (x + 1 > created->width || y + 1 > created->length || x < 0 || y < 0)
         {
-        case 0:
-            if (x + 1 > created->width || y + 1 > created->length || x < 0 || y < 0)
-            {
-                //printf("Invalid coordinate fields. Bit not readed");
-                return 2;
-            }
-            int shift = (created->length) * (x) + y;
-            char *tVar = (created->bitset) + (shift) / 8;
-            if ((*tVar & (1 << (8 - (shift % 8) - 1))) != 0)
-            {
-                returnValue = 1;
-            }
-            else
-            {
-                returnValue = 0;
-            }
-            break;
-        case 1:
-
-            break;
-        default:
-            //printf("Invalid type field. Bad BitSet. Bit not readed");
+            //printf("Invalid coordinate fields. Bit not readed");
             return 2;
+        }
+        int shift = (created->length) * (x) + y;
+        char *tVar = (created->bitset) + (shift) / 8;
+        if ((*tVar & (1 << (8 - (shift % 8) - 1))) != 0)
+        {
+            returnValue = 1;
+        }
+        else
+        {
+            returnValue = 0;
         }
     }
     return returnValue;
 }
 
-int TopologicSort(struct BitSet *a, int *colorArray, int *finishStack, int *finishStackInd, int *numberOfBlackTops, int whiteTop, int n)
+int TopologicSort(BitSet *a, int *colorArray, int *finishStack, int *finishStackInd, int *numberOfBlackTops, int whiteTop, int n)
 {
     if (colorArray[whiteTop] == 0)
     {
@@ -139,12 +103,9 @@ int TopologicSort(struct BitSet *a, int *colorArray, int *finishStack, int *fini
     }
     for (int i = n - 1; i > -1; i--)
     {
-        if (ReadBit(a, whiteTop, i) == 1)
+        if ((TopologicSort(a, colorArray, finishStack, finishStackInd, numberOfBlackTops, i, n)) && (ReadBit(a, whiteTop, i) == 1))
         {
-            if (TopologicSort(a, colorArray, finishStack, finishStackInd, numberOfBlackTops, i, n))
-            {
-                return 1;
-            }
+            return 1;
         }
     }
     colorArray[whiteTop] = 2;
@@ -154,28 +115,15 @@ int TopologicSort(struct BitSet *a, int *colorArray, int *finishStack, int *fini
     return 0;
 }
 
-void FreeAll(FILE *fin, FILE *fout, int *colorArray, int *existOfEdge, int *finishStack, struct BitSet *a)
+void FreeAll(FILE *fin, FILE *fout, int *colorArray, int *finishStack, BitSet *a)
 {
     fclose(fin);
     fclose(fout);
-    if (colorArray)
-    {
-        free(colorArray);
-    }
-    if (existOfEdge)
-    {
-        free(existOfEdge);
-    }
-    if (finishStack)
-    {
-        free(finishStack);
-    }
+    free(colorArray);
+    free(finishStack);
     if (a)
     {
-        if (a->bitset)
-        {
-            free(a->bitset);
-        }
+        free(a->bitset);
         free(a);
     }
 }
@@ -185,77 +133,52 @@ int main()
     FILE *fin = fopen("in.txt", "r");
     FILE *fout = fopen("out.txt", "w");
     int n, m;
-    if (fscanf(fin, "%d", &n) == EOF)
+    if (fscanf(fin, "%d%d", &n, &m) < 2)
     {
         fprintf(fout, "bad number of lines");
-        FreeAll(fin,fout,0,0,0,0);
+        FreeAll(fin, fout, 0, 0, 0);
         return 0;
     }
-    if (fscanf(fin, "%d", &m) == EOF)
+    if ((n < 0) && (m < 0))
     {
         fprintf(fout, "bad number of lines");
-        FreeAll(fin,fout,0,0,0,0);
+        FreeAll(fin, fout, 0, 0, 0);
         return 0;
     }
-    int *colorArray = (int *)calloc(n, sizeof(int));
-    int *existOfEdge = (int *)calloc(n, sizeof(int));
+    if (n < 0 || n > 2000)
+    {
+        fprintf(fout, "bad number of vertices");
+        FreeAll(fin, fout, 0, 0, 0);
+        return 0;
+    }
+    if (m < 0 || m > (n * (n - 1)) / 2)
+    {
+        fprintf(fout, "bad number of edges");
+        FreeAll(fin, fout, 0, 0, 0);
+        return 0;
+    }
     int f, s;
-    int exceptions = 0, counter = 0;
-    struct BitSet *a = CreateBitSet(n, n, 0);
+    BitSet *a = CreateBitSet(n, n, 0);
     for (int i = 0; i < m; i++)
     {
-        if (fscanf(fin, "%d%d", &f, &s) == EOF)
+        if (fscanf(fin, "%d%d", &f, &s) < 2)
         {
-            break;
+            fprintf(fout, "bad number of lines");
+            FreeAll(fin, fout, 0, 0, a);
+            return 0;
         }
-        counter += 1;
         if ((f < 1 || f > n) || (s < 1 || s > n))
         {
-            exceptions = 2;
+            fprintf(fout, "bad vertex");
+            FreeAll(fin, fout, 0, 0, a);
+            return 0;
         }
         else
         {
-            existOfEdge[f - 1] = 1;
             WriteBit(a, f - 1, s - 1, 1);
         }
     }
-    if (counter != m)
-    {
-        exceptions = 1;
-    }
-    if (n >= 0 && m >= 0)
-    {
-        if (n > 2000)
-        {
-            fprintf(fout, "bad number of vertices");
-            FreeAll(fin,fout,colorArray,existOfEdge,0,a);
-            return 0;
-        }
-        if (m < 0 || m > (n * (n - 1)) / 2)
-        {
-            fprintf(fout, "bad number of edges");
-            FreeAll(fin,fout,colorArray,existOfEdge,0,a);
-            return 0;
-        }
-        if (exceptions == 1)
-        {
-            fprintf(fout, "bad number of lines");
-            FreeAll(fin,fout,colorArray,existOfEdge,0,a);
-            return 0;
-        }
-        if (exceptions == 2)
-        {
-            fprintf(fout, "bad vertex");
-            FreeAll(fin,fout,colorArray,existOfEdge,0,a);
-            return 0;
-        }
-    }
-    else
-    {
-        fprintf(fout, "bad number of lines");
-        FreeAll(fin,fout,colorArray,existOfEdge,0,a);
-        return 0;
-    }
+    int *colorArray = (int *)calloc(n, sizeof(int));
     int numberOfWhiteTops = n;
     int *finishStack = malloc(sizeof(int) * n);
     int finishStackInd = 0;
@@ -266,7 +189,6 @@ int main()
         {
             if (colorArray[i] == 0)
             {
-                existOfEdge[i] = 0;
                 whiteTop = i;
                 break;
             }
@@ -274,7 +196,7 @@ int main()
         if (TopologicSort(a, colorArray, finishStack, &finishStackInd, &numberOfBlackTops, whiteTop, n))
         {
             fprintf(fout, "impossible to sort");
-            FreeAll(fin,fout,colorArray,existOfEdge,finishStack,a);
+            FreeAll(fin, fout, colorArray, finishStack, a);
             return 0;
         }
         numberOfWhiteTops -= numberOfBlackTops;
@@ -283,6 +205,6 @@ int main()
     {
         fprintf(fout, "%d ", finishStack[i]);
     }
-    FreeAll(fin,fout,colorArray,existOfEdge,finishStack,a);
+    FreeAll(fin, fout, colorArray, finishStack, a);
     return 0;
 }
