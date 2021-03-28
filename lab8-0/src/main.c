@@ -171,7 +171,7 @@ Graph *KruskalMinimumSpanningTree(Graph *a)
             }
         }
         b->edges = newNumberOfEdges;
-        if (IsOneComponent(c, b->edges))
+        if (IsOneComponent(c, b->vertices))
         {
             FreeGraph(b);
             b = 0;
