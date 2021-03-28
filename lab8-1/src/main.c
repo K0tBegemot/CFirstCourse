@@ -278,7 +278,7 @@ Graph *PrimMinimumSpanningTree(Graph *a)
                 {
                     if (ReadBit(color, 0, i) == 0)
                     {
-                        if ((distancesToPoints[i] == 0) ? 0 : (distancesToPoints[i] < var))
+                        if ((distancesToPoints[i] == 0) ? 0 : (distancesToPoints[i] <= var))
                         {
                             var = distancesToPoints[i];
                             number = i;
@@ -298,7 +298,7 @@ Graph *PrimMinimumSpanningTree(Graph *a)
             int localCounter = 0;
             for (int i = 0; i < b->vertices; i++)
             {
-                //printf("%d ", ReadBit(color, 0, 2));
+                //printf("%d ", ReadBit(color, 0, i));
                 if (ReadBit(color, 0, i) == 0)
                 {
                     //printf("s");
