@@ -216,77 +216,116 @@ void WriteToEdge(Edges *a, int counter, int vertex1, int vertex2, int length)
     (a + counter)->length = length;
 }
 
+int Comparator(const void *edge1, const void *edge2)
+{
+    return ((((Edges *)edge1)->length) - (((Edges *)edge2)->length));
+}
+
 Graph *PrimMinimumSpanningTree(Graph *a)
 {
     Graph *b = CreateGraph(a->vertices, a->edges, 0);
     if (a->vertices)
     {
         BitSet *color = CreateBitSet(a->vertices, 1, 0);
-        Edges *arrOfEdges = (Edges *)malloc(sizeof(Edges) * (a->edges));
-        int counter1 = 0, counter2 = 0;
-        for (int i = 0; i < (a->vertices); i++)
+        int *distancesToPoints;
+        int *parents;
+        distancesToPoints = (int *)calloc(a->vertices, sizeof(int));
+        parents = (int *)malloc((a->vertices) * sizeof(int));
+        for (int i = 0; i < a->vertices; i++)
         {
-            int var = ReadLength(a, 0, i);
-            if (var)
+            if (i == 0)
             {
-                WriteToEdge(arrOfEdges, counter1, 0, i, var);
-                counter1 += 1;
+                parents[0] = 0;
+                continue;
             }
+            parents[i] = -1;
         }
+        int counter = 0;
         WriteBit(color, 0, 0, 1);
-        counter2 += 1;
-        while (counter2 < (a->vertices))
+        counter += 1;
+        int minVertex = 0;
+        while (counter < (a->vertices))
         {
-            int min = INT_MAX;
-            int nextVertex = 0, prevVertex = 0, ii = -1;
-            for (int i = 0; i < counter1; i++)
+            int localCounter = 0;
+            for (int i = 1; i < a->vertices; i++)
             {
-                if (((arrOfEdges + i)->length) <= (min) && ((arrOfEdges + i)->length > 0) && (ReadBit(color, 0, (arrOfEdges + i)->vertice2) == 0))
+                if (i != minVertex)
                 {
-                    min = ((arrOfEdges + i)->length);
-                    prevVertex = ((arrOfEdges + i)->vertice1);
-                    nextVertex = ((arrOfEdges + i)->vertice2);
-                    ii = i;
+                    int var = ReadLength(a, minVertex, i);
+                    //printf("%d ", var);
+                    if (var != 0)
+                    {
+                        if ((ReadBit(color, 0, i) == 0) && ((distancesToPoints[i] == 0) ? 1 : (var < distancesToPoints[i])))
+                        {
+                            //printf("s");
+                            distancesToPoints[i] = var;
+                            parents[i] = minVertex;
+                            localCounter += 1;
+                        }
+                    }
                 }
             }
-            if ((ii == -1) && (counter2 < (a->vertices)))
+            if (localCounter == 0)
             {
                 FreeGraph(b);
-                FreeBitSet(color);
-                free(arrOfEdges);
-                return 0;
+                b = 0;
+                break;
             }
-            if (ii != -1)
+            int var = INT_MAX, number;
+            for (int i = 1; i < a->vertices; i++)
             {
-                WriteLength(b, prevVertex, nextVertex, min);
-                WriteToEdge(arrOfEdges, ii, 0, 0, 0);
-                int rightVertex;
-                WriteBit(color, 0, nextVertex, 1);
-                rightVertex = nextVertex;
-                counter2 += 1;
-                for (int i = rightVertex; i < (a->vertices); i++)
+                if (i != minVertex)
                 {
-                    int var = ReadLength(a, rightVertex, i);
-                    if (var && ReadBit(color, 0, i) == 0)
+                    if (ReadBit(color, 0, i) == 0)
                     {
-                        WriteToEdge(arrOfEdges, counter1, rightVertex, i, var);
-                        counter1 += 1;
-                    }
-                }
-                for (int i = 0; i < rightVertex + 1; i++)
-                {
-                    int var = ReadLength(a, i, rightVertex);
-                    if (var && ReadBit(color, 0, i) == 0)
-                    {
-                        WriteToEdge(arrOfEdges, counter1, rightVertex, i, var);
-                        counter1 += 1;
+                        if ((distancesToPoints[i] == 0) ? 0 : (distancesToPoints[i] < var))
+                        {
+                            var = distancesToPoints[i];
+                            number = i;
+                        }
                     }
                 }
             }
-
+            minVertex = number;
+            //printf("%d ", minVertex);
+            WriteBit(color, 0, minVertex, 1);
+            counter += 1;
+            //printf("\n");
+        }
+        if (b)
+        {
+            Edges *edge = (Edges *)malloc(sizeof(Edges) * (b->vertices));
+            int localCounter = 0;
+            for (int i = 0; i < b->vertices; i++)
+            {
+                //printf("%d ", ReadBit(color, 0, 2));
+                if (ReadBit(color, 0, i) == 0)
+                {
+                    //printf("s");
+                    FreeGraph(b);
+                    b = 0;
+                    break;
+                }
+                else
+                {
+                    WriteLength(b, parents[i], i, distancesToPoints[i]);
+                    WriteToEdge(edge, localCounter, parents[i], i, distancesToPoints[i]);
+                    localCounter += 1;
+                }
+            }
+            qsort(edge, localCounter, sizeof(Edges), Comparator);
+            for (int i = 0; i < localCounter; i++)
+            {
+                if (((edge + i)->length) != 0)
+                {
+                    printf("%d %d\n", ((edge + i)->vertice1) + 1, ((edge + i)->vertice2) + 1);
+                }
+            }
+            free(edge);
         }
         FreeBitSet(color);
-        free(arrOfEdges);
+        free(distancesToPoints);
+        free(parents);
     }
     else
     {
@@ -338,7 +377,7 @@ int main()
             break;
         }
         counter += 1;
-        WriteLength(a, ver1-1, ver2-1, len);
+        WriteLength(a, ver1 - 1, ver2 - 1, len);
     }
     if (error == 1)
     {
@@ -362,28 +401,14 @@ int main()
         return 0;
     }
     Graph *b = PrimMinimumSpanningTree(a);
-    if (b)
-    {
-        for (int i = 0; i < (b->vertices); i++)
-        {
-            for (int ii = i; ii < (b->vertices); ii++)
-            {
-                if (ReadLength(b, i, ii))
-                {
-                    fprintf(fout, "%d %d\n", i + 1, ii + 1);
-                }
-            }
-        }
-    }
-    else
+    FreeGraph(a);
+    if (!b)
     {
         fprintf(fout, "no spanning tree");
-        FreeGraph(a);
         FreeGraph(b);
         FreeFILE(fin, fout);
         return 0;
     }
-    FreeGraph(a);
     FreeGraph(b);
     FreeFILE(fin, fout);
     return 0;
