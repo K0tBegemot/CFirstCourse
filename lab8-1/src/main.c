@@ -247,7 +247,7 @@ Graph *PrimMinimumSpanningTree(Graph *a)
         while (counter < (a->vertices))
         {
             int localCounter = 0;
-            for (int i = 1; i < a->vertices; i++)
+            for (int i = 0; i < a->vertices; i++)
             {
                 if (i != minVertex)
                 {
@@ -260,19 +260,20 @@ Graph *PrimMinimumSpanningTree(Graph *a)
                             //printf("s");
                             distancesToPoints[i] = var;
                             parents[i] = minVertex;
-                            localCounter += 1;
                         }
+                        localCounter += 1;
                     }
                 }
             }
             if (localCounter == 0)
             {
+            	//printf("S");
                 FreeGraph(b);
                 b = 0;
                 break;
             }
             int var = INT_MAX, number=-1;
-            for (int i = 1; i < a->vertices; i++)
+            for (int i = 0; i < a->vertices; i++)
             {
                 if (i != minVertex)
                 {
