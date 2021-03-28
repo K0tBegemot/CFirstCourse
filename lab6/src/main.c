@@ -9,6 +9,21 @@ typedef struct AVLTree
     struct AVLTree *R;
 } AVL;
 
+typedef struct AVLHead
+{
+    AVL *head;
+    AVL *nodesArr;
+    int nodesArrIndex;
+}AVLHead;
+
+AVLHead* CreateAVLTree(int n)
+{
+    AVLHead *a = (AVLHead*)malloc(sizeof(AVLHead));
+    a->head = 0;
+    a->nodesArr = (AVL *)malloc(sizeof(AVL) * n);
+    a->nodesArrIndex = 0;
+}
+
 int GetHeight(AVL *elem)
 {
     return (elem) ? elem->height : 0;
@@ -28,10 +43,10 @@ int CalculateHeightDifference(AVL *elem)
 
 AVL *RotateRightSmall(AVL *elem)
 {
-    AVL *OldTop = elem;
+    AVL *oldTop = elem;
     elem = elem->L;
-    OldTop->L = elem->R;
-    elem->R = OldTop;
+    oldTop->L = elem->R;
+    elem->R = oldTop;
     RestoreCorrectHeight(elem->R);
     RestoreCorrectHeight(elem);
     return elem;
@@ -39,10 +54,10 @@ AVL *RotateRightSmall(AVL *elem)
 
 AVL *RotateLeftSmall(AVL *elem)
 {
-    AVL *OldTop = elem;
+    AVL *oldTop = elem;
     elem = elem->R;
-    OldTop->R = elem->L;
-    elem->L = OldTop;
+    oldTop->R = elem->L;
+    elem->L = oldTop;
     RestoreCorrectHeight(elem->L);
     RestoreCorrectHeight(elem);
     return elem;
@@ -50,30 +65,30 @@ AVL *RotateLeftSmall(AVL *elem)
 
 AVL *RotateRightBig(AVL *elem)
 {
-    AVL *TMP1 = RotateLeftSmall(elem->L);
-    elem->L = TMP1;
-    AVL *TMP2 = RotateRightSmall(elem);
-    RestoreCorrectHeight(TMP2->R);
-    RestoreCorrectHeight(TMP2->L);
-    RestoreCorrectHeight(TMP2);
-    return TMP2;
+    AVL *tmp1 = RotateLeftSmall(elem->L);
+    elem->L = tmp1;
+    AVL *tmp2 = RotateRightSmall(elem);
+    RestoreCorrectHeight(tmp2->R);
+    RestoreCorrectHeight(tmp2->L);
+    RestoreCorrectHeight(tmp2);
+    return tmp2;
 }
 
 AVL *RotateLeftBig(AVL *elem)
 {
-    AVL *TMP1 = RotateRightSmall(elem->R);
-    elem->R = TMP1;
-    AVL *TMP2 = RotateLeftSmall(elem);
-    RestoreCorrectHeight(TMP2->R);
-    RestoreCorrectHeight(TMP2->L);
-    RestoreCorrectHeight(TMP2);
-    return TMP2;
+    AVL *tmp1 = RotateRightSmall(elem->R);
+    elem->R = tmp1;
+    AVL *tmp2 = RotateLeftSmall(elem);
+    RestoreCorrectHeight(tmp2->R);
+    RestoreCorrectHeight(tmp2->L);
+    RestoreCorrectHeight(tmp2);
+    return tmp2;
 }
 
 AVL *Balance(AVL *elem)
 {
-    int HeightDifference = CalculateHeightDifference(elem);
-    if (HeightDifference == 2)
+    int heightDifference = CalculateHeightDifference(elem);
+    if (heightDifference == 2)
     {
         if (CalculateHeightDifference(elem->L) >= 0)
         {
@@ -86,7 +101,7 @@ AVL *Balance(AVL *elem)
     }
     else
     {
-        if (HeightDifference == -2)
+        if (heightDifference == -2)
         {
             if (CalculateHeightDifference(elem->R) <= 0)
             {
@@ -101,33 +116,45 @@ AVL *Balance(AVL *elem)
     return elem;
 }
 
-AVL *InsertElement(AVL *tree, int a, AVL *BitArray, int *BitArrayIndex)
+AVL *InsertElement(AVLHead *head, AVL *tree, int a)
 {
     if (!tree)
     {
-        AVL *NewLeaf;
-        NewLeaf = BitArray + (*(BitArrayIndex));
-        *(BitArrayIndex) += 1;
-        NewLeaf->height = 1;
-        NewLeaf->L = 0;
-        NewLeaf->R = 0;
-        NewLeaf->value = a;
-        return NewLeaf;
+        AVL *newLeaf;
+        newLeaf = (head->nodesArr) + (head->nodesArrIndex);
+        head->nodesArrIndex += 1;
+        newLeaf->height = 1;
+        newLeaf->L = 0;
+        newLeaf->R = 0;
+        newLeaf->value = a;
+        return newLeaf;
     }
     else
     {
         if (a <= tree->value)
         {
-            tree->L = InsertElement(tree->L, a, BitArray, BitArrayIndex);
+            tree->L = InsertElement(head, tree->L, a);
             RestoreCorrectHeight(tree);
         }
         else
         {
-            tree->R = InsertElement(tree->R, a, BitArray, BitArrayIndex);
+            tree->R = InsertElement(head, tree->R, a);
             RestoreCorrectHeight(tree);
         }
     }
     return Balance(tree);
+}
+
+FreeAVL(AVLHead *a)
+{
+    if(a)
+    {
+        if(a->nodesArr)
+        {
+            free(a->nodesArr);
+        }
+        free(a);
+    }
 }
 
 int main()
@@ -135,26 +162,24 @@ int main()
     int n;
     if (scanf("%d", &n) == 0)
     {
-        printf("%s", "bad input");
+        printf("bad input");
     }
     if (n == 0)
     {
         printf("%d", 0);
         return 0;
     }
-    AVL *TreeHead = 0;
-    AVL *BitArray = (AVL *)malloc(sizeof(AVL) * n);
-    int BitArrayIndex = 0;
+    AVLHead *a = CreateAVLTree(n);
     int tmp = 0;
     for (int i = 0; i < n; i++)
     {
         if (scanf("%d", &tmp) == 0)
         {
-            printf("%s", "bad input");
+            printf("bad input");
         }
-        TreeHead = InsertElement(TreeHead, tmp, BitArray, &BitArrayIndex);
+        a->head = InsertElement(a, a->head, tmp);
     }
-    printf("%d", GetHeight(TreeHead));
-    free(BitArray);
+    printf("%d", GetHeight(a->head));
+    FreeAVL(a);
     return 0;
 }
