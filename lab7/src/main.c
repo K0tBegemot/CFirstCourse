@@ -103,9 +103,12 @@ int TopologicSort(BitSet *a, int *colorArray, int *finishStack, int *finishStack
     }
     for (int i = n - 1; i > -1; i--)
     {
-        if ((TopologicSort(a, colorArray, finishStack, finishStackInd, numberOfBlackTops, i, n)) && (ReadBit(a, whiteTop, i) == 1))
+        if (ReadBit(a, whiteTop, i) == 1)
         {
-            return 1;
+            if (TopologicSort(a, colorArray, finishStack, finishStackInd, numberOfBlackTops, i, n))
+            {
+                return 1;
+            }
         }
     }
     colorArray[whiteTop] = 2;
