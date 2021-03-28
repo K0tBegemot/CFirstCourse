@@ -165,7 +165,7 @@ Graph *KruskalMinimumSpanningTree(Graph *a)
             int set2 = FindConnectedComponent(c, (sortedEdge + i)->vertice2);
             if (set1 != set2)
             {
-                PushToEdges(b, (sortedEdge + i)->vertice1, (sortedEdge + i)->vertice2, (sortedEdge + i)->length);
+                AddEdge(b, (sortedEdge + i)->vertice1, (sortedEdge + i)->vertice2, (sortedEdge + i)->length);
                 newNumberOfEdges += 1;
                 MergeConnectedComponent(c, set1, set2);
             }
@@ -210,7 +210,7 @@ int main()
         FreeFILE(fin, fout);
         return 0;
     }
-    Graph *a = CreateGraph(n, m, 0);
+    Graph *a = CreateGraph(n, m);
     int ver1, ver2, len;
     for (int i = 0; i < m; i++)
     {
