@@ -368,7 +368,7 @@ int main()
             FreeFILE(fin, fout);
             return 0;
         }
-        if (len < 0 || len > INT_MAX)
+        if (len < 0)
         {
             fprintf(fout, "bad length");
             FreeGraph(a);
