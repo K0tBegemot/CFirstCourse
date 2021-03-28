@@ -33,7 +33,7 @@ Graph *CreateGraph(int n, int m)
     a->adjacencyList = (int *)calloc(((n * n) - (n * (n - 1)) / 2), sizeof(int));
     return a;
 }
-int Swap(int *a, int *b)
+void Swap(int *a, int *b)
 {
     int var;
     var = *a;
@@ -350,7 +350,7 @@ int main()
         FreeFILE(fin, fout);
         return 0;
     }
-    Graph *a = CreateGraph(n, m, 0);
+    Graph *a = CreateGraph(n, m);
     int ver1, ver2, len;
     for (int i = 0; i < m; i++)
     {
