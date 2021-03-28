@@ -17,7 +17,6 @@ BitSet *CreateBitSet(int length, int width, int type)
         return 0;
     }
     BitSet *created = (struct BitSet *)malloc(sizeof(struct BitSet));
-    created->bitset = 0;
     int size = length * width;
     created->bitset = (char *)calloc((size / 8 + ((size % 8) ? 1 : 0)), sizeof(char));
     created->length = length;
