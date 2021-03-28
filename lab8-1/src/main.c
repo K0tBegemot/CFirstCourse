@@ -271,7 +271,7 @@ Graph *PrimMinimumSpanningTree(Graph *a)
                 b = 0;
                 break;
             }
-            int var = INT_MAX, number;
+            int var = INT_MAX, number=-1;
             for (int i = 1; i < a->vertices; i++)
             {
                 if (i != minVertex)
