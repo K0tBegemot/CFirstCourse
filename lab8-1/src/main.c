@@ -313,6 +313,8 @@ Graph *PrimMinimumSpanningTree(Graph *a)
                     localCounter += 1;
                 }
             }
+            if(b)
+            {
             qsort(edge, localCounter, sizeof(Edges), Comparator);
             for (int i = 0; i < localCounter; i++)
             {
@@ -321,6 +323,7 @@ Graph *PrimMinimumSpanningTree(Graph *a)
                     printf("%d %d\n", ((edge + i)->vertice1) + 1, ((edge + i)->vertice2) + 1);
                 }
             }
+        }
             free(edge);
         }
         FreeBitSet(color);
