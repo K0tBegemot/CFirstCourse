@@ -22,6 +22,7 @@ AVLHead* CreateAVLTree(int n)
     a->head = 0;
     a->nodesArr = (AVL *)malloc(sizeof(AVL) * n);
     a->nodesArrIndex = 0;
+    return a;
 }
 
 int GetHeight(AVL *elem)
@@ -145,7 +146,7 @@ AVL *InsertElement(AVLHead *head, AVL *tree, int a)
     return Balance(tree);
 }
 
-FreeAVL(AVLHead *a)
+void FreeAVL(AVLHead *a)
 {
     if(a)
     {
