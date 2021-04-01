@@ -292,7 +292,7 @@ int main()
         }
         AddEdge(g, a - 1, b - 1, c);
     }
-    Dijkstra(g, s - 1, f - 1);
+    Dijkstra(g, s - 1);
     PrintPath(fout, g, f - 1);
     return 0;
 }
