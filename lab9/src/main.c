@@ -34,31 +34,33 @@ typedef struct BHeap
     int size;
 } BHeap;
 
-Graph* CreateGraph(int l)
+Graph *CreateGraph(int l)
 {
-	Graph *a = calloc(1, sizeof(Graph));
-	a->vertices = calloc(l, sizeof(Vertex*));
-	for(int i = 0; i< l; i++)
-	{
-		a->vertices[i] = calloc(1, sizeof(Vertex));
-	}
-	a->vertices_size = l;
-	a->vertices_len = 0;
-	return a;
+    Graph *a = calloc(1, sizeof(Graph));
+    a->vertices = calloc(l, sizeof(Vertex *));
+    for (int i = 0; i < l; i++)
+    {
+        a->vertices[i] = calloc(1, sizeof(Vertex));
+    }
+    a->vertices_size = l;
+    a->vertices_len = 0;
+    return a;
 }
 
 void AddVertex(Graph *g, int i)
 {
-	if (g->vertices_size < i + 1) {
+    if (g->vertices_size < i + 1)
+    {
         int size = g->vertices_size * 2 > i ? g->vertices_size * 2 : i + 4;
-        g->vertices = realloc(g->vertices, size * sizeof (Vertex *));
+        g->vertices = realloc(g->vertices, size * sizeof(Vertex *));
         for (int j = g->vertices_size; j < size; j++)
             g->vertices[j] = NULL;
         g->vertices_size = size;
     }
-    if (!g->vertices[i]) {
-        g->vertices[i] = calloc(1, sizeof (Vertex));
-        g->vertices_len+=1;
+    if (!g->vertices[i])
+    {
+        g->vertices[i] = calloc(1, sizeof(Vertex));
+        g->vertices_len += 1;
     }
 }
 
@@ -69,8 +71,8 @@ void AddEdge(Graph *g, int a, int b, int w)
     Vertex *v = g->vertices[a];
     if (v->edges_len >= v->edges_size)
     {
-    	//printf("%d %d\n", v->edges_len, v->edges_size);
-        v->edges_size = ((v->edges_size )? v->edges_size * 2 : 4);
+        //printf("%d %d\n", v->edges_len, v->edges_size);
+        v->edges_size = ((v->edges_size) ? v->edges_size * 2 : 4);
         v->edges = realloc(v->edges, v->edges_size * sizeof(IncidentEdge *));
     }
     IncidentEdge *e = calloc(1, sizeof(IncidentEdge));
@@ -79,7 +81,7 @@ void AddEdge(Graph *g, int a, int b, int w)
     //printf("%d ", a);
     //printf("%d ", v->edges_len);
     v->edges[v->edges_len] = e;
-    v->edges_len+=1;
+    v->edges_len += 1;
     //printf("%d\n", v->edges_len);
 }
 
@@ -138,11 +140,11 @@ int PopHeap(BHeap *h)
     h->data[i] = h->data[h->len];
     h->prio[i] = h->prio[h->len];
     h->index[h->data[i]] = i;
-    h->len-=1;
+    h->len -= 1;
     return v;
 }
 
-void Dijkstra(Graph *g, int a, int b)
+void Dijkstra(Graph *g, int a)
 {
     int i, j;
     for (i = 0; i < g->vertices_size; i++)
@@ -166,7 +168,7 @@ void Dijkstra(Graph *g, int a, int b)
         if (i == b)
             break;
             */
-            //printf("%d ", v->edges_len);
+        //printf("%d ", v->edges_len);
         for (int j = 0; j < v->edges_len; j++)
         {
             IncidentEdge *e = v->edges[j];
@@ -183,7 +185,7 @@ void Dijkstra(Graph *g, int a, int b)
 
 void PrintPath(FILE *fout, Graph *g, int i)
 {
-    int n, j;
+    int j;
     Vertex *v, *u;
     v = g->vertices[i];
     /*
@@ -194,37 +196,40 @@ void PrintPath(FILE *fout, Graph *g, int i)
     for (j = 0, u = v; u->dist; u = g->vertices[u->prev], j++)
         printf("%d ", u->dist);
         */
-    for(int i=0;i< g->vertices_size;i++)
+    for (int i = 0; i < g->vertices_size; i++)
     {
-    	u = g->vertices[i];
-    	if(u->dist < 0)
-    	{
-    		fprintf(fout, "INT_MAX+ ");
-		}else
-		{
-			if(u->visited == 0)
-			{
-				fprintf(fout, "oo "); 
-			}else
-			{
-				fprintf(fout, "%d ", u->dist);
-			}
-		}
-	}
-	fprintf(fout, "\n");
-	if (v->dist == INT_MAX)
+        u = g->vertices[i];
+        if (u->dist < 0)
+        {
+            fprintf(fout, "INT_MAX+ ");
+        }
+        else
+        {
+            if (u->visited == 0)
+            {
+                fprintf(fout, "oo ");
+            }
+            else
+            {
+                fprintf(fout, "%d ", u->dist);
+            }
+        }
+    }
+    fprintf(fout, "\n");
+    if (v->dist == INT_MAX)
     {
         fprintf(fout, "no path");
         return;
-    }else
+    }
+    else
     {
-    	if(v->dist < 0)
-    	{
-    		fprintf(fout, "overflow");
-        	return;
-		}
-	}
-	fprintf(fout, "%d ", i+1);
+        if (v->dist < 0)
+        {
+            fprintf(fout, "overflow");
+            return;
+        }
+    }
+    fprintf(fout, "%d ", i + 1);
     for (j = 0, u = v; u->dist; u = g->vertices[u->prev], j++)
         fprintf(fout, "%d ", u->prev + 1);
 }
