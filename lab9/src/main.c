@@ -151,9 +151,12 @@ int PopHeap(BHeap *h)
 
 void FreeHeap(BHeap *h)
 {
+	if(h)
+	{
 	free(h->data);
 	free(h->index);
 	free(h->prio);
+	}
 }
 
 void Dijkstra(Graph *g, int a)
@@ -240,17 +243,26 @@ void Dijkstra(Graph *g, int a)
 
 void FreeGraph(Graph *g)
 {
+	if(g)
+	{
 	for(int i=0;i<g->vertices_len;i++)
 	{
 		Vertex *v = g->vertices[i];
+		if(v)
+		{
 		for(int ii=0;ii<v->edges_len;ii++)
 		{
 			IncidentEdge *e = v->edges[ii];
+			if(e)
+			{
 			free(e);
+			}
 		}
 		free(v);
+		}
 	}
 	free(g);
+	}
 }
 
 void FreeFILE(FILE* fin, FILE* fout)
