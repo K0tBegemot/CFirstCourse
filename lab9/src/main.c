@@ -92,10 +92,10 @@ void AddEdge(Graph *g, int a, int b, int w)
 BHeap *CreateHeap(int n)
 {
     BHeap *h = (BHeap*)calloc(1, sizeof(BHeap));
-    h->data = (int*)calloc(n + 1, sizeof(int));
-    h->prio = (int*)calloc(n + 1, sizeof(int));
-    h->index = (int*)calloc(n + 1, sizeof(int));
-    h->size = n+1;
+    h->data = (int*)calloc(2*n, sizeof(int));
+    h->prio = (int*)calloc(2*n, sizeof(int));
+    h->index = (int*)calloc(2*n, sizeof(int));
+    h->size = 2*n;
     return h;
 }
 
