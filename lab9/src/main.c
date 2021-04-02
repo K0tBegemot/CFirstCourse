@@ -196,6 +196,7 @@ void Dijkstra(Graph *g, int a)
             Vertex *u = g->vertices[e->vertex];
             if ((!(u->visited) && (v->dist + e->weight <= u->dist)) || u->dist < 0)
             {
+            	
                 if (u->dist > 0)
                 {
                     if (u->badWays < 0)
@@ -227,8 +228,7 @@ void Dijkstra(Graph *g, int a)
 						{
 							if(v->dist + e->weight < 0)
                         	{
-            					u->dist = -1;
-                        		u->badWays+=1;
+            					
 							}else
 							{
 								u->dist = v->dist + e->weight;
