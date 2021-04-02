@@ -61,8 +61,8 @@ void AddVertex(Graph *g, int i)
     if (!g->vertices[i])
     {
         g->vertices[i] =(Vertex*)calloc(1, sizeof(Vertex));
-        g->vertices_len += 1;
     }
+    g->vertices_len += 1;
 }
 
 void AddIncidentEdge(Vertex *v, int b, int w)
@@ -403,7 +403,9 @@ int main()
             FreeFILE(fin, fout);
             return 0;
         }
+        //printf("%d ", g->vertices_len);
         AddEdge(g, a - 1, b - 1, c);
+        //printf("%d ", g->vertices_len);
     }
     Dijkstra(g, s - 1);
     PrintPath(fin, fout, g, f - 1);
