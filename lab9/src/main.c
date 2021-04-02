@@ -174,7 +174,7 @@ void Dijkstra(Graph *g, int a)
             break;
             */
         //printf("%d ", v->edges_len);
-        for (int j = 0; j < v->edges_len; j++)
+        for (j = 0; j < v->edges_len; j++)
         {
             IncidentEdge *e = v->edges[j];
             //printf("%d ", e->vertex);
