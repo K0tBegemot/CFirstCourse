@@ -101,7 +101,9 @@ BHeap *CreateHeap(int n)
 
 void PushHeap(BHeap *h, int v, int p)
 {
-    int i = h->index[v] == 0 ? ++h->len : h->index[v];
+	//printf("%d ", v);
+    int i = (h->index[v] == 0) ? (++h->len) : (h->index[v]);
+    //printf("%d ", i);
     int j = i / 2;
     while (i > 1)
     {
@@ -111,6 +113,7 @@ void PushHeap(BHeap *h, int v, int p)
         h->prio[i] = h->prio[j];
         h->index[h->data[i]] = i;
         i = j;
+        //printf("%d ", h->data[i]);
         j = j / 2;
     }
     h->data[i] = v;
@@ -172,6 +175,7 @@ void Dijkstra(Graph *g, int a)
     }
     Vertex *v = g->vertices[a];
     v->dist = 0;
+    //printf("%d ", g->vertices_len);
     BHeap *h = CreateHeap(g->vertices_len);
     PushHeap(h, a, v->dist);
     while (h->len)
