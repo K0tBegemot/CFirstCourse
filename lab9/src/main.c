@@ -245,17 +245,17 @@ void FreeGraph(Graph *g)
 {
 	if(g)
 	{
-	for(int i=0;i<g->vertices_len;i++)
+	for(int i=0;i<g->vertices_size;i++)
 	{
 		Vertex *v = g->vertices[i];
 		if(v)
 		{
-		for(int ii=0;ii<v->edges_len;ii++)
+		for(int ii=0;ii<v->edges_size;ii++)
 		{
 			IncidentEdge *e = v->edges[ii];
 			if(e)
 			{
-			free(e);
+				free(e);
 			}
 		}
 		free(v->edges);
@@ -326,7 +326,7 @@ void PrintPath(FILE *fin, FILE *fout, Graph *g, int i)
         {
             fprintf(fout, "overflow");
             FreeGraph(g);
-    		FreeFILE(fin,fout);
+    		//FreeFILE(fin,fout);
             return;
         }
     }
