@@ -200,40 +200,58 @@ void Dijkstra(Graph *g, int a)
                 {
                     if (u->badWays < 0)
                     {
-                        u->dist = v->dist + e->weight;
-                        u->badWays = 0;
                         if (v->dist < 0)
                         {
-                            u->badWays += 1;
+                            u->badWays = 1;
                             u->dist = -1;
                         }
                         else
                         {
                             if (v->dist + e->weight < 0)
                             {
-                                u->badWays += 1;
+                                u->badWays = 1;
                                 u->dist = -1;
-                            }
+                            }else
+                            {
+                            	u->dist = v->dist + e->weight;
+                        		u->badWays = 0;
+							}
                         }
                     }
                     else
                     {
-                        if (v->dist + e->weight > 0)
-                        {
-                            u->dist = v->dist + e->weight;
-                        }
+                    	if(v->dist < 0)
+                    	{
+                    		
+						}else
+						{
+							if(v->dist + e->weight < 0)
+                        	{
+            					u->dist = -1;
+                        		u->badWays+=1;
+							}else
+							{
+								u->dist = v->dist + e->weight;
+							}
+						}
                     }
                 }
                 else
                 {
-                    if (v->dist + e->weight > 0)
+                    if (v->dist < 0)
                     {
-                        u->dist = v->dist + e->weight;
-                        u->badWays = 0;
+                    	u->badWays+=1;
                     }
                     else
                     {
-                        u->badWays += 1;
+                    	if(v->dist + e->weight > 0)
+                    	{
+                    		u->dist = v->dist + e->weight;
+                        	u->badWays = 0;
+						}else
+						{
+							u->badWays+=1;
+						}
                     }
                 }
                 u->prev = i;
