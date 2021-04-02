@@ -37,11 +37,11 @@ typedef struct BHeap
 
 Graph *CreateGraph(int l)
 {
-    Graph *a = calloc(1, sizeof(Graph));
-    a->vertices = calloc(l, sizeof(Vertex *));
+    Graph *a = (Graph*)calloc(1, sizeof(Graph));
+    a->vertices = (Vertex**)calloc(l, sizeof(Vertex *));
     for (int i = 0; i < l; i++)
     {
-        a->vertices[i] = calloc(1, sizeof(Vertex));
+        a->vertices[i] = (Vertex*)calloc(1, sizeof(Vertex));
     }
     a->vertices_size = l;
     a->vertices_len = 0;
@@ -53,14 +53,14 @@ void AddVertex(Graph *g, int i)
     if (g->vertices_size < i + 1)
     {
         int size = g->vertices_size * 2 > i ? g->vertices_size * 2 : i + 4;
-        g->vertices = realloc(g->vertices, size * sizeof(Vertex *));
+        g->vertices = (Vertex**)realloc(g->vertices, size * sizeof(Vertex *));
         for (int j = g->vertices_size; j < size; j++)
             g->vertices[j] = NULL;
         g->vertices_size = size;
     }
     if (!g->vertices[i])
     {
-        g->vertices[i] = calloc(1, sizeof(Vertex));
+        g->vertices[i] =(Vertex*)calloc(1, sizeof(Vertex));
         g->vertices_len += 1;
     }
 }
@@ -70,9 +70,9 @@ void AddIncidentEdge(Vertex *v, int b, int w)
     if (v->edges_len >= v->edges_size)
     {
         v->edges_size = ((v->edges_size) ? v->edges_size * 2 : 4);
-        v->edges = realloc(v->edges, v->edges_size * sizeof(IncidentEdge *));
+        v->edges = (IncidentEdge**)realloc(v->edges, v->edges_size * sizeof(IncidentEdge *));
     }
-    IncidentEdge *e = calloc(1, sizeof(IncidentEdge));
+    IncidentEdge *e = (IncidentEdge*)calloc(1, sizeof(IncidentEdge));
     e->vertex = b;
     e->weight = w;
     v->edges[v->edges_len] = e;
@@ -91,10 +91,10 @@ void AddEdge(Graph *g, int a, int b, int w)
 
 BHeap *CreateHeap(int n)
 {
-    BHeap *h = calloc(1, sizeof(BHeap));
-    h->data = calloc(n + 1, sizeof(int));
-    h->prio = calloc(n + 1, sizeof(int));
-    h->index = calloc(n + 1, sizeof(int));
+    BHeap *h = (BHeap*)calloc(1, sizeof(BHeap));
+    h->data = (int*)calloc(n + 1, sizeof(int));
+    h->prio = (int*)calloc(n + 1, sizeof(int));
+    h->index = (int*)calloc(n + 1, sizeof(int));
     h->size = n+1;
     return h;
 }
