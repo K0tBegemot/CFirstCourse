@@ -16,6 +16,7 @@ typedef struct Vertex
     int dist;
     int prev;
     int visited;
+    short badWays;
 } Vertex;
 
 typedef struct Graph
@@ -64,25 +65,28 @@ void AddVertex(Graph *g, int i)
     }
 }
 
-void AddEdge(Graph *g, int a, int b, int w)
+void AddIncidentEdge(Vertex *v, int b, int w)
 {
-    AddVertex(g, a);
-    AddVertex(g, b);
-    Vertex *v = g->vertices[a];
     if (v->edges_len >= v->edges_size)
     {
-        //printf("%d %d\n", v->edges_len, v->edges_size);
         v->edges_size = ((v->edges_size) ? v->edges_size * 2 : 4);
         v->edges = realloc(v->edges, v->edges_size * sizeof(IncidentEdge *));
     }
     IncidentEdge *e = calloc(1, sizeof(IncidentEdge));
     e->vertex = b;
     e->weight = w;
-    //printf("%d ", a);
-    //printf("%d ", v->edges_len);
     v->edges[v->edges_len] = e;
     v->edges_len += 1;
-    //printf("%d\n", v->edges_len);
+}
+
+void AddEdge(Graph *g, int a, int b, int w)
+{
+    AddVertex(g, a);
+    AddVertex(g, b);
+    Vertex *v = g->vertices[a];
+    AddIncidentEdge(v, b, w);
+	Vertex *v2 = g->vertices[b];
+	AddIncidentEdge(v2, a, w);
 }
 
 BHeap *CreateHeap(int n)
@@ -153,6 +157,7 @@ void Dijkstra(Graph *g, int a)
         v->dist = INT_MAX;
         v->prev = 0;
         v->visited = 0;
+        v->badWays = -1;
     }
     Vertex *v = g->vertices[a];
     v->dist = 0;
@@ -169,17 +174,58 @@ void Dijkstra(Graph *g, int a)
             break;
             */
         //printf("%d ", v->edges_len);
-        for (j = 0; j < v->edges_len; j++)
+        for (int j = 0; j < v->edges_len; j++)
         {
             IncidentEdge *e = v->edges[j];
+            //printf("%d ", e->vertex);
             Vertex *u = g->vertices[e->vertex];
-            if (!(u->visited) && (v->dist + e->weight <= u->dist))
+            if ((!(u->visited) && (v->dist + e->weight <= u->dist)) || u->dist < 0)
             {
+                if (u->dist > 0)
+                {
+                    if (u->badWays < 0)
+                    {
+                        u->dist = v->dist + e->weight;
+                        u->badWays = 0;
+                        if (v->dist < 0)
+                        {
+                            u->badWays += 1;
+                            u->dist = -1;
+                        }
+                        else
+                        {
+                            if (v->dist + e->weight < 0)
+                            {
+                                u->badWays += 1;
+                                u->dist = -1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (v->dist + e->weight > 0)
+                        {
+                            u->dist = v->dist + e->weight;
+                        }
+                    }
+                }
+                else
+                {
+                    if (v->dist + e->weight > 0)
+                    {
+                        u->dist = v->dist + e->weight;
+                        u->badWays = 0;
+                    }
+                    else
+                    {
+                        u->badWays += 1;
+                    }
+                }
                 u->prev = i;
-                u->dist = v->dist + e->weight;
                 PushHeap(h, e->vertex, u->dist);
             }
         }
+        //printf("\n");
     }
 }
 
@@ -196,6 +242,7 @@ void PrintPath(FILE *fout, Graph *g, int i)
     for (j = 0, u = v; u->dist; u = g->vertices[u->prev], j++)
         printf("%d ", u->dist);
         */
+    //printf("%d ", v->badWays);
     for (int i = 0; i < g->vertices_size; i++)
     {
         u = g->vertices[i];
@@ -223,7 +270,7 @@ void PrintPath(FILE *fout, Graph *g, int i)
     }
     else
     {
-        if (v->dist < 0)
+        if (v->dist < 0 && (v->badWays > 1))
         {
             fprintf(fout, "overflow");
             return;
