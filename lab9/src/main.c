@@ -258,9 +258,11 @@ void FreeGraph(Graph *g)
 			free(e);
 			}
 		}
+		free(v->edges);
 		free(v);
 		}
 	}
+	free(g->vertices);
 	free(g);
 	}
 }
