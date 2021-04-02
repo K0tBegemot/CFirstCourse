@@ -94,7 +94,8 @@ BHeap *CreateHeap(int n)
     BHeap *h = calloc(1, sizeof(BHeap));
     h->data = calloc(n + 1, sizeof(int));
     h->prio = calloc(n + 1, sizeof(int));
-    h->index = calloc(n, sizeof(int));
+    h->index = calloc(n + 1, sizeof(int));
+    h->size = n+1;
     return h;
 }
 
@@ -146,6 +147,13 @@ int PopHeap(BHeap *h)
     h->index[h->data[i]] = i;
     h->len -= 1;
     return v;
+}
+
+void FreeHeap(BHeap *h)
+{
+	free(h->data);
+	free(h->index);
+	free(h->prio);
 }
 
 void Dijkstra(Graph *g, int a)
@@ -227,9 +235,37 @@ void Dijkstra(Graph *g, int a)
         }
         //printf("\n");
     }
+    FreeHeap(h);
 }
 
-void PrintPath(FILE *fout, Graph *g, int i)
+void FreeGraph(Graph *g)
+{
+	for(int i=0;i<g->vertices_len;i++)
+	{
+		Vertex *v = g->vertices[i];
+		for(int ii=0;ii<v->edges_len;ii++)
+		{
+			IncidentEdge *e = v->edges[ii];
+			free(e);
+		}
+		free(v);
+	}
+	free(g);
+}
+
+void FreeFILE(FILE* fin, FILE* fout)
+{
+	if(fin)
+	{
+		fclose(fin);
+	}
+	if(fout)
+	{
+		fclose(fout);
+	}
+}
+
+void PrintPath(FILE *fin, FILE *fout, Graph *g, int i)
 {
     int j;
     Vertex *v, *u;
@@ -266,6 +302,8 @@ void PrintPath(FILE *fout, Graph *g, int i)
     if (v->dist == INT_MAX)
     {
         fprintf(fout, "no path");
+        FreeGraph(g);
+    	FreeFILE(fin,fout);
         return;
     }
     else
@@ -273,6 +311,8 @@ void PrintPath(FILE *fout, Graph *g, int i)
         if (v->dist < 0 && (v->badWays > 1))
         {
             fprintf(fout, "overflow");
+            FreeGraph(g);
+    		FreeFILE(fin,fout);
             return;
         }
     }
@@ -289,33 +329,39 @@ int main()
     if (fscanf(fin, "%d", &n) < 1)
     {
         fprintf(fout, "bad number of lines");
+        FreeFILE(fin, fout);
         return 0;
     }
     if (n < 0 || n > 5000)
     {
         fprintf(fout, "bad number of vertices");
+        FreeFILE(fin, fout);
         return 0;
     }
     int s, f;
     if (fscanf(fin, "%d%d", &s, &f) < 2)
     {
         fprintf(fout, "bad number of lines");
+        FreeFILE(fin, fout);
         return 0;
     }
     if (s < 1 || s > n || f < 1 || f > n)
     {
         fprintf(fout, "bad vertex");
+        FreeFILE(fin, fout);
         return 0;
     }
     int m;
     if (fscanf(fin, "%d", &m) < 1)
     {
         fprintf(fout, "bad number of lines");
+        FreeFILE(fin, fout);
         return 0;
     }
     if (m < 0 || m > (n * (n - 1)) / 2)
     {
         fprintf(fout, "bad number of edges");
+        FreeFILE(fin, fout);
         return 0;
     }
     int a, b, c;
@@ -325,21 +371,29 @@ int main()
         if (fscanf(fin, "%d%d%d", &a, &b, &c) < 3)
         {
             fprintf(fout, "bad number of lines");
+            FreeGraph(g);
+            FreeFILE(fin, fout);
             return 0;
         }
         if (a < 1 || a > n || b < 1 || b > n)
         {
             fprintf(fout, "bad vertex");
+            FreeGraph(g);
+            FreeFILE(fin, fout);
             return 0;
         }
         if (c < 0)
         {
             fprintf(fout, "bad length");
+            FreeGraph(g);
+            FreeFILE(fin, fout);
             return 0;
         }
         AddEdge(g, a - 1, b - 1, c);
     }
     Dijkstra(g, s - 1);
-    PrintPath(fout, g, f - 1);
+    PrintPath(fin, fout, g, f - 1);
+    FreeGraph(g);
+    FreeFILE(fin,fout);
     return 0;
 }
