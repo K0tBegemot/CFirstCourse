@@ -27,16 +27,16 @@ typedef struct Edge
 
 typedef struct Edges
 {
-	int numberOfEdges;
-	Edge *edges;
-}Edges;
+    int numberOfEdges;
+    Edge *edges;
+} Edges;
 
 Edges *CreateEdges(int numberOfEdges)
 {
-	Edges *edges = (Edges*)malloc(sizeof(Edges));
-	edges->edges = (Edge*)calloc(numberOfEdges, sizeof(Edge));
-	edges->numberOfEdges = numberOfEdges;
-	return edges;
+    Edges *edges = (Edges *)malloc(sizeof(Edges));
+    edges->edges = (Edge *)calloc(numberOfEdges, sizeof(Edge));
+    edges->numberOfEdges = numberOfEdges;
+    return edges;
 }
 
 Graph *CreateGraph(int n, int m)
@@ -76,14 +76,14 @@ int FindOutDistanceBetweenVertices(Graph *graph, int vertice1, int vertice2)
 
 void FreeEdges(Edges *edges)
 {
-	if(edges)
-	{
-		if(edges->edges)
-		{
-			free(edges->edges);
-		}
-		free(edges);
-	}
+    if (edges)
+    {
+        if (edges->edges)
+        {
+            free(edges->edges);
+        }
+        free(edges);
+    }
 }
 
 void FreeGraph(Graph *graph)
@@ -213,10 +213,10 @@ void FreeBitSet(BitSet *bitSet)
 {
     if (bitSet)
     {
-    	if(bitSet->bitset)
-    	{
-    		free(bitSet->bitset);
-		}
+        if (bitSet->bitset)
+        {
+            free(bitSet->bitset);
+        }
         free(bitSet);
     }
 }
@@ -235,12 +235,12 @@ void FreeFILE(FILE *fin, FILE *fout)
 
 void AddEdge(Edges *edges, int counter, int vertex1, int vertex2, int length)
 {
-	if(counter < edges->numberOfEdges)
-	{
-    	(edges->edges + counter)->vertice1 = vertex1;
-    	(edges->edges + counter)->vertice2 = vertex2;
-    	(edges->edges + counter)->length = length;
-	}
+    if (counter < edges->numberOfEdges)
+    {
+        (edges->edges + counter)->vertice1 = vertex1;
+        (edges->edges + counter)->vertice2 = vertex2;
+        (edges->edges + counter)->length = length;
+    }
 }
 
 int Comparator(const void *edge1, const void *edge2)
@@ -250,7 +250,8 @@ int Comparator(const void *edge1, const void *edge2)
 
 Edges *PrimMinimumSpanningTree(Graph *graph)
 {
-	Edges *edges = CreateEdges(graph->vertices);
+    //printf("%d ", graph->vertices);
+    Edges *edges = CreateEdges(graph->vertices);
     if (graph->vertices)
     {
         BitSet *color = CreateBitSet(graph->vertices, 1, 0);
@@ -291,16 +292,16 @@ Edges *PrimMinimumSpanningTree(Graph *graph)
                 edges = 0;
                 break;
             }
-            int var = INT_MAX, number = -1;
+            int minimalDistanceToVertex = INT_MAX, number = -1;
             for (int i = 0; i < graph->vertices; i++)
             {
                 if (i != minVertex)
                 {
                     if (ReadBit(color, 0, i) == 0)
                     {
-                        if ((distancesToPoints[i] == 0) ? 0 : (distancesToPoints[i] <= var))
+                        if ((distancesToPoints[i] == 0) ? 0 : (distancesToPoints[i] <= minimalDistanceToVertex))
                         {
-                            var = distancesToPoints[i];
+                            minimalDistanceToVertex = distancesToPoints[i];
                             number = i;
                         }
                     }
@@ -310,13 +311,15 @@ Edges *PrimMinimumSpanningTree(Graph *graph)
             WriteBit(color, 0, minVertex, 1);
             counter += 1;
         }
+        if (edges)
+        {
             int localCounter = 0;
             for (int i = 0; i < graph->vertices; i++)
             {
                 if (ReadBit(color, 0, i) == 0)
                 {
-            		free(edges);
-            		edges = 0;
+                    free(edges);
+                    edges = 0;
                     break;
                 }
                 else
@@ -329,20 +332,22 @@ Edges *PrimMinimumSpanningTree(Graph *graph)
             {
                 qsort(edges->edges, localCounter, sizeof(Edge), Comparator);
             }
+        }
         FreeBitSet(color);
         free(distancesToPoints);
         free(parents);
-    }else
+    }
+    else
     {
-    	FreeEdges(edges);
-    	edges = 0;
-	}
+        FreeEdges(edges);
+        edges = 0;
+    }
     return edges;
 }
 
 void PrintMinimalSpanningTree(Edges *edges)
 {
-	for (int i = 0; i < edges->numberOfEdges; i++)
+    for (int i = 0; i < edges->numberOfEdges; i++)
     {
         if (((edges->edges + i)->length) != 0)
         {
@@ -406,11 +411,12 @@ int main()
     if (edges)
     {
         PrintMinimalSpanningTree(edges);
-    }else
+    }
+    else
     {
-    	fprintf(fout, "no spanning tree");
-	}
-	FreeEdges(edges);
+        fprintf(fout, "no spanning tree");
+    }
+    FreeEdges(edges);
     FreeFILE(fin, fout);
     return 0;
 }
