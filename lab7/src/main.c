@@ -140,6 +140,7 @@ int TopologicSort(BitSet *bitSet, int *finishStack)
         }
         numberOfWhiteTops -= numberOfBlackTopsLocal;
     }
+    free(colorArray);
     return bitSet->length;
 }
 
