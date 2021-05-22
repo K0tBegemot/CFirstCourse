@@ -40,32 +40,32 @@ void Swap(int *a, int *b)
     *a = *b;
     *b = var;
 }
-void WriteLength(Graph *a, int vertice1, int vertice2, int length)
+void ChangeDistanceBetweenVertices(Graph *graph, int vertice1, int vertice2, int length)
 {
     if (vertice1 > vertice2)
     {
         Swap(&vertice1, &vertice2);
     }
     int summ = (vertice1 * (vertice1 + 1)) / 2;
-    (a->adjacencyList)[vertice1 * (a->vertices) + vertice2 - summ] = length;
+    (graph->adjacencyList)[vertice1 * (graph->vertices) + vertice2 - summ] = length;
 }
 
-int ReadLength(Graph *a, int vertice1, int vertice2)
+int FindOutDistanceBetweenVertices(Graph *graph, int vertice1, int vertice2)
 {
     if (vertice1 > vertice2)
     {
         Swap(&vertice1, &vertice2);
     }
     int summ = (vertice1 * (vertice1 + 1)) / 2;
-    return (a->adjacencyList)[vertice1 * (a->vertices) + vertice2 - summ];
+    return (graph->adjacencyList)[vertice1 * (graph->vertices) + vertice2 - summ];
 }
 
-void FreeGraph(Graph *a)
+void FreeGraph(Graph *graph)
 {
-    if (a)
+    if (graph)
     {
-        free(a->adjacencyList);
-        free(a);
+        free(graph->adjacencyList);
+        free(graph);
     }
 }
 
@@ -183,12 +183,15 @@ int ReadBit(BitSet *created, int x, int y)
     return returnValue;
 }
 
-void FreeBitSet(BitSet *a)
+void FreeBitSet(BitSet *bitSet)
 {
-    if (a)
+    if (bitSet)
     {
-        free(a->bitset);
-        free(a);
+    	if(bitSet->bitset)
+    	{
+    		free(bitSet->bitset);
+		}
+        free(bitSet);
     }
 }
 
@@ -204,11 +207,11 @@ void FreeFILE(FILE *fin, FILE *fout)
     }
 }
 
-void AddEdge(Edges *a, int counter, int vertex1, int vertex2, int length)
+void AddEdge(Edges *edges, int counter, int vertex1, int vertex2, int length)
 {
-    (a + counter)->vertice1 = vertex1;
-    (a + counter)->vertice2 = vertex2;
-    (a + counter)->length = length;
+    (edges + counter)->vertice1 = vertex1;
+    (edges + counter)->vertice2 = vertex2;
+    (edges + counter)->length = length;
 }
 
 int Comparator(const void *edge1, const void *edge2)
@@ -216,42 +219,37 @@ int Comparator(const void *edge1, const void *edge2)
     return ((((Edges *)edge1)->length) - (((Edges *)edge2)->length));
 }
 
-Graph *PrimMinimumSpanningTree(Graph *a)
+Graph *PrimMinimumSpanningTree(Graph *graph)
 {
-    Graph *b = CreateGraph(a->vertices, a->edges);
-    if (a->vertices)
+    Graph *newGraph = CreateGraph(graph->vertices, graph->edges);
+    if (graph->vertices)
     {
-        BitSet *color = CreateBitSet(a->vertices, 1, 0);
-        int *distancesToPoints;
-        int *parents;
-        distancesToPoints = (int *)calloc(a->vertices, sizeof(int));
-        parents = (int *)malloc((a->vertices) * sizeof(int));
-        for (int i = 0; i < a->vertices; i++)
+        BitSet *color = CreateBitSet(graph->vertices, 1, 0);
+        int *distancesToPoints, *parents;
+        distancesToPoints = (int *)calloc(graph->vertices, sizeof(int));
+        parents = (int *)malloc((graph->vertices) * sizeof(int));
+        for (int i = 0; i < graph->vertices; i++)
         {
-            if (i == 0)
-            {
-                parents[0] = 0;
-                continue;
-            }
             parents[i] = -1;
         }
+        parents[0] = 0;
         int counter = 0;
         WriteBit(color, 0, 0, 1);
         counter += 1;
         int minVertex = 0;
-        while (counter < (a->vertices))
+        while (counter < (graph->vertices))
         {
             int localCounter = 0;
-            for (int i = 0; i < a->vertices; i++)
+            for (int i = 0; i < graph->vertices; i++)
             {
                 if (i != minVertex)
                 {
-                    int var = ReadLength(a, minVertex, i);
-                    if (var != 0)
+                    int distanceBetweenVertices = FindOutDistanceBetweenVertices(graph, minVertex, i);
+                    if (distanceBetweenVertices != 0)
                     {
-                        if ((ReadBit(color, 0, i) == 0) && ((distancesToPoints[i] == 0) ? 1 : (var < distancesToPoints[i])))
+                        if ((ReadBit(color, 0, i) == 0) && ((distancesToPoints[i] == 0) ? 1 : (distanceBetweenVertices < distancesToPoints[i])))
                         {
-                            distancesToPoints[i] = var;
+                            distancesToPoints[i] = distanceBetweenVertices;
                             parents[i] = minVertex;
                         }
                         localCounter += 1;
@@ -260,12 +258,12 @@ Graph *PrimMinimumSpanningTree(Graph *a)
             }
             if (localCounter == 0)
             {
-                FreeGraph(b);
-                b = 0;
+                FreeGraph(newGraph);
+                newGraph = 0;
                 break;
             }
             int var = INT_MAX, number = -1;
-            for (int i = 0; i < a->vertices; i++)
+            for (int i = 0; i < graph->vertices; i++)
             {
                 if (i != minVertex)
                 {
@@ -283,26 +281,26 @@ Graph *PrimMinimumSpanningTree(Graph *a)
             WriteBit(color, 0, minVertex, 1);
             counter += 1;
         }
-        if (b)//Output to the graph and to the screen. Lines related to the output to the screen are highlighted: //
+        if (newGraph)//Output to the graph and to the screen. Lines related to the output to the screen are highlighted: //
         {
-            Edges *edge = (Edges *)malloc(sizeof(Edges) * (b->vertices));//
+            Edges *edge = (Edges *)malloc(sizeof(Edges) * (newGraph->vertices));//
             int localCounter = 0;//
-            for (int i = 0; i < b->vertices; i++)
+            for (int i = 0; i < newGraph->vertices; i++)
             {
                 if (ReadBit(color, 0, i) == 0)
                 {
-                    FreeGraph(b);
-                    b = 0;
+                    FreeGraph(newGraph);
+                    newGraph = 0;
                     break;
                 }
                 else
                 {
-                    WriteLength(b, parents[i], i, distancesToPoints[i]);
+                    ChangeDistanceBetweenVertices(newGraph, parents[i], i, distancesToPoints[i]);
                     AddEdge(edge, localCounter, parents[i], i, distancesToPoints[i]);//
                     localCounter += 1;//
                 }
             }
-            if (b)//
+            if (newGraph)//
             {//
                 qsort(edge, localCounter, sizeof(Edges), Comparator);//
                 for (int i = 0; i < localCounter; i++)//
@@ -321,10 +319,10 @@ Graph *PrimMinimumSpanningTree(Graph *a)
     }
     else
     {
-        FreeGraph(b);
-        b = 0;
+        FreeGraph(newGraph);
+        newGraph = 0;
     }
-    return b;
+    return newGraph;
 }
 
 int main()
@@ -350,40 +348,40 @@ int main()
         FreeFILE(fin, fout);
         return 0;
     }
-    Graph *a = CreateGraph(n, m);
+    Graph *graph = CreateGraph(n, m);
     int ver1, ver2, len;
     for (int i = 0; i < m; i++)
     {
         if (fscanf(fin, "%d%d%d", &ver1, &ver2, &len) < 3)
         {
             fprintf(fout, "bad number of lines");
-            FreeGraph(a);
+            FreeGraph(graph);
             FreeFILE(fin, fout);
             return 0;
         }
         if (ver1 < 1 || ver1 > n || ver2 < 1 || ver2 > n)
         {
             fprintf(fout, "bad vertex");
-            FreeGraph(a);
+            FreeGraph(graph);
             FreeFILE(fin, fout);
             return 0;
         }
         if (len < 0)
         {
             fprintf(fout, "bad length");
-            FreeGraph(a);
+            FreeGraph(graph);
             FreeFILE(fin, fout);
             return 0;
         }
-        WriteLength(a, ver1 - 1, ver2 - 1, len);
+        ChangeDistanceBetweenVertices(graph, ver1 - 1, ver2 - 1, len);
     }
-    Graph *b = PrimMinimumSpanningTree(a);
-    FreeGraph(a);
-    if (!b)
+    Graph *newGraph = PrimMinimumSpanningTree(graph);
+    FreeGraph(graph);
+    if (!newGraph)
     {
         fprintf(fout, "no spanning tree");
     }
-    FreeGraph(b);
+    FreeGraph(newGraph);
     FreeFILE(fin, fout);
     return 0;
 }
