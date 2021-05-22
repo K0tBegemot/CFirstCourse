@@ -10,7 +10,7 @@ typedef struct IncidentEdge
 
 typedef struct Vertex
 {
-    IncidentEdge **edges;
+    IncidentEdge *edges;
     int edges_len;
     int edges_size;
     int dist;
@@ -22,7 +22,7 @@ typedef struct Vertex
 
 typedef struct Graph
 {
-    Vertex **vertices;
+    Vertex *vertices;
     int vertices_len;
     int vertices_size;
 } Graph;
@@ -39,11 +39,7 @@ typedef struct BHeap
 Graph *CreateGraph(int l)
 {
     Graph *a = (Graph*)calloc(1, sizeof(Graph));
-    a->vertices = (Vertex**)calloc(l, sizeof(Vertex *));
-    for (int i = 0; i < l; i++)
-    {
-        a->vertices[i] = (Vertex*)calloc(1, sizeof(Vertex));
-    }
+    a->vertices = (Vertex*)calloc(l, sizeof(Vertex));
     a->vertices_size = l;
     a->vertices_len = 0;
     return a;
@@ -54,14 +50,19 @@ void AddVertex(Graph *g, int i)
     if (g->vertices_size < i + 1)
     {
         int size = g->vertices_size * 2 > i ? g->vertices_size * 2 : i + 4;
-        g->vertices = (Vertex**)realloc(g->vertices, size * sizeof(Vertex *));
+        g->vertices = (Vertex*)realloc(g->vertices, size * sizeof(Vertex));
         for (int j = g->vertices_size; j < size; j++)
-            g->vertices[j] = NULL;
+        {
+        	(g->vertices + j)->dist = 0;
+        	(g->vertices + j)->edges = 0;
+        	(g->vertices + j)->edges_len = 0;
+        	(g->vertices + j)->edges_size = 0;
+        	(g->vertices + j)->numberCongestedPaths = 0;
+        	(g->vertices + j)->prev = 0;
+        	(g->vertices + j)->state = 0;
+        	(g->vertices + j)->visited = 0;
+		}
         g->vertices_size = size;
-    }
-    if (!g->vertices[i])
-    {
-        g->vertices[i] =(Vertex*)calloc(1, sizeof(Vertex));
     }
     g->vertices_len += 1;
 }
@@ -71,12 +72,10 @@ void AddIncidentEdge(Vertex *v, int b, int w)
     if (v->edges_len >= v->edges_size)
     {
         v->edges_size = ((v->edges_size) ? v->edges_size * 2 : 4);
-        v->edges = (IncidentEdge**)realloc(v->edges, v->edges_size * sizeof(IncidentEdge *));
+        v->edges = (IncidentEdge*)realloc(v->edges, v->edges_size * sizeof(IncidentEdge));
     }
-    IncidentEdge *e = (IncidentEdge*)calloc(1, sizeof(IncidentEdge));
-    e->vertex = b;
-    e->weight = w;
-    v->edges[v->edges_len] = e;
+    (v->edges + v->edges_len)->vertex = b;
+    (v->edges + v->edges_len)->weight = w;
     v->edges_len += 1;
 }
 
@@ -84,9 +83,9 @@ void AddEdge(Graph *g, int a, int b, int w)
 {
     AddVertex(g, a);
     AddVertex(g, b);
-    Vertex *v = g->vertices[a];
+    Vertex *v = g->vertices + a;
     AddIncidentEdge(v, b, w);
-	Vertex *v2 = g->vertices[b];
+	Vertex *v2 = g->vertices + b;
 	AddIncidentEdge(v2, a, w);
 }
 
@@ -102,9 +101,7 @@ BHeap *CreateHeap(int n)
 
 void PushHeap(BHeap *h, int v, int p)
 {
-	//printf("%d ", v);
     int i = (h->index[v] == 0) ? (++h->len) : (h->index[v]);
-    //printf("%d ", i);
     int j = i / 2;
     while (i > 1)
     {
@@ -114,7 +111,6 @@ void PushHeap(BHeap *h, int v, int p)
         h->prio[i] = h->prio[j];
         h->index[h->data[i]] = i;
         i = j;
-        //printf("%d ", h->data[i]);
         j = j / 2;
     }
     h->data[i] = v;
@@ -168,14 +164,14 @@ void Dijkstra(Graph *g, int a)
     int j;
     for (int i = 0; i < g->vertices_size; i++)
     {
-        Vertex *v = g->vertices[i];
+        Vertex *v = g->vertices + i;
         v->dist = INT_MAX;
         v->prev = 0;
         v->visited = 0;
         v->state = 1;
         v->numberCongestedPaths = 0;
     }
-    Vertex *v = g->vertices[a];
+    Vertex *v = g->vertices + a;
     v->dist = 0;
     v->state = 0;
     BHeap *h = CreateHeap(g->vertices_len);
@@ -184,12 +180,12 @@ void Dijkstra(Graph *g, int a)
     while (h->len)
     {
         i = PopHeap(h);
-        v = g->vertices[i];
+        v = g->vertices + i;
         v->visited = 1;
         for (j = 0; j < v->edges_len; j++)
         {
-            IncidentEdge *e = v->edges[j];
-            Vertex *u = g->vertices[e->vertex];
+            IncidentEdge *e = v->edges + j;
+            Vertex *u = (g->vertices) + (e->vertex);
             if (!(u->visited))
             {
             	if(u->state == 0)
@@ -314,10 +310,10 @@ void PrintPath(FILE *fout, Graph *g, int ir)
 {
     int j;
     Vertex *v, *u;
-    v = g->vertices[ir];
+    v = g->vertices + ir;
     for (int i = 0; i < g->vertices_size; i++)
     {
-        u = g->vertices[i];
+        u = g->vertices + i;
         if (u->dist < INT_MAX)
         {
             fprintf(fout, "%d ", u->dist);
@@ -355,7 +351,7 @@ void PrintPath(FILE *fout, Graph *g, int ir)
         }
     }
     fprintf(fout, "%d ", ir + 1);
-    for (j = 0, u = v; u->dist; u = g->vertices[u->prev], j++)
+    for (j = 0, u = v; u->dist; u = (g->vertices) + (u->prev), j++)
         fprintf(fout, "%d ", u->prev + 1);
 }
 
