@@ -404,7 +404,7 @@ int main()
     Graph *g = CreateGraph(n);
     for (int i = 0; i < m; i++)
     {
-        if (fscanf(fin, "%u%u%u", &a, &b, &c) < 3)
+        if (fscanf(fin, "%d%d%d", &a, &b, &c) < 3)
         {
             fprintf(fout, "bad number of lines");
             FreeGraph(g);
