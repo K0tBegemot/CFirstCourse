@@ -409,21 +409,21 @@ int main()
         if (fscanf(fin, "%d%d%d", &a, &b, &c) < 3)
         {
             fprintf(fout, "bad number of lines");
-            FreeGraph(g);
+            //FreeGraph(g);
             FreeFILE(fin, fout);
             return 0;
         }
         if (a < 1 || a > n || b < 1 || b > n)
         {
             fprintf(fout, "bad vertex");
-            FreeGraph(g);
+            //FreeGraph(g);
             FreeFILE(fin, fout);
             return 0;
         }
         if (c < 0)
         {
             fprintf(fout, "bad length");
-            FreeGraph(g);
+            //FreeGraph(g);
             FreeFILE(fin, fout);
             return 0;
         }
