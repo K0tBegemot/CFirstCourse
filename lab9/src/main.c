@@ -71,7 +71,7 @@ void AddIncidentEdge(Vertex *v, short b, int w)
 {
     if (v->edges_len >= v->edges_size)
     {
-        v->edges_size = ((v->edges_size) ? v->edges_size * 2 : 64);
+        v->edges_size = ((v->edges_size) ? v->edges_size * 2 : 128);
         v->edges = (IncidentEdge*)realloc(v->edges, v->edges_size * sizeof(IncidentEdge));
     }
     (v->edges + v->edges_len)->vertex = b;
