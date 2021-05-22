@@ -4,7 +4,7 @@
 
 typedef struct IncidentEdge
 {
-    int vertex;
+    short vertex;///
     int weight;
 } IncidentEdge;
 
@@ -14,8 +14,8 @@ typedef struct Vertex
     int edges_len;
     int edges_size;
     int dist;
-    int prev;
-    int visited;
+    short prev;///
+    short visited;///
     short state;
     short numberCongestedPaths;
 } Vertex;
@@ -29,9 +29,9 @@ typedef struct Graph
 
 typedef struct BHeap
 {
-    int *data;
+    short *data;///
     int *prio;
-    int *index;
+    short *index;///
     int len;
     int size;
 } BHeap;
@@ -67,7 +67,7 @@ void AddVertex(Graph *g, int i)
     g->vertices_len += 1;
 }
 
-void AddIncidentEdge(Vertex *v, int b, int w)
+void AddIncidentEdge(Vertex *v, short b, int w)
 {
     if (v->edges_len >= v->edges_size)
     {
@@ -79,7 +79,7 @@ void AddIncidentEdge(Vertex *v, int b, int w)
     v->edges_len += 1;
 }
 
-void AddEdge(Graph *g, int a, int b, int w)
+void AddEdge(Graph *g, short a, short b, int w)
 {
     AddVertex(g, a);
     AddVertex(g, b);
@@ -92,17 +92,17 @@ void AddEdge(Graph *g, int a, int b, int w)
 BHeap *CreateHeap(int n)
 {
     BHeap *h = (BHeap*)calloc(1, sizeof(BHeap));
-    h->data = (int*)calloc(2*n, sizeof(int));
+    h->data = (short*)calloc(2*n, sizeof(short));
     h->prio = (int*)calloc(2*n, sizeof(int));
-    h->index = (int*)calloc(2*n, sizeof(int));
+    h->index = (short*)calloc(2*n, sizeof(short));
     h->size = 2*n;
     return h;
 }
 
-void PushHeap(BHeap *h, int v, int p)
+void PushHeap(BHeap *h, short v, int p)
 {
-    int i = (h->index[v] == 0) ? (++h->len) : (h->index[v]);
-    int j = i / 2;
+    short i = (h->index[v] == 0) ? (++h->len) : (h->index[v]);
+    short j = i / 2;
     while (i > 1)
     {
         if (h->prio[j] <= p)//////////////////////////////////////////////////////
@@ -118,9 +118,9 @@ void PushHeap(BHeap *h, int v, int p)
     h->index[v] = i;
 }
 
-int Min(BHeap *h, int i, int j, int k)
+int Min(BHeap *h, short i, short j, short k)
 {
-    int m = i;
+    short m = i;
     if (j <= h->len && h->prio[j] < h->prio[m])
         m = j;
     if (k <= h->len && h->prio[k] < h->prio[m])
@@ -130,11 +130,11 @@ int Min(BHeap *h, int i, int j, int k)
 
 int PopHeap(BHeap *h)
 {
-    int v = h->data[1];
-    int i = 1;
+    short v = h->data[1];
+    short i = 1;
     while (1)
     {
-        int j = Min(h, h->len, 2 * i, 2 * i + 1);
+        short j = Min(h, h->len, 2 * i, 2 * i + 1);
         if (j == h->len)
             break;
         h->data[i] = h->data[j];
@@ -159,7 +159,7 @@ void FreeHeap(BHeap *h)
 	}
 }
 
-void Dijkstra(Graph *g, int a)
+void Dijkstra(Graph *g, short a)
 {
     int j;
     for (int i = 0; i < g->vertices_size; i++)
@@ -176,7 +176,7 @@ void Dijkstra(Graph *g, int a)
     v->state = 0;
     BHeap *h = CreateHeap(g->vertices_len);
     PushHeap(h, a, v->dist);
-    int i = 0;
+    short i = 0;
     while (h->len)
     {
         i = PopHeap(h);
@@ -306,9 +306,9 @@ void FreeFILE(FILE* fin, FILE* fout)
 	}
 }
 
-void PrintPath(FILE *fout, Graph *g, int ir)
+void PrintPath(FILE *fout, Graph *g, short ir)
 {
-    int j;
+    short j;
     Vertex *v, *u;
     v = g->vertices + ir;
     for (int i = 0; i < g->vertices_size; i++)
@@ -372,8 +372,8 @@ int main()
         FreeFILE(fin, fout);
         return 0;
     }
-    int s, f;
-    if (fscanf(fin, "%d%d", &s, &f) < 2)
+    short s, f;
+    if (fscanf(fin, "%hd%hd", &s, &f) < 2)
     {
         fprintf(fout, "bad number of lines");
         FreeFILE(fin, fout);
@@ -398,11 +398,12 @@ int main()
         FreeFILE(fin, fout);
         return 0;
     }
-    int a, b, c;
+    short a, b;
+    int c;
     Graph *g = CreateGraph(n);
     for (int i = 0; i < m; i++)
     {
-        if (fscanf(fin, "%d%d%d", &a, &b, &c) < 3)
+        if (fscanf(fin, "%hd%hd%d", &a, &b, &c) < 3)
         {
             fprintf(fout, "bad number of lines");
             //FreeGraph(g);
