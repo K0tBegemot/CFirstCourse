@@ -13,7 +13,7 @@ BitSet *CreateBitSet(int length, int width, int type)
 {
     if (length == 0 || width == 0)
     {
-        //printf("Invalid length or value field. Bitset not created");
+        //printf("Invalid length or value field. Bitset not created\n");
         return 0;
     }
     BitSet *created = (struct BitSet *)malloc(sizeof(struct BitSet));
@@ -32,7 +32,7 @@ int WriteBit(BitSet *created, int x, int y, int bit)
     {
         if (x + 1 > created->width || y + 1 > created->length || x < 0 || y < 0)
         {
-            //printf("Invalid coordinate fields. Bit not writed");
+            //printf("Invalid coordinate fields. Bit not writed\n");
             return 0;
         }
         int shift = (created->length) * (x) + y;
@@ -63,7 +63,7 @@ int ReadBit(BitSet *created, int x, int y)
     {
         if (x + 1 > created->width || y + 1 > created->length || x < 0 || y < 0)
         {
-            //printf("Invalid coordinate fields. Bit not readed");
+            //printf("Invalid coordinate fields. Bit not readed\n");
             return 2;
         }
         int shift = (created->length) * (x) + y;
@@ -80,7 +80,7 @@ int ReadBit(BitSet *created, int x, int y)
     return returnValue;
 }
 
-int TopologicSort(BitSet *a, int *colorArray, int *finishStack, int *finishStackInd, int *numberOfBlackTops, int whiteTop, int n)
+int TopologicSortAuxilary(BitSet *bitSet, int *colorArray, int *finishStack, int *finishStackInd, int *numberOfBlackTops, int whiteTop)
 {
     if (colorArray[whiteTop] == 0)
     {
@@ -100,11 +100,11 @@ int TopologicSort(BitSet *a, int *colorArray, int *finishStack, int *finishStack
             }
         }
     }
-    for (int i = n - 1; i > -1; i--)
+    for (int i = bitSet->length - 1; i > -1; i--)
     {
-        if (ReadBit(a, whiteTop, i) == 1)
+        if (ReadBit(bitSet, whiteTop, i) == 1)
         {
-            if (TopologicSort(a, colorArray, finishStack, finishStackInd, numberOfBlackTops, i, n))
+            if (TopologicSortAuxilary(bitSet, colorArray, finishStack, finishStackInd, numberOfBlackTops, i))
             {
                 return 1;
             }
@@ -117,15 +117,52 @@ int TopologicSort(BitSet *a, int *colorArray, int *finishStack, int *finishStack
     return 0;
 }
 
-void FreeAll(FILE *fin, FILE *fout, int *colorArray, int *finishStack, BitSet *a)
+int TopologicSort(BitSet *bitSet, int *finishStack)
 {
-    fclose(fin);
-    fclose(fout);
-    free(colorArray);
-    free(finishStack);
+    int *colorArray = (int *)calloc(bitSet->length, sizeof(int));
+    int numberOfWhiteTops = bitSet->length;
+    int finishStackIndex = 0;
+    while (numberOfWhiteTops > 0)
+    {
+        int numberOfBlackTopsLocal = 0, whiteTop = 0;
+        for (int i = 0; i < bitSet->length; i++)
+        {
+            if (colorArray[i] == 0)
+            {
+                whiteTop = i;
+                break;
+            }
+        }
+        if (TopologicSortAuxilary(bitSet, colorArray, finishStack, &finishStackIndex, &numberOfBlackTopsLocal, whiteTop))
+        {
+            free(colorArray);
+            return 0;
+        }
+        numberOfWhiteTops -= numberOfBlackTopsLocal;
+    }
+    return bitSet->length;
+}
+
+void FreeAll(FILE *fin, FILE *fout, int *finishStack, BitSet *a)
+{
+    if (fin)
+    {
+        fclose(fin);
+    }
+    if (fout)
+    {
+        fclose(fout);
+    }
+    if (finishStack)
+    {
+        free(finishStack);
+    }
     if (a)
     {
-        free(a->bitset);
+        if (a->bitset)
+        {
+            free(a->bitset);
+        }
         free(a);
     }
 }
@@ -138,75 +175,60 @@ int main()
     if (fscanf(fin, "%d%d", &n, &m) < 2)
     {
         fprintf(fout, "bad number of lines");
-        FreeAll(fin, fout, 0, 0, 0);
+        FreeAll(fin, fout, 0, 0);
         return 0;
     }
     if ((n < 0) && (m < 0))
     {
         fprintf(fout, "bad number of lines");
-        FreeAll(fin, fout, 0, 0, 0);
+        FreeAll(fin, fout, 0, 0);
         return 0;
     }
     if (n < 0 || n > 2000)
     {
         fprintf(fout, "bad number of vertices");
-        FreeAll(fin, fout, 0, 0, 0);
+        FreeAll(fin, fout, 0, 0);
         return 0;
     }
     if (m < 0 || m > (n * (n - 1)) / 2)
     {
         fprintf(fout, "bad number of edges");
-        FreeAll(fin, fout, 0, 0, 0);
+        FreeAll(fin, fout, 0, 0);
         return 0;
     }
     int f, s;
-    BitSet *a = CreateBitSet(n, n, 0);
+    BitSet *bitSet = CreateBitSet(n, n, 0);
     for (int i = 0; i < m; i++)
     {
         if (fscanf(fin, "%d%d", &f, &s) < 2)
         {
             fprintf(fout, "bad number of lines");
-            FreeAll(fin, fout, 0, 0, a);
+            FreeAll(fin, fout, 0, bitSet);
             return 0;
         }
         if ((f < 1 || f > n) || (s < 1 || s > n))
         {
             fprintf(fout, "bad vertex");
-            FreeAll(fin, fout, 0, 0, a);
+            FreeAll(fin, fout, 0, bitSet);
             return 0;
         }
         else
         {
-            WriteBit(a, f - 1, s - 1, 1);
+            WriteBit(bitSet, f - 1, s - 1, 1);
         }
     }
-    int *colorArray = (int *)calloc(n, sizeof(int));
-    int numberOfWhiteTops = n;
     int *finishStack = malloc(sizeof(int) * n);
-    int finishStackInd = 0;
-    while (numberOfWhiteTops > 0)
+    if (TopologicSort(bitSet, finishStack) == n)
     {
-        int numberOfBlackTops = 0, whiteTop = 0;
-        for (int i = 0; i < n; i++)
+        for (int i = n - 1; i > -1; i--)
         {
-            if (colorArray[i] == 0)
-            {
-                whiteTop = i;
-                break;
-            }
+            fprintf(fout, "%d ", finishStack[i]);
         }
-        if (TopologicSort(a, colorArray, finishStack, &finishStackInd, &numberOfBlackTops, whiteTop, n))
-        {
-            fprintf(fout, "impossible to sort");
-            FreeAll(fin, fout, colorArray, finishStack, a);
-            return 0;
-        }
-        numberOfWhiteTops -= numberOfBlackTops;
     }
-    for (int i = n - 1; i > -1; i--)
+    else
     {
-        fprintf(fout, "%d ", finishStack[i]);
+        fprintf(fout, "impossible to sort");
     }
-    FreeAll(fin, fout, colorArray, finishStack, a);
+    FreeAll(fin, fout, finishStack, bitSet);
     return 0;
 }
