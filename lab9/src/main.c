@@ -4,20 +4,20 @@
 
 typedef struct IncidentEdge
 {
+	short vertex;///
 	int weight;
-    short vertex;///
 } IncidentEdge;
 
 typedef struct Vertex
 {
+	short prev;///
+    short visited;///
+    short state;
+    short numberCongestedPaths;
     IncidentEdge *edges;
     int edges_len;
     int edges_size;
     int dist;
-    short prev;///
-    short visited;///
-    short state;
-    short numberCongestedPaths;
 } Vertex;
 
 typedef struct Graph
@@ -29,11 +29,11 @@ typedef struct Graph
 
 typedef struct BHeap
 {
+	short *data;///
+    short *index;///
 	int *prio;
     int len;
     int size;
-    short *data;///
-    short *index;///
 } BHeap;
 
 Graph *CreateGraph(int l)
