@@ -428,7 +428,7 @@ int main()
         AddEdge(g, a - 1, b - 1, c);
     }
     Dijkstra(g, s - 1);
-    PrintPath(fin, fout, g, f - 1);
+    PrintPath(fout, g, f - 1);
     FreeGraph(g);
     FreeFILE(fin,fout);
     return 0;
