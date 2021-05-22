@@ -16,7 +16,8 @@ typedef struct Vertex
     int dist;
     int prev;
     int visited;
-    short badWays;
+    short state;
+    short numberCongestedPaths;
 } Vertex;
 
 typedef struct Graph
@@ -107,7 +108,7 @@ void PushHeap(BHeap *h, int v, int p)
     int j = i / 2;
     while (i > 1)
     {
-        if (h->prio[j] < p)
+        if (h->prio[j] <= p)//////////////////////////////////////////////////////
             break;
         h->data[i] = h->data[j];
         h->prio[i] = h->prio[j];
@@ -164,101 +165,101 @@ void FreeHeap(BHeap *h)
 
 void Dijkstra(Graph *g, int a)
 {
-    int i, j;
-    for (i = 0; i < g->vertices_size; i++)
+    int j;
+    for (int i = 0; i < g->vertices_size; i++)
     {
         Vertex *v = g->vertices[i];
         v->dist = INT_MAX;
         v->prev = 0;
         v->visited = 0;
-        v->badWays = -1;
+        v->state = 1;
+        v->numberCongestedPaths = 0;
     }
     Vertex *v = g->vertices[a];
     v->dist = 0;
-    //printf("%d ", g->vertices_len);
+    v->state = 0;
     BHeap *h = CreateHeap(g->vertices_len);
     PushHeap(h, a, v->dist);
+    int i = 0;
     while (h->len)
     {
         i = PopHeap(h);
-        //printf("%d ", i);
         v = g->vertices[i];
         v->visited = 1;
-        /*
-        if (i == b)
-            break;
-            */
-        //printf("%d ", v->edges_len);
         for (j = 0; j < v->edges_len; j++)
         {
             IncidentEdge *e = v->edges[j];
-            //printf("%d ", e->vertex);
             Vertex *u = g->vertices[e->vertex];
-            if ((!(u->visited) && (v->dist + e->weight <= u->dist)) || u->dist < 0)
+            if (!(u->visited))
             {
-            	
-                if (u->dist > 0)
-                {
-                    if (u->badWays < 0)
-                    {
-                        if (v->dist < 0)
-                        {
-                            u->badWays = 1;
-                            u->dist = -1;
-                        }
-                        else
-                        {
-                            if (v->dist + e->weight < 0)
-                            {
-                                u->badWays = 1;
-                                u->dist = -1;
-                            }else
-                            {
-                            	u->dist = v->dist + e->weight;
-                        		u->badWays = 0;
-							}
-                        }
-                    }
-                    else
-                    {
-                    	if(v->dist < 0)
-                    	{
-                    		
-						}else
+            	if(u->state == 0)
+            	{
+            		if(v->state == 0)
+            		{
+						if((v->dist + e->weight <= u->dist) && (v->dist + e->weight > 0))///
 						{
-							if(v->dist + e->weight < 0)
-                        	{
-            					
-							}else
+							u->dist = v->dist + e->weight;
+							u->prev = i;
+                			PushHeap(h, e->vertex, u->dist);
+						}
+					}
+				}else
+				{
+					if(u->state == 1)
+					{
+						if(v->state == 0)
+						{
+							if((v->dist + e->weight <= u->dist) && (v->dist + e->weight > 0))
 							{
 								u->dist = v->dist + e->weight;
+								u->state = 0;
+								u->prev = i;
+                				PushHeap(h, e->vertex, u->dist);
+							}else
+							{
+								u->dist = INT_MAX;
+								u->state = 2;
+								u->prev = i;
+								u->numberCongestedPaths = 1;
+								PushHeap(h, e->vertex, u->dist);
 							}
-						}
-                    }
-                }
-                else
-                {
-                    if (v->dist < 0)
-                    {
-                    	u->badWays+=1;
-                    }
-                    else
-                    {
-                    	if(v->dist + e->weight > 0)
-                    	{
-                    		u->dist = v->dist + e->weight;
-                        	u->badWays = 0;
 						}else
 						{
-							u->badWays+=1;
+							u->dist = INT_MAX;
+							u->state = v->state + 1;
+							u->prev = i;
+							u->numberCongestedPaths = 1;
+							PushHeap(h, e->vertex, u->dist);
 						}
-                    }
-                }
-                u->prev = i;
-                PushHeap(h, e->vertex, u->dist);
+					}else
+					{
+						if(v->state == 0)
+						{
+							if((v->dist + e->weight <= u->dist) && (v->dist + e->weight > 0))
+							{
+								u->dist = v->dist + e->weight;
+								u->state = 0;
+								u->prev = i;
+								u->numberCongestedPaths = 0;
+                				PushHeap(h, e->vertex, u->dist);
+							}else
+							{
+								u->state = 2;
+								u->prev = i;
+								u->numberCongestedPaths += 1;
+								PushHeap(h, e->vertex, u->dist);
+							}
+						}else
+						{
+							u->state = 2;
+							u->prev = i;
+							u->numberCongestedPaths += 1;
+							PushHeap(h, e->vertex, u->dist);
+						}
+					}
+				}
             }
         }
-        //printf("\n");
     }
     FreeHeap(h);
 }
@@ -280,11 +281,17 @@ void FreeGraph(Graph *g)
 				free(e);
 			}
 		}
-		free(v->edges);
+		if(v->edges)
+		{
+			free(v->edges);
+		}
 		free(v);
 		}
 	}
-	free(g->vertices);
+	if(g->vertices)
+	{
+		free(g->vertices);
+	}
 	free(g);
 	}
 }
@@ -301,58 +308,51 @@ void FreeFILE(FILE* fin, FILE* fout)
 	}
 }
 
-void PrintPath(FILE *fin, FILE *fout, Graph *g, int i)
+void PrintPath(FILE *fin, FILE *fout, Graph *g, int ir)
 {
     int j;
     Vertex *v, *u;
-    v = g->vertices[i];
-    /*
-    for (n = 1, u = v; u->dist; u = g->vertices[u->prev], n++)
-        ;
-    char *path = malloc(n);
-    path[n - 1] = 'a' + i;
-    for (j = 0, u = v; u->dist; u = g->vertices[u->prev], j++)
-        printf("%d ", u->dist);
-        */
-    //printf("%d ", v->badWays);
+    v = g->vertices[ir];
     for (int i = 0; i < g->vertices_size; i++)
     {
         u = g->vertices[i];
-        if (u->dist < 0)
+        if (u->dist < INT_MAX)
         {
-            fprintf(fout, "INT_MAX+ ");
+            fprintf(fout, "%d ", u->dist);
         }
         else
         {
-            if (u->visited == 0)
+            if (u->state == 0)
             {
-                fprintf(fout, "oo ");
+                fprintf(fout, "%d ", u->dist);
             }
             else
             {
-                fprintf(fout, "%d ", u->dist);
+            	if(u->state == 1)
+            	{
+            		fprintf(fout, "oo ");
+				}else
+				{
+					fprintf(fout, "INT_MAX+ ");
+				}
             }
         }
     }
     fprintf(fout, "\n");
-    if (v->dist == INT_MAX)
+    if (v->state == 1)
     {
         fprintf(fout, "no path");
-        FreeGraph(g);
-    	FreeFILE(fin,fout);
         return;
     }
     else
     {
-        if (v->dist < 0 && (v->badWays > 1))
+        if (v->state == 2 && v->numberCongestedPaths >=2)
         {
             fprintf(fout, "overflow");
-            FreeGraph(g);
-    		//FreeFILE(fin,fout);
             return;
         }
     }
-    fprintf(fout, "%d ", i + 1);
+    fprintf(fout, "%d ", ir + 1);
     for (j = 0, u = v; u->dist; u = g->vertices[u->prev], j++)
         fprintf(fout, "%d ", u->prev + 1);
 }
@@ -404,7 +404,7 @@ int main()
     Graph *g = CreateGraph(n);
     for (int i = 0; i < m; i++)
     {
-        if (fscanf(fin, "%d%d%d", &a, &b, &c) < 3)
+        if (fscanf(fin, "%u%u%u", &a, &b, &c) < 3)
         {
             fprintf(fout, "bad number of lines");
             FreeGraph(g);
@@ -425,9 +425,7 @@ int main()
             FreeFILE(fin, fout);
             return 0;
         }
-        //printf("%d ", g->vertices_len);
         AddEdge(g, a - 1, b - 1, c);
-        //printf("%d ", g->vertices_len);
     }
     Dijkstra(g, s - 1);
     PrintPath(fin, fout, g, f - 1);
