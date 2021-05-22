@@ -308,7 +308,7 @@ void FreeFILE(FILE* fin, FILE* fout)
 	}
 }
 
-void PrintPath(FILE *fin, FILE *fout, Graph *g, int ir)
+void PrintPath(FILE *fout, Graph *g, int ir)
 {
     int j;
     Vertex *v, *u;
