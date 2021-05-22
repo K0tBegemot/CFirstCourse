@@ -264,6 +264,7 @@ void Dijkstra(Graph *g, int a)
     FreeHeap(h);
 }
 
+/*
 void FreeGraph(Graph *g)
 {
 	if(g)
@@ -295,6 +296,7 @@ void FreeGraph(Graph *g)
 	free(g);
 	}
 }
+*/
 
 void FreeFILE(FILE* fin, FILE* fout)
 {
@@ -429,7 +431,7 @@ int main()
     }
     Dijkstra(g, s - 1);
     PrintPath(fout, g, f - 1);
-    FreeGraph(g);
+    //FreeGraph(g);
     FreeFILE(fin,fout);
     return 0;
 }
