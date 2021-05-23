@@ -2,433 +2,435 @@
 #include <stdlib.h>
 #include <limits.h>
 
-typedef struct IncidentEdge
+typedef struct Table
 {
-	short vertex;///
-	int weight;
-} IncidentEdge;
+	int *table;
+	int length;
+	int height;
+	int size;
+	int type;
+} Table;
 
 typedef struct Vertex
 {
-	short prev;///
-    short visited;///
-    short state;
-    short numberCongestedPaths;
-    IncidentEdge *edges;
-    int edges_len;
-    int edges_size;
-    int dist;
+	int lengthOfPath;
+	int previousVertex;
+	int state;
+	int visited;
+	int numberCongestedPaths;
 } Vertex;
 
-typedef struct Graph
+Table *CreateTable(int length, int height, int type)
 {
-	int vertices_len;
-    int vertices_size;
-    Vertex *vertices;
-} Graph;
-
-typedef struct BHeap
-{
-	short *data;///
-    short *index;///
-	int *prio;
-    int len;
-    int size;
-} BHeap;
-
-Graph *CreateGraph(int l)
-{
-    Graph *a = (Graph*)calloc(1, sizeof(Graph));
-    a->vertices = (Vertex*)calloc(l, sizeof(Vertex));
-    a->vertices_size = l;
-    a->vertices_len = 0;
-    return a;
-}
-
-void AddVertex(Graph *g, short i)///
-{
-    if (g->vertices_size < i + 1)
-    {
-        int size = g->vertices_size * 2 > i ? g->vertices_size * 2 : i + 4;
-        g->vertices = (Vertex*)realloc(g->vertices, size * sizeof(Vertex));
-        for (int j = g->vertices_size; j < size; j++)
-        {
-        	(g->vertices + j)->dist = 0;
-        	(g->vertices + j)->edges = 0;
-        	(g->vertices + j)->edges_len = 0;
-        	(g->vertices + j)->edges_size = 0;
-        	(g->vertices + j)->numberCongestedPaths = 0;
-        	(g->vertices + j)->prev = 0;
-        	(g->vertices + j)->state = 0;
-        	(g->vertices + j)->visited = 0;
-		}
-        g->vertices_size = size;
-    }
-    g->vertices_len += 1;
-}
-
-void AddIncidentEdge(Vertex *v, short b, int w)
-{
-    if (v->edges_len >= v->edges_size)
-    {
-        v->edges_size = ((v->edges_size) ? v->edges_size * 2 : 128);
-        v->edges = (IncidentEdge*)realloc(v->edges, v->edges_size * sizeof(IncidentEdge));
-    }
-    (v->edges + v->edges_len)->vertex = b;
-    (v->edges + v->edges_len)->weight = w;
-    v->edges_len += 1;
-}
-
-void AddEdge(Graph *g, short a, short b, int w)
-{
-    AddVertex(g, a);
-    AddVertex(g, b);
-    Vertex *v = g->vertices + a;
-    AddIncidentEdge(v, b, w);
-	Vertex *v2 = g->vertices + b;
-	AddIncidentEdge(v2, a, w);
-}
-
-BHeap *CreateHeap(int n)
-{
-    BHeap *h = (BHeap*)calloc(1, sizeof(BHeap));
-    h->data = (short*)calloc(2*n, sizeof(short));
-    h->prio = (int*)calloc(2*n, sizeof(int));
-    h->index = (short*)calloc(2*n, sizeof(short));
-    h->size = 2*n;
-    return h;
-}
-
-void PushHeap(BHeap *h, short v, int p)
-{
-    short i = (h->index[v] == 0) ? (++h->len) : (h->index[v]);
-    short j = i / 2;
-    while (i > 1)
-    {
-        if (h->prio[j] <= p)//////////////////////////////////////////////////////
-            break;
-        h->data[i] = h->data[j];
-        h->prio[i] = h->prio[j];
-        h->index[h->data[i]] = i;
-        i = j;
-        j = j / 2;
-    }
-    h->data[i] = v;
-    h->prio[i] = p;
-    h->index[v] = i;
-}
-
-int Min(BHeap *h, short i, short j, short k)
-{
-    short m = i;
-    if (j <= h->len && h->prio[j] < h->prio[m])
-        m = j;
-    if (k <= h->len && h->prio[k] < h->prio[m])
-        m = k;
-    return m;
-}
-
-int PopHeap(BHeap *h)
-{
-    short v = h->data[1];
-    short i = 1;
-    while (1)
-    {
-        short j = Min(h, h->len, 2 * i, 2 * i + 1);
-        if (j == h->len)
-            break;
-        h->data[i] = h->data[j];
-        h->prio[i] = h->prio[j];
-        h->index[h->data[i]] = i;
-        i = j;
-    }
-    h->data[i] = h->data[h->len];
-    h->prio[i] = h->prio[h->len];
-    h->index[h->data[i]] = i;
-    h->len -= 1;
-    return v;
-}
-
-void FreeHeap(BHeap *h)
-{
-	if(h)
+	Table *table = (Table *)calloc(1, sizeof(Table));
+	int size = length * height;
+	if (type == 0)
 	{
-	free(h->data);
-	free(h->index);
-	free(h->prio);
+		table->table = (int *)calloc(size, sizeof(int));
+	}
+	else
+	{
+		if (type == 1)
+		{
+			int summ = ((height - 1) * height) / 2;
+			size -= summ;
+			table->table = (int *)calloc(size, sizeof(int));
+		}
+		else
+		{
+			printf("Bad number of type in function CreateTable\n");
+			return 0;
+		}
+	}
+	table->length = length;
+	table->height = height;
+	table->size = size;
+	table->type = type;
+	return table;
+}
+
+Vertex *CreateArrayOfVertex(int numberOfVertex)
+{
+	Vertex *array = (Vertex *)calloc(numberOfVertex, sizeof(Vertex));
+	for (int i = 0; i < numberOfVertex; i++)
+	{
+		(array + i)->lengthOfPath = INT_MAX;
+		(array + i)->previousVertex = 0;
+		(array + i)->state = 1;
+		(array + i)->visited = 0;
+		(array + i)->numberCongestedPaths = 0;
+	}
+	return array;
+}
+
+void WriteNumberInTable(Table *table, int number, int x, int y)
+{
+	int linearIndex = 0;
+	if (x < table->length && x > -1 && y < table->height && y > -1)
+	{
+		if (table->type == 0)
+		{
+			linearIndex = table->length * x + y;
+		}
+		else
+		{
+			if (table->type == 1)
+			{
+				if (x > y)
+				{
+					int var = x;
+					x = y;
+					y = var;
+				}
+				int shift = ((x + 1) * x) / 2;
+				linearIndex = table->length * x + y - shift;
+			}
+		}
+		table->table[linearIndex] = number;
+	}
+	else
+	{
+		printf("Bad coordinates in function WriteNumberInTable. Bit not writed\n");
 	}
 }
 
-void Dijkstra(Graph *g, short a)
+int ReadNumberInTable(Table *table, int x, int y)
 {
-    int j;
-    for (int i = 0; i < g->vertices_size; i++)
-    {
-        Vertex *v = g->vertices + i;
-        v->dist = INT_MAX;
-        v->prev = 0;
-        v->visited = 0;
-        v->state = 1;
-        v->numberCongestedPaths = 0;
-    }
-    Vertex *v = g->vertices + a;
-    v->dist = 0;
-    v->state = 0;
-    BHeap *h = CreateHeap(g->vertices_len);
-    PushHeap(h, a, v->dist);
-    short i = 0;
-    while (h->len)
-    {
-        i = PopHeap(h);
-        v = g->vertices + i;
-        v->visited = 1;
-        for (j = 0; j < v->edges_len; j++)
-        {
-            IncidentEdge *e = v->edges + j;
-            Vertex *u = (g->vertices) + (e->vertex);
-            if (!(u->visited))
-            {
-            	if(u->state == 0)
-            	{
-            		if(v->state == 0)
-            		{
-						if((v->dist + e->weight <= u->dist) && (v->dist + e->weight > 0))///
-						{
-							u->dist = v->dist + e->weight;
-							u->prev = i;
-                			PushHeap(h, e->vertex, u->dist);
-						}
-					}
-				}else
+	int number;
+	int linearIndex = 0;
+	if (x < table->length && x > -1 && y < table->height && y > -1)
+	{
+		if (table->type == 0)
+		{
+			linearIndex = table->length * x + y;
+		}
+		else
+		{
+			if (table->type == 1)
+			{
+				if (x > y)
 				{
-					if(u->state == 1)
+					int var = x;
+					x = y;
+					y = var;
+				}
+				int shift = ((x + 1) * x) / 2;
+				linearIndex = table->length * x + y - shift;
+			}
+		}
+		number = table->table[linearIndex];
+	}
+	else
+	{
+		printf("Bad coordinates in function WriteNumberInTable. Bit not readed\n");
+		return 2;
+	}
+	return number;
+}
+
+int TakeNextVertex(Vertex *array, int length)
+{
+	int index = -1;
+	int lengthOfPath = INT_MAX;
+	int state = 1;
+	for (int i = 0; i < length; i++)
+	{
+		if (!((array + i)->visited))
+		{
+			if ((array + i)->state != 1)
+			{
+				if ((array + i)->lengthOfPath <= lengthOfPath)/////////////////////
+				{
+					if(state == 1)
 					{
-						if(v->state == 0)
-						{
-							if((v->dist + e->weight <= u->dist) && (v->dist + e->weight > 0))
-							{
-								u->dist = v->dist + e->weight;
-								u->state = 0;
-								u->prev = i;
-                				PushHeap(h, e->vertex, u->dist);
-							}else
-							{
-								u->dist = INT_MAX;
-								u->state = 2;
-								u->prev = i;
-								u->numberCongestedPaths = 1;
-								PushHeap(h, e->vertex, u->dist);
-							}
-						}else
-						{
-							u->dist = INT_MAX;
-							u->state = v->state + 1;
-							u->prev = i;
-							u->numberCongestedPaths = 1;
-							PushHeap(h, e->vertex, u->dist);
-						}
+						lengthOfPath = (array + i)->lengthOfPath;
+						index = i;
+						state = (array + i)->state;
 					}else
 					{
-						if(v->state == 0)
+						if((array + i)->state < state)
 						{
-							if((v->dist + e->weight <= u->dist) && (v->dist + e->weight > 0))
-							{
-								u->dist = v->dist + e->weight;
-								u->state = 0;
-								u->prev = i;
-								u->numberCongestedPaths = 0;
-                				PushHeap(h, e->vertex, u->dist);
-							}else
-							{
-								u->state = 2;
-								u->prev = i;
-								u->numberCongestedPaths += 1;
-								PushHeap(h, e->vertex, u->dist);
-							}
-						}else
-						{
-							u->state = 2;
-							u->prev = i;
-							u->numberCongestedPaths += 1;
-							PushHeap(h, e->vertex, u->dist);
+							lengthOfPath = (array + i)->lengthOfPath;
+							index = i;
+							state = (array + i)->state;
 						}
 					}
 				}
-            }
-        }
-    }
-    FreeHeap(h);
-}
-
-/*
-void FreeGraph(Graph *g)
-{
-	if(g)
-	{
-	for(int i=0;i<g->vertices_size;i++)
-	{
-		Vertex *v = g->vertices[i];
-		if(v)
-		{
-		for(int ii=0;ii<v->edges_size;ii++)
-		{
-			IncidentEdge *e = v->edges[ii];
-			if(e)
-			{
-				free(e);
 			}
 		}
-		if(v->edges)
-		{
-			free(v->edges);
-		}
-		free(v);
-		}
 	}
-	if(g->vertices)
-	{
-		free(g->vertices);
-	}
-	free(g);
-	}
+	return index;
 }
-*/
 
-void FreeFILE(FILE* fin, FILE* fout)
+Vertex *Dijkstra(Table *table, short a)
 {
-	if(fin)
+	Vertex *array = CreateArrayOfVertex(table->length);
+	Vertex *startVertex = array + a;
+	startVertex->lengthOfPath = 0;
+	startVertex->state = 0;
+	Vertex *vertex = 0;
+	int numberOfNextVertex = 0;
+	while (numberOfNextVertex != -1)
+	{
+		numberOfNextVertex = TakeNextVertex(array, table->length);
+		//printf("%d\n", numberOfNextVertex);
+		if(numberOfNextVertex != -1)
+		{
+			vertex = array + numberOfNextVertex;
+		}else
+		{
+			break;
+		}
+		vertex->visited = 1;
+		for (int i = 0; i < table->length; i++)
+		{
+			int lengthOfPath = ReadNumberInTable(table, numberOfNextVertex, i);
+			if (lengthOfPath > 0)
+			{
+				Vertex *neighbour = array + i;
+				if (!(neighbour->visited))
+				{
+					//printf("%d ", i);
+					if (neighbour->state == 0)
+					{
+						if (vertex->state == 0)
+						{
+							if ((vertex->lengthOfPath +  lengthOfPath <= neighbour->lengthOfPath) && (vertex->lengthOfPath + lengthOfPath > 0)) ///
+							{
+								neighbour->lengthOfPath = vertex->lengthOfPath + lengthOfPath;
+								neighbour->previousVertex = numberOfNextVertex;
+							}
+						}
+					}
+					else
+					{
+						if (neighbour->state == 1)
+						{
+							if (vertex->state == 0)
+							{
+								if ((vertex->lengthOfPath + lengthOfPath <= neighbour->lengthOfPath) && (vertex->lengthOfPath + lengthOfPath > 0))
+								{
+									neighbour->lengthOfPath = vertex->lengthOfPath + lengthOfPath;
+									neighbour->state = 0;
+									neighbour->previousVertex = numberOfNextVertex;
+								}
+								else
+								{
+									neighbour->lengthOfPath = INT_MAX;
+									neighbour->state = 2;
+									neighbour->previousVertex = numberOfNextVertex;
+									neighbour->numberCongestedPaths = 1;
+								}
+							}
+							else
+							{
+								neighbour->lengthOfPath = INT_MAX;
+								neighbour->state = 2;///
+								neighbour->previousVertex = numberOfNextVertex;
+								neighbour->numberCongestedPaths = 1;
+							}
+						}
+						else
+						{
+							if (vertex->state == 0)
+							{
+								if ((vertex->lengthOfPath + lengthOfPath <= neighbour->lengthOfPath) && (vertex->lengthOfPath + lengthOfPath > 0))
+								{
+									neighbour->lengthOfPath = vertex->lengthOfPath + lengthOfPath;
+									neighbour->state = 0;
+									neighbour->previousVertex = numberOfNextVertex;
+									neighbour->numberCongestedPaths = 0;
+								}
+								else
+								{
+									neighbour->state = 2;
+									neighbour->previousVertex = numberOfNextVertex;
+									neighbour->numberCongestedPaths += 1;
+								}
+							}
+							else
+							{
+								neighbour->state = 2;
+								neighbour->previousVertex = numberOfNextVertex;
+								neighbour->numberCongestedPaths += 1;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return array;
+}
+
+void FreeFILE(FILE *fin, FILE *fout)
+{
+	if (fin)
 	{
 		fclose(fin);
 	}
-	if(fout)
+	if (fout)
 	{
 		fclose(fout);
 	}
 }
 
-void PrintPath(FILE *fout, Graph *g, short ir)
+void PrintPath(FILE *fout, Vertex *array, int lastVertexIndex, int length)
 {
-    short j;
-    Vertex *v, *u;
-    v = g->vertices + ir;
-    for (int i = 0; i < g->vertices_size; i++)
-    {
-        u = g->vertices + i;
-        if (u->dist < INT_MAX)
-        {
-            fprintf(fout, "%d ", u->dist);
-        }
-        else
-        {
-            if (u->state == 0)
-            {
-                fprintf(fout, "%d ", u->dist);
-            }
-            else
-            {
-            	if(u->state == 1)
-            	{
-            		fprintf(fout, "oo ");
-				}else
+	for (int i = 0; i < length; i++)
+	{
+		Vertex *vertex = array + i;
+		if (vertex->lengthOfPath < INT_MAX)
+		{
+			fprintf(fout, "%d ", vertex->lengthOfPath);
+		}
+		else
+		{
+			if (vertex->state == 0)
+			{
+				fprintf(fout, "%d ", vertex->lengthOfPath);
+			}
+			else
+			{
+				if (vertex->state == 1)
+				{
+					fprintf(fout, "oo ");
+				}
+				else
 				{
 					fprintf(fout, "INT_MAX+ ");
 				}
-            }
-        }
-    }
-    fprintf(fout, "\n");
-    if (v->state == 1)
-    {
-        fprintf(fout, "no path");
-        return;
-    }
-    else
-    {
-        if (v->state == 2 && v->numberCongestedPaths >=2)
-        {
-            fprintf(fout, "overflow");
-            return;
-        }
-    }
-    fprintf(fout, "%d ", ir + 1);
-    for (j = 0, u = v; u->dist; u = (g->vertices) + (u->prev), j++)
-        fprintf(fout, "%d ", u->prev + 1);
+			}
+		}
+	}
+	fprintf(fout, "\n");
+	Vertex *lastVertex = array + lastVertexIndex;
+	//printf("%d ", lastVertex->numberCongestedPaths);
+	if (lastVertex->state == 1)
+	{
+		fprintf(fout, "no path");
+		return;
+	}
+	else
+	{
+		if (lastVertex->state == 2 && lastVertex->numberCongestedPaths >= 2)
+		{
+			fprintf(fout, "overflow");
+			return;
+		}
+	}
+	fprintf(fout, "%d ", lastVertexIndex + 1);
+	for (int j = 0; lastVertex->lengthOfPath; lastVertex = array + (lastVertex->previousVertex), j++)
+	{
+		fprintf(fout, "%d ", lastVertex->previousVertex + 1);
+	}
+}
+
+void FreeTable(Table *table)
+{
+	if(table)
+	{
+		if(table->size)
+		{
+			free(table->table);
+		}
+		free(table);
+	}
+}
+
+void FreeArrayOfVertex(Vertex *array)
+{
+	if(array)
+	{
+		free(array);
+	}
 }
 
 int main()
 {
-    FILE *fin = fopen("in.txt", "r");
-    FILE *fout = fopen("out.txt", "w");
-    int n;
-    if (fscanf(fin, "%d", &n) < 1)
-    {
-        fprintf(fout, "bad number of lines");
-        FreeFILE(fin, fout);
-        return 0;
-    }
-    if (n < 0 || n > 5000)
-    {
-        fprintf(fout, "bad number of vertices");
-        FreeFILE(fin, fout);
-        return 0;
-    }
-    short s, f;
-    if (fscanf(fin, "%hd%hd", &s, &f) < 2)
-    {
-        fprintf(fout, "bad number of lines");
-        FreeFILE(fin, fout);
-        return 0;
-    }
-    if (s < 1 || s > n || f < 1 || f > n)
-    {
-        fprintf(fout, "bad vertex");
-        FreeFILE(fin, fout);
-        return 0;
-    }
-    int m;
-    if (fscanf(fin, "%d", &m) < 1)
-    {
-        fprintf(fout, "bad number of lines");
-        FreeFILE(fin, fout);
-        return 0;
-    }
-    if (m < 0 || m > (n * (n - 1)) / 2)
-    {
-        fprintf(fout, "bad number of edges");
-        FreeFILE(fin, fout);
-        return 0;
-    }
-    short a, b;
-    int c;
-    Graph *g = CreateGraph(n);
-    for (int i = 0; i < m; i++)
-    {
-        if (fscanf(fin, "%hd%hd%d", &a, &b, &c) < 3)
-        {
-            fprintf(fout, "bad number of lines");
-            //FreeGraph(g);
-            FreeFILE(fin, fout);
-            return 0;
-        }
-        if (a < 1 || a > n || b < 1 || b > n)
-        {
-            fprintf(fout, "bad vertex");
-            //FreeGraph(g);
-            FreeFILE(fin, fout);
-            return 0;
-        }
-        if (c < 0)
-        {
-            fprintf(fout, "bad length");
-            //FreeGraph(g);
-            FreeFILE(fin, fout);
-            return 0;
-        }
-        AddEdge(g, a - 1, b - 1, c);
-    }
-    Dijkstra(g, s - 1);
-    PrintPath(fout, g, f - 1);
-    //FreeGraph(g);
-    FreeFILE(fin,fout);
-    return 0;
+	FILE *fin = fopen("in.txt", "r");
+	FILE *fout = fopen("out.txt", "w");
+	int n;
+	if (fscanf(fin, "%d", &n) < 1)
+	{
+		fprintf(fout, "bad number of lines");
+		FreeFILE(fin, fout);
+		return 0;
+	}
+	if (n < 0 || n > 5000)
+	{
+		fprintf(fout, "bad number of vertices");
+		FreeFILE(fin, fout);
+		return 0;
+	}
+	int s, f;
+	if (fscanf(fin, "%d%d", &s, &f) < 2)
+	{
+		fprintf(fout, "bad number of lines");
+		FreeFILE(fin, fout);
+		return 0;
+	}
+	if (s < 1 || s > n || f < 1 || f > n)
+	{
+		fprintf(fout, "bad vertex");
+		FreeFILE(fin, fout);
+		return 0;
+	}
+	int m;
+	if (fscanf(fin, "%d", &m) < 1)
+	{
+		fprintf(fout, "bad number of lines");
+		FreeFILE(fin, fout);
+		return 0;
+	}
+	if (m < 0 || m > (n * (n - 1)) / 2)
+	{
+		fprintf(fout, "bad number of edges");
+		FreeFILE(fin, fout);
+		return 0;
+	}
+	int a, b;
+	int c;
+	Table *table = CreateTable(n, n, 1);
+	for (int i = 0; i < m; i++)
+	{
+		if (fscanf(fin, "%d%d%d", &a, &b, &c) < 3)
+		{
+			fprintf(fout, "bad number of lines");
+			FreeTable(table);
+			FreeFILE(fin, fout);
+			return 0;
+		}
+		if (a < 1 || a > n || b < 1 || b > n)
+		{
+			fprintf(fout, "bad vertex");
+			FreeTable(table);
+			FreeFILE(fin, fout);
+			return 0;
+		}
+		if (c < 0)
+		{
+			fprintf(fout, "bad length");
+			FreeTable(table);
+			FreeFILE(fin, fout);
+			return 0;
+		}
+		WriteNumberInTable(table, c, a - 1, b - 1);
+	}
+	/*
+	for(int i=0;i< n;i++)
+	{
+		for(int ii=0;ii< n;ii++)
+		{
+			printf("%d ", ReadNumberInTable(table, i, ii));
+		}
+		printf("\n");
+	}
+	*/
+	Vertex *array = Dijkstra(table, s - 1);
+	PrintPath(fout, array, f - 1, n);
+	FreeFILE(fin, fout);
+	FreeTable(table);
+	FreeArrayOfVertex(array);
+	return 0;
 }
