@@ -39,6 +39,7 @@ Table *CreateTable(int length, int height, int type)
 		else
 		{
 			printf("Bad number of type in function CreateTable\n");
+			free(table);
 			return 0;
 		}
 	}
@@ -65,9 +66,9 @@ Vertex *CreateArrayOfVertex(int numberOfVertex)
 
 void WriteNumberInTable(Table *table, int number, int x, int y)
 {
-	int linearIndex = 0;
 	if (x < table->length && x > -1 && y < table->height && y > -1)
 	{
+		int linearIndex = 0;
 		if (table->type == 0)
 		{
 			linearIndex = table->length * x + y;
@@ -97,9 +98,9 @@ void WriteNumberInTable(Table *table, int number, int x, int y)
 int ReadNumberInTable(Table *table, int x, int y)
 {
 	int number;
-	int linearIndex = 0;
 	if (x < table->length && x > -1 && y < table->height && y > -1)
 	{
+		int linearIndex = 0;
 		if (table->type == 0)
 		{
 			linearIndex = table->length * x + y;
