@@ -137,6 +137,7 @@ int TakeNextVertex(Vertex *array, int length)
 	{
 		if (!((array + i)->visited))
 		{
+			//printf("%d ", i);
 			if ((array + i)->state != 1)
 			{
 				if ((array + i)->lengthOfPath <= lengthOfPath)/////////////////////
@@ -148,7 +149,12 @@ int TakeNextVertex(Vertex *array, int length)
 						state = (array + i)->state;
 					}else
 					{
-						if((array + i)->state < state)
+						if((array + i)->state < 2 && state == 2)
+						{
+							lengthOfPath = (array + i)->lengthOfPath;
+							index = i;
+							state = (array + i)->state;
+						}else
 						{
 							lengthOfPath = (array + i)->lengthOfPath;
 							index = i;
@@ -159,6 +165,7 @@ int TakeNextVertex(Vertex *array, int length)
 			}
 		}
 	}
+	//printf("\n");
 	return index;
 }
 
