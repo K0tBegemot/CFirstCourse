@@ -156,9 +156,12 @@ int TakeNextVertex(Vertex *array, int length)
 							state = (array + i)->state;
 						}else
 						{
-							lengthOfPath = (array + i)->lengthOfPath;
-							index = i;
-							state = (array + i)->state;
+							if(state == 0 && state == (array + i)->state)
+							{
+								lengthOfPath = (array + i)->lengthOfPath;
+								index = i;
+								state = (array + i)->state;
+							}
 						}
 					}
 				}
